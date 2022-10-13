@@ -1,4 +1,4 @@
-module solar-client-utils
+module github.com/Arm-Debug/solar-client-utils/utils
 
 go 1.18
 
