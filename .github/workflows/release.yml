@@ -1,0 +1,53 @@
+name: GitHub Release
+
+env:
+  go_version: "1.18"
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description:
+          "Enter type of release to perform (i.e. development, beta, release):"
+        required: true
+
+jobs:
+  check-for-changes:
+    name: Check for changes
+    runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.check.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check if changes directory contains files
+        id: check
+        run: |
+            CHANGES=$(git show main:changes/ 2>/dev/null | grep -e .feature -e .bugfix -e .major -e .doc -e .misc)
+            echo "::set-output name=changes::$CHANGES"
+        continue-on-error: true # in case '2>/dev/null' doesn't work
+
+  release:
+    name: Carry out a release
+    runs-on: ubuntu-latest
+    needs: [ check-for-changes ]
+    env:
+      GOPRIVATE: github.com/Arm-Debug
+    if: needs.check-for-changes.outputs.changes
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Get the full history as this is required by goreleaser
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.go_version }}
+      - uses: actions/setup-python@v2
+      - uses: FranzDiebold/github-env-vars-action@v2
+      - name: Install CI/CD tools
+        run: pip install continuous-delivery-scripts>=2.7 && pip list
+      - name: Tag and release
+        run: bash ./scripts/setup_github.sh && cd-tag-and-release -b ${CI_ACTION_REF_NAME} -t ${{ github.event.inputs.release_type }} -vv
+        env:
+          # Using a specific token because GITHUB_TOKEN is not available https://github.com/marketplace/actions/workflow-dispatch#token
+          GIT_TOKEN: ${{ secrets.GIT_SECRET }}
