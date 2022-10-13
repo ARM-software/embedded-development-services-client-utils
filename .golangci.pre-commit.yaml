@@ -1,0 +1,25 @@
+run:
+  timeout: 5m
+
+  # Run linters over integration tests
+  build-tags:
+    - integration
+
+linters:
+  disable-all: true # Disable defaults, then enable the ones we want
+  enable:
+    - goimports
+    - gci
+
+# Auto-fix any found issues
+issues:
+  fix: true
+
+linters-settings:
+  goimports:
+    local-prefixes: github.com/Arm-Debug
+  gci:
+    sections:
+      - Standard
+      - Default
+      - Prefix(github.com/Arm-Debug)

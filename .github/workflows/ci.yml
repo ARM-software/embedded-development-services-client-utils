@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches: [ main ]
+
+# Set environment variables available in all jobs and steps
+env:
+  go_version: "1.18"
+  python_version: "3.9"
+
+jobs:
+ # Check that a news file has been added to this branch when a PR is created
+  assert-news:
+    name: Assert news files (See CONTRIBUTING.md)
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout with full history for to allow compare with base branch
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v2
+      - uses: FranzDiebold/github-env-vars-action@v2
+      - name: Install CI/CD tools
+        run: pip install continuous-delivery-scripts && pip list
+      - name: Assert news
+        run: bash ./scripts/setup_github.sh && cd-assert-news -b ${CI_ACTION_REF_NAME}
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_SECRET }}
+      - name: Report failure if needed
+        if: ${{ failure() }}
+        run: |
+          echo "::error:: News file missing (See CONTRIBUTING.md guide for details)."
+
+  detect-secrets:
+    name: Check for secrets
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v2
+    - name: Install tools
+      run: pip install detect-secrets==1.0.3 && pip list
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    # FIXME: Gitleaks now requires some licence
+    #- name: Check for secrets using gitleaks
+    #  uses: zricethezav/gitleaks-action@master
+    #  with:
+    #    config-path: .gitleaks.toml
+    - name: Check for secrets using detect-secrets
+      run: git ls-files -z | xargs -0 detect-secrets-hook --baseline .secrets.baseline --exclude-files '.*go\.sum$' --exclude-files '.*\.html$' --exclude-files '.*\.properties$' --exclude-files 'ci.yml'
+      working-directory: .
+
+  build-and-test:
+    strategy:
+      matrix:
+#FIXME        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest]
+        go-module: [utils]
+        multi-platform:
+          - ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch' }}
+        exclude:
+          - os: macOS-latest
+            multi-platform: false
+          - os: windows-latest
+            multi-platform: false
+    name: Build and test
+    runs-on: ${{ matrix.os }}
+    env:
+      GOPRIVATE: github.com/Arm-Debug
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.go_version }}
+
+      - if: ${{ startsWith(matrix.os, 'macOS') }}
+        run: echo "CACHE_PATH=${{ env.go_cache_macOS_path }}" >> $GITHUB_ENV
+      - if: ${{ startsWith(matrix.os, 'windows') }}
+        run: echo "CACHE_PATH=${{ env.go_cache_windows_path }}" >> $GITHUB_ENV
+      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: echo "CACHE_PATH=${{ env.go_cache_ubuntu_path }}" >> $GITHUB_ENV
+      - name: Load Go Dependency Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ env.CACHE_PATH }}
+            ~/go/pkg/mod
+          key: ${{ matrix.os }}-${{ matrix.go-module }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ matrix.os }}-${{ matrix.go-module }}-
+      - name: Set access to private repositories
+        run: bash ./scripts/setup_github.sh
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_SECRET }}
+      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        name: Linting
+        uses: golangci/golangci-lint-action@v2
+        with:
+          # Required: the version of golangci-lint is required and must be specified without patch version.
+          version: latest
+          working-directory: ${{ matrix.go-module }}
+          args: "--verbose --print-issued-lines --print-linter-name --out-${NO_FUTURE}format colored-line-number --timeout 300s"
+      - name: Build ${{ matrix.go-module }} on ${{ matrix.os }}
+        run: go build -v ./...
+        working-directory: ${{ matrix.go-module }}
