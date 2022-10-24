@@ -4,9 +4,9 @@ env:
 # before:
   # hooks:
     # - cmd: go mod tidy
-      # dir: ./api
+      # dir: ./utils
     # - cmd: go generate ./...
-      # dir: ./api
+      # dir: ./utils
 builds:
 - skip: true
 archives:
