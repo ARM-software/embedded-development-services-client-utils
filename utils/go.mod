@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/ARM-software/golang-utils/utils v1.20.1
-	github.com/Arm-Debug/solar-services-client/client v1.11.1
+	github.com/Arm-Debug/solar-services-client/client v1.13.0
 	github.com/stretchr/testify v1.8.1
 )
 
