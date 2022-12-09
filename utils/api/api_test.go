@@ -2,18 +2,20 @@
  * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package api
 
 import (
 	"bytes"
 	"context"
 	"errors"
-	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"io"
 	_http "net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/ARM-software/golang-utils/utils/commonerrors"
 )
 
 func TestIsAPICallSuccessful(t *testing.T) {
