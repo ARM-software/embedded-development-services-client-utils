@@ -1,10 +1,10 @@
-module github.com/Arm-Debug/solar-client-utils/utils
+module github.com/ARM-software/embedded-development-services-client-utils/utils
 
 go 1.18
 
 require (
+	github.com/ARM-software/embedded-development-services-client/client v1.15.0
 	github.com/ARM-software/golang-utils/utils v1.20.1
-	github.com/Arm-Debug/solar-services-client/client v1.13.0
 	github.com/stretchr/testify v1.8.1
 )
 

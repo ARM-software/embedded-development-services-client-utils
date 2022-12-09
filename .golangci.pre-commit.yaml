@@ -17,9 +17,9 @@ issues:
 
 linters-settings:
   goimports:
-    local-prefixes: github.com/Arm-Debug
+    local-prefixes: github.com/ARM-software
   gci:
     sections:
       - Standard
       - Default
-      - Prefix(github.com/Arm-Debug)
+      - Prefix(github.com/ARM-software)

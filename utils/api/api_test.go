@@ -1,9 +1,10 @@
-package utils
+package api
 
 import (
 	"bytes"
 	"context"
 	"errors"
+	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"io"
 	_http "net/http"
 	"testing"
@@ -14,43 +15,20 @@ import (
 func TestIsAPICallSuccessful(t *testing.T) {
 	t.Run("api call successful", func(*testing.T) {
 		resp := _http.Response{StatusCode: 200}
-		isSuccessful := IsAPICallSuccessful(&resp)
+		isSuccessful := IsCallSuccessful(&resp)
 		assert.True(t, isSuccessful)
 	})
 
 	t.Run("api call unsuccessful", func(*testing.T) {
 		resp := _http.Response{StatusCode: 400}
-		isSuccessful := IsAPICallSuccessful(&resp)
+		isSuccessful := IsCallSuccessful(&resp)
 		assert.False(t, isSuccessful)
 	})
 
 	t.Run("api call returns nothing", func(*testing.T) {
 		resp := _http.Response{}
-		isSuccessful := IsAPICallSuccessful(&resp)
+		isSuccessful := IsCallSuccessful(&resp)
 		assert.False(t, isSuccessful)
-	})
-}
-
-func TestFetchAPIErrorDescription(t *testing.T) {
-	t.Run("error response exists", func(*testing.T) {
-		resp := _http.Response{Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
-		actualMessage := fetchAPIErrorDescription(&resp)
-		expectedMessage := "client error(request-id:761761721)"
-		assert.Equal(t, actualMessage, expectedMessage)
-	})
-
-	t.Run("error response has fields", func(*testing.T) {
-		resp := _http.Response{Body: io.NopCloser(bytes.NewReader([]byte("{\"message\":\"client error\",\"requestId\":\"761761721\",\"fields\":[{\"fieldName\":\"client request error\",\"fieldPath\":\"https://foo.bar\",\"message\":\"client error\"}]}")))}
-		actualMessage := fetchAPIErrorDescription(&resp)
-		expectedMessage := "client error(request-id:761761721) [client request error: client error (https://foo.bar),]"
-		assert.Equal(t, actualMessage, expectedMessage)
-	})
-
-	t.Run("error response empty", func(t *testing.T) {
-		respBody := _http.Response{Body: io.NopCloser(bytes.NewReader(nil))}
-		actualMessage := fetchAPIErrorDescription(&respBody)
-		expectedMessage := ""
-		assert.Equal(t, actualMessage, expectedMessage)
 	})
 }
 
@@ -62,8 +40,7 @@ func TestCheckAPICallSuccess(t *testing.T) {
 		cancelCtx()
 		respBody := _http.Response{Body: io.NopCloser(bytes.NewReader(nil))}
 		actualErr := CheckAPICallSuccess(ctx, errMessage, &respBody, errors.New(errMessage))
-		expectedErr := "context cancelled: cancelled"
-		assert.Equal(t, actualErr.Error(), expectedErr)
+		assert.True(t, commonerrors.Any(actualErr, commonerrors.ErrCancelled))
 	})
 
 	t.Run("api call not successful", func(t *testing.T) {
@@ -71,7 +48,7 @@ func TestCheckAPICallSuccess(t *testing.T) {
 		parentCtx := context.Background()
 		resp := _http.Response{StatusCode: 400, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
 		actualErr := CheckAPICallSuccess(parentCtx, errMessage, &resp, errors.New(errMessage))
-		expectedErr := "client error (400): further details: client error(request-id:761761721)"
+		expectedErr := "client error (400): further details: client error(request-id: 761761721); client error"
 		assert.Equal(t, actualErr.Error(), expectedErr)
 	})
 

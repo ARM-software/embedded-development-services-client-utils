@@ -1,8 +1,12 @@
+#
+# Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+# SPDX-License-Identifier: Proprietary
+#
 [ProjectConfig]
 # Only path variables can and must contain 'DIR', 'PATH' or 'ROOT' in their name as
 # these tokens are used to identify path variables from other variable types.
-PROJECT_NAME = "Solar client utils"
-PACKAGE_NAME = "solar-client-utils"
+PROJECT_NAME = "Arm embedded development services HTTP client utilities"
+PACKAGE_NAME = "embedded-development-services-client-utils"
 PROJECT_UUID = '21b15d04-4096-4b72-9e32-44cc28fcb4fe'
 PROJECT_ROOT = "."
 NEWS_DIR = "changes/"
@@ -16,7 +20,6 @@ CHANGELOG_FILE_PATH = "CHANGELOG.md"
 AWS_BUCKET=""
 PROGRAMMING_LANGUAGE = "Golang"
 MASTER_BRANCH = "main"
-FILE_LICENCE_IDENTIFIER = "Proprietary"
 
 [AutoVersionConfig]
 CONFIG_NAME = "JAVA"
@@ -40,7 +43,7 @@ patch = "changes/*.bugfix"
 [tool.towncrier]
 directory = "changes"
 filename = "CHANGELOG.md"
-package = "solar-sdk"
+package = "embedded-development-services-client-utils"
 title_format = ""
 start_string = """
 [//]: # (begin_release_notes)

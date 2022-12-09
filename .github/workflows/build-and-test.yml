@@ -1,0 +1,97 @@
+name: Build and Test
+
+# Set environment variables available in all jobs and steps
+env:
+  go_version: "1.19.4"
+  python_version: "3.10"
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        type: string
+        required: false
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+#FIXME        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest]
+        go-module: [utils]
+        multi-platform:
+          - ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch' }}
+        exclude:
+          - os: macOS-latest
+            multi-platform: false
+          - os: windows-latest
+            multi-platform: false
+    name: Build and test
+    runs-on: ${{ matrix.os }}
+    steps:
+      # we want the head of the branch that triggered this, not the reference of the commit, this is so we get updated go versions etc.
+      - name: Check out [${{ inputs.branch || github.ref }}]
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch || github.ref }}
+      - name: Update Go env version
+        # We update Go in this workflow file, but this workflow will continue to use the old version of the workflow, hence we extract it and update the environment so it can be used in future steps
+        run: |
+          NEW_GO_VERSION=$(cat .github/workflows/build-and-test.yml | grep '^  go_version:' | awk '{ print $2 }' | tr -d '"')
+          echo "go_version=$NEW_GO_VERSION" >> $GITHUB_ENV
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.go_version }}
+
+      - if: ${{ startsWith(matrix.os, 'macOS') }}
+        run: echo "CACHE_PATH=${{ env.go_cache_macOS_path }}" >> $GITHUB_ENV
+      - if: ${{ startsWith(matrix.os, 'windows') }}
+        run: echo "CACHE_PATH=${{ env.go_cache_windows_path }}" >> $GITHUB_ENV
+      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: echo "CACHE_PATH=${{ env.go_cache_ubuntu_path }}" >> $GITHUB_ENV
+      - name: Load Go Dependency Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ env.CACHE_PATH }}
+            ~/go/pkg/mod
+          key: ${{ matrix.os }}-${{ matrix.go-module }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ matrix.os }}-${{ matrix.go-module }}-
+      - name: Set access to private repositories
+        run: bash ./scripts/setup_github.sh
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_SECRET }}
+      - name: Build ${{ matrix.go-module }} on ${{ matrix.os }}
+        run: |
+          cat go.mod
+          go mod download
+          go build -v ./...
+        working-directory: ${{ matrix.go-module }}
+      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        name: Linting
+        uses: golangci/golangci-lint-action@v3
+        with:
+          # Required: the version of golangci-lint is required and must be specified without patch version.
+          version: latest
+          working-directory: ${{ matrix.go-module }}
+          args: "--verbose --print-issued-lines --print-linter-name --out-${NO_FUTURE}format colored-line-number --timeout 300s --max-issues-per-linter 0 --max-same-issues 0"
+# FIXME Send coverage to code climate
+#
+#      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+#        name: Test [${{ matrix.go-module }} on ${{ matrix.os }}] & Publish Code Coverage
+#        uses: paambaati/codeclimate-action@v2.7.5
+#        env:
+#          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+#        with:
+#          debug: true
+#          workingDirectory: ${{ matrix.go-module }}
+#          coverageCommand: go test -race -cover -v -coverprofile ${{ matrix.go-module }}_coverage.out ./...
+#          prefix: github.com/ARM-software/${{ github.event.repository.name }}/${{ matrix.go-module }}
+#          coverageLocations:
+#            "${{github.workspace}}/${{ matrix.go-module }}/${{ matrix.go-module }}_coverage.out:gocov"
+#      - if: ${{ startsWith(matrix.os, 'windows') || startsWith(matrix.os, 'macOS') }}
+      - name: Test ${{ matrix.go-module }} on ${{ matrix.os }}
+        run: go test -race -cover -v ./...
+        working-directory: ${{ matrix.go-module }}

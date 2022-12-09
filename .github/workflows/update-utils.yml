@@ -1,0 +1,58 @@
+name: Update Library
+
+# Set environment variables available in all jobs and steps
+env:
+  python_version: "3.9"
+  go_module: "utils"
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description:
+          "Branch to commit updated utils changes to:"
+        type: string
+        required: true
+
+jobs:
+  update-go:
+    name: Update Go
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        # So that we have correct GIT_TOKEN to push back to branch as we need workflow permissions
+        token: ${{ secrets.GIT_SECRET }}
+        ref: ${{ inputs.branch || github.head_ref || github.ref }}
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.python_version }}
+    - name: Install continuous-delivery-scripts
+      run: |
+        pip install continuous-delivery-scripts
+    - name: License files
+      run: |
+        cd-license-files
+    - name: Checkout Update Go action
+      uses: actions/checkout@v3
+      with:
+        repository: Arm-Debug/update-go-action
+        ref: refs/tags/latest
+        token: ${{ secrets.GIT_SECRET }}
+        persist-credentials: false
+        path: ./.github/workflows/update-go-action
+    - name: Update Go
+      uses: ./.github/workflows/update-go-action
+      with:
+        dockerfile: Dockerfile.utils
+        branch: ${{ inputs.branch || github.head_ref || github.ref }}
+
+  build-and-test:
+    name: Build and Test
+    needs:
+      - update-go
+    uses: ./.github/workflows/build-and-test.yml
+    secrets: inherit
+    with:
+      branch: ${{ inputs.branch || github.head_ref || github.ref }}

@@ -1,18 +1,18 @@
 <!--
 Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
-SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: Proprietary
 -->
 # Contribution Guide
 
-We really appreciate your contributions to the library. We are committed to 
+We really appreciate your contributions to the project. We are committed to 
 fostering a welcoming community, please see our Code of Conduct, which can be found here:
 
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 
 There are several ways to contribute:
 
-- Raise an issue found via [GitHub Issues](https://github.com/Arm-Debug/solar-client-utils/issues).
-- Open an [pull request](https://github.com/Arm-Debug/solar-client-utils/pulls) to:
+- Raise an issue found via [GitHub Issues](https://github.com/ARM-software/embedded-development-services-client-utils/issues).
+- Open an [pull request](https://github.com/ARM-software/embedded-development-services-client-utils/pulls) to:
   - Provide a fix.
   - Add an enhancement feature.
   - Correct, update or add documentation.
@@ -31,16 +31,15 @@ normal process to make a change is as follows:
 5. Push to your fork.
 6. Submit a pull request.
 
-We will review the proposed change as soon as we can and, if needed, give feedback. Please bear in mind that the framework
-is complex and cover a large number of use cases. This means we may ask for changes not only to ensure
+We will review the proposed change as soon as we can and, if needed, give feedback. Please bear in mind that the project
+is complex and covers a large number of use cases. This means we may ask for changes not only to ensure
 that the proposed change meets our quality criteria, but also to make sure the that the change is generally useful and
 doesn't impact other uses cases or maintainability.
 
 ### News Files
 
 News files serve a different purpose to commit messages, which are generally written to inform developers of the
-project. News files will form part of the release notes so should be written to target the consumer of the package or
-framework.
+project. News files will form part of the release notes so should be written to target the consumer of the package.
 
 - At least, one news file should be added for each Merge/Pull request to the directory `/changes`.
 - The text of the file should be a single line describing the change and/or impact to the user.
