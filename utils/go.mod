@@ -1,6 +1,6 @@
 module github.com/ARM-software/embedded-development-services-client-utils/utils
 
-go 1.18
+go 1.19
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.15.0
