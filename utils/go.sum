@@ -33,8 +33,8 @@ cloud.google.com/go/storage v1.10.0/go.mod h1:FLPqc6j+Ki4BU591ie1oL6qBQGu2Bl/tZ9
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 github.com/ARM-software/embedded-development-services-client/client v1.15.0 h1:2Hs/p42noTEKGoBCLHB7bIwN0eQ7aBFNQWOzGQkPrSc=
 github.com/ARM-software/embedded-development-services-client/client v1.15.0/go.mod h1:0QCu7cmtoJ2LXh7Ydu6Uh1Hmk2grKkgmFRNCpG5Sq8M=
-github.com/ARM-software/golang-utils/utils v1.21.0 h1:eXR2fZtclIbwcyaYhmN/isPeKUqGZGop77/DD2xIVTE=
-github.com/ARM-software/golang-utils/utils v1.21.0/go.mod h1:2CGh+EVG+tJVs8VlyYhdvmw8Q36M+GSiym/Ua32GVsk=
+github.com/ARM-software/golang-utils/utils v1.22.0 h1:TTIxKeHIA/JLbYsUIZsDh0p55hgVLKI/2kbe45qkizs=
+github.com/ARM-software/golang-utils/utils v1.22.0/go.mod h1:n4gb8bx3dQEFIb2m0CI2fLuIfQHNGaZ2x9pPLC2cKvo=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/bxcodec/faker/v3 v3.8.1 h1:qO/Xq19V6uHt2xujwpaetgKhraGCapqY2CRWGD/SqcM=
