@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.15.0
-	github.com/ARM-software/golang-utils/utils v1.21.0
+	github.com/ARM-software/golang-utils/utils v1.22.0
 	github.com/stretchr/testify v1.8.1
 )
 
