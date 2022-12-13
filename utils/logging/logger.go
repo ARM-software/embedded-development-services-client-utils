@@ -10,6 +10,7 @@ import (
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/resource"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/logs"
+	"github.com/ARM-software/golang-utils/utils/reflection"
 )
 
 type ClientLogger struct {
@@ -137,5 +138,19 @@ func NewClientLogger(loggerSource string, defaultLoggers ...logs.Loggers) (l ILo
 	}
 
 	err = l.SetLoggerSource(loggerSource)
+	return
+}
+
+// NewStandardClientLogger returns a typical client logger with logs written to a file if the logFilePath is set.
+func NewStandardClientLogger(loggerSource string, logFilePath *string) (l ILogger, err error) {
+	l, err = NewClientLogger(loggerSource)
+	if err != nil || reflection.IsEmpty(logFilePath) {
+		return
+	}
+	fileLogger, err := logs.NewFileLogger(*logFilePath, loggerSource)
+	if err != nil {
+		return
+	}
+	err = l.Append(fileLogger)
 	return
 }
