@@ -6,10 +6,11 @@
 package resourcetests
 
 import (
+	"github.com/bxcodec/faker/v3"
+
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/links/linkstest"
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/resource"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
-	"github.com/bxcodec/faker/v3"
 )
 
 type ResourceTest struct {
