@@ -2,6 +2,25 @@
 Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.1.0" (2022-12-14)
+=======================
+
+Features
+--------
+
+- :sparkles: `[logging]` Added a client helper with various helpers (#20221212173519)
+
+
+Bugfixes
+--------
+
+- Dependency upgrade: utils-1.22.0 (#20221212182051)
+
+
+<!--
+Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.0.0" (2022-12-09)
 =======================
 
