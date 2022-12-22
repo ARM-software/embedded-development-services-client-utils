@@ -2,6 +2,19 @@
 Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.2.0" (2022-12-22)
+=======================
+
+Features
+--------
+
+- :sparkle: Utilities to deal with fields (#20221222175115)
+
+
+<!--
+Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.1.0" (2022-12-14)
 =======================
 
