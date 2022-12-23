@@ -2,6 +2,20 @@
 Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.2.1" (2022-12-23)
+=======================
+
+Bugfixes
+--------
+
+- Improved error formatting (#20221223152046)
+- Use new resource definition (#20221223152507)
+
+
+<!--
+Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.2.0" (2022-12-22)
 =======================
 
