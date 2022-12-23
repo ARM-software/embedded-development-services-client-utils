@@ -17,14 +17,14 @@ func TestFetchAPIErrorDescription(t *testing.T) {
 	t.Run("error response exists", func(*testing.T) {
 		resp := _http.Response{Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
 		actualMessage := FetchAPIErrorDescription(&resp)
-		expectedMessage := "client error(request-id: 761761721)"
+		expectedMessage := "API call error [request-id: 761761721] client error"
 		assert.Equal(t, actualMessage, expectedMessage)
 	})
 
 	t.Run("error response has fields", func(*testing.T) {
 		resp := _http.Response{Body: io.NopCloser(bytes.NewReader([]byte("{\"message\":\"client error\",\"requestId\":\"761761721\",\"fields\":[{\"fieldName\":\"client request error\",\"fieldPath\":\"https://foo.bar\",\"message\":\"client error\"}]}")))}
 		actualMessage := FetchAPIErrorDescription(&resp)
-		expectedMessage := "client error(request-id: 761761721) [client request error: client error (https://foo.bar),]"
+		expectedMessage := "API call error [request-id: 761761721] client error [client request error: client error (https://foo.bar)]"
 		assert.Equal(t, actualMessage, expectedMessage)
 	})
 

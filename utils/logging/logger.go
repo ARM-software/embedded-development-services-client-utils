@@ -89,22 +89,22 @@ func (c *ClientLogger) LogResource(r resource.IResource) {
 	if r == nil {
 		c.LogErrorAndMessage(commonerrors.ErrUndefined, "missing resource")
 	} else {
-		title, err := r.GetTitle()
+		title, err := r.FetchTitle()
 		if err != nil {
 			c.LogErrorAndMessage(err, "could not retrieve resource's title")
 			return
 		}
-		name, err := r.GetName()
+		name, err := r.FetchName()
 		if err != nil {
 			c.LogErrorAndMessage(err, "could not retrieve resource's name")
 			return
 		}
-		links, err := r.GetLinks()
+		links, err := r.FetchLinks()
 		if err != nil {
 			c.LogErrorAndMessage(err, "could not retrieve resource's links [%v]", title)
 			return
 		}
-		c.LogInfo("Resource (%v): %v [%v] ; affordances': %v", r.GetType(), title, name, serialiseLink(links))
+		c.LogInfo("Resource (%v): %v [%v] ; affordances': %v", r.FetchType(), title, name, serialiseLink(links))
 	}
 }
 

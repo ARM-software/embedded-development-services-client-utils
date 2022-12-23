@@ -40,7 +40,6 @@ func CheckAPICallSuccess(ctx context.Context, errorContext string, resp *_http.R
 			statusCode = resp.StatusCode
 			errorDetails := errors.FetchAPIErrorDescription(resp)
 			if !reflection.IsEmpty(errorDetails) {
-				errorMessage.WriteString("further details: ")
 				errorMessage.WriteString(errorDetails)
 			}
 			_ = resp.Body.Close()

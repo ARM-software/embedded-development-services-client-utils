@@ -20,25 +20,25 @@ type ResourceTest struct {
 	resourceType string
 }
 
-func (r *ResourceTest) GetLinks() (any, error) {
+func (r *ResourceTest) FetchLinks() (any, error) {
 	if r.links == nil {
 		return nil, commonerrors.ErrUndefined
 	}
 	return *r.links, nil
 }
 
-func (r *ResourceTest) GetName() (string, error) {
+func (r *ResourceTest) FetchName() (string, error) {
 	return r.name, nil
 }
 
-func (r *ResourceTest) GetTitle() (string, error) {
+func (r *ResourceTest) FetchTitle() (string, error) {
 	if r.title == nil {
 		return "", commonerrors.ErrUndefined
 	}
 	return *r.title, nil
 }
 
-func (r *ResourceTest) GetType() string {
+func (r *ResourceTest) FetchType() string {
 	return r.resourceType
 }
 

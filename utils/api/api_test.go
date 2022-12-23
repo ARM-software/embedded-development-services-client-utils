@@ -54,7 +54,7 @@ func TestCheckAPICallSuccess(t *testing.T) {
 		parentCtx := context.Background()
 		resp := _http.Response{StatusCode: 400, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
 		actualErr := CheckAPICallSuccess(parentCtx, errMessage, &resp, errors.New(errMessage))
-		expectedErr := "client error (400): further details: client error(request-id: 761761721); client error"
+		expectedErr := "client error (400): API call error [request-id: 761761721] client error; client error"
 		assert.Equal(t, actualErr.Error(), expectedErr)
 	})
 

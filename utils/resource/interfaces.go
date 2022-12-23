@@ -6,11 +6,9 @@
 // Package resource provides helpers related to API resources.
 package resource
 
+import "github.com/ARM-software/embedded-development-services-client/client"
+
 // IResource describe an API resource.
 type IResource interface {
-	// GetLinks returns the resource links
-	GetLinks() (any, error)
-	GetName() (string, error)
-	GetTitle() (string, error)
-	GetType() string
+	client.IModel
 }

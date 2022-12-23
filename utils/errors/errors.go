@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/ARM-software/embedded-development-services-client/client"
+	"github.com/ARM-software/golang-utils/utils/reflection"
 )
 
 // FetchAPIErrorDescription returns the error message from an API response.
@@ -33,13 +34,22 @@ func FetchAPIErrorDescription(resp *_http.Response) (message string) {
 		return
 	}
 	apiErrorMessage := strings.Builder{}
+	apiErrorMessage.WriteString("API call error")
+	if code, _ := errorResponse.GetHttpStatusCodeOk(); !reflection.IsEmpty(code) {
+		apiErrorMessage.WriteString(fmt.Sprintf(" (%v)", *code))
+	}
+	apiErrorMessage.WriteString(fmt.Sprintf(" [request-id: %v] ", errorResponse.GetRequestId()))
 	apiErrorMessage.WriteString(errorResponse.GetMessage())
-	apiErrorMessage.WriteString(fmt.Sprintf("(request-id: %v)", errorResponse.GetRequestId()))
 	if fields, has := errorResponse.GetFieldsOk(); has {
 		apiErrorMessage.WriteString(" [")
+		start := true
 		for i := range fields {
+			if !start {
+				apiErrorMessage.WriteString(",")
+			}
 			field := fields[i]
-			apiErrorMessage.WriteString(fmt.Sprintf("%v: %v (%v),", field.GetFieldName(), field.GetMessage(), field.GetFieldPath()))
+			apiErrorMessage.WriteString(fmt.Sprintf("%v: %v (%v)", field.GetFieldName(), field.GetMessage(), field.GetFieldPath()))
+			start = false
 		}
 		apiErrorMessage.WriteString("]")
 	}
