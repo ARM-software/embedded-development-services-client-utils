@@ -3,11 +3,12 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.19
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.16.0
-	github.com/ARM-software/golang-utils/utils v1.22.0
+	github.com/ARM-software/embedded-development-services-client/client v1.17.0
+	github.com/ARM-software/golang-utils/utils v1.23.0
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/go-logr/logr v0.4.0
 	github.com/stretchr/testify v1.8.1
+	go.uber.org/goleak v1.2.0
 )
 
 require (

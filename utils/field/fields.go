@@ -113,6 +113,19 @@ func OptionalString(ptr *string, defaultValue string) string {
 	return defaultValue
 }
 
+// ToOptionalAny returns a pointer to a object.
+func ToOptionalAny(a any) *any {
+	return &a
+}
+
+// OptionalAny returns the value of an optional field or else returns defaultValue.
+func OptionalAny(ptr *any, defaultValue any) any {
+	if ptr != nil {
+		return *ptr
+	}
+	return defaultValue
+}
+
 // ToOptionalFloat32 returns a pointer to a float32.
 func ToOptionalFloat32(i float32) *float32 {
 	return &i

@@ -21,7 +21,7 @@ func NewFakeLink() (link *any, err error) {
 		return
 	}
 	l.SetHref(fmt.Sprintf("link-%x", faker.Word()))
-	l2 := any(l)
+	l2 := any(*l)
 	link = &l2
 	return
 }

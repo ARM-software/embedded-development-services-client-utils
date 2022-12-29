@@ -185,6 +185,21 @@ func TestOptionalField(t *testing.T) {
 				return OptionalDuration(ptr, a2.(time.Duration))
 			},
 		},
+		{
+			fieldType:    "Any",
+			value:        faker.Sentence(),
+			defaultValue: time.Now(),
+			setFunction: func(a any) any {
+				return ToOptionalAny(a)
+			},
+			getFunction: func(a any, a2 any) any {
+				var ptr *any
+				if a != nil {
+					ptr = a.(*any)
+				}
+				return OptionalAny(ptr, a2)
+			},
+		},
 	}
 	for i := range tests {
 		test := tests[i]

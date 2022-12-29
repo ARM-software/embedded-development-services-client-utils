@@ -68,7 +68,7 @@ func (c *ClientLogger) LogErrorAndMessage(err error, format string, args ...inte
 	if err == nil {
 		err = errors.New(errorDescription)
 	}
-	c.LogError(err, errorDescription)
+	c.LogError(err, ": ", errorDescription)
 }
 
 func (c *ClientLogger) LogErrorMessage(format string, args ...interface{}) {
