@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+ * Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -68,7 +68,7 @@ func (c *ClientLogger) LogErrorAndMessage(err error, format string, args ...inte
 	if err == nil {
 		err = errors.New(errorDescription)
 	}
-	c.LogError(err, errorDescription)
+	c.LogError(err, ": ", errorDescription)
 }
 
 func (c *ClientLogger) LogErrorMessage(format string, args ...interface{}) {

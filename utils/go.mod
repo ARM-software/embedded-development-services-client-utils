@@ -3,11 +3,13 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.19
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.16.0
-	github.com/ARM-software/golang-utils/utils v1.22.0
+	github.com/ARM-software/embedded-development-services-client/client v1.17.0
+	github.com/ARM-software/golang-utils/utils v1.23.0
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/go-logr/logr v0.4.0
 	github.com/stretchr/testify v1.8.1
+	go.uber.org/atomic v1.10.0
+	go.uber.org/goleak v1.2.0
 )
 
 require (
@@ -50,7 +52,6 @@ require (
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
 	github.com/tklauser/numcpus v0.6.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
-	go.uber.org/atomic v1.10.0 // indirect
 	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783 // indirect
 	golang.org/x/sync v0.1.0 // indirect

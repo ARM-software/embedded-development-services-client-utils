@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+ * Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -21,7 +21,7 @@ func NewFakeLink() (link *any, err error) {
 		return
 	}
 	l.SetHref(fmt.Sprintf("link-%x", faker.Word()))
-	l2 := any(l)
+	l2 := any(*l)
 	link = &l2
 	return
 }

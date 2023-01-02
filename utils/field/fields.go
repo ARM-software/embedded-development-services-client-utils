@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+ * Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -107,6 +107,19 @@ func ToOptionalString(s string) *string {
 
 // OptionalString returns the value of an optional field or else returns defaultValue.
 func OptionalString(ptr *string, defaultValue string) string {
+	if ptr != nil {
+		return *ptr
+	}
+	return defaultValue
+}
+
+// ToOptionalAny returns a pointer to a object.
+func ToOptionalAny(a any) *any {
+	return &a
+}
+
+// OptionalAny returns the value of an optional field or else returns defaultValue.
+func OptionalAny(ptr *any, defaultValue any) any {
 	if ptr != nil {
 		return *ptr
 	}

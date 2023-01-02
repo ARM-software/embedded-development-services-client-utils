@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
+ * Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 package field
@@ -183,6 +183,21 @@ func TestOptionalField(t *testing.T) {
 					ptr = a.(*time.Duration)
 				}
 				return OptionalDuration(ptr, a2.(time.Duration))
+			},
+		},
+		{
+			fieldType:    "Any",
+			value:        faker.Sentence(),
+			defaultValue: time.Now(),
+			setFunction: func(a any) any {
+				return ToOptionalAny(a)
+			},
+			getFunction: func(a any, a2 any) any {
+				var ptr *any
+				if a != nil {
+					ptr = a.(*any)
+				}
+				return OptionalAny(ptr, a2)
 			},
 		},
 	}
