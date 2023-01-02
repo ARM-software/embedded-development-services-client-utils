@@ -101,7 +101,7 @@ func TestToStream(t *testing.T) {
 					elem, err := it.GetNext()
 					assert.NoError(t, err)
 					assert.NotNil(t, elem)
-					count += 1
+					count++
 				}
 				pageCount, err := mapped.GetItemCount()
 				if err != nil {

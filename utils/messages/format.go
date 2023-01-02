@@ -2,18 +2,19 @@
  * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// Package messages provides utilities to log messages
 package messages
 
 import (
 	"fmt"
 	"strings"
 
-	"github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 )
 
 // FormatMessage formats a job message.
-func FormatMessage(msg *client.MessageObject) (s string, err error) {
+func FormatMessage(msg IMessage) (s string, err error) {
 	if msg == nil {
 		err = fmt.Errorf("%w: missing message", commonerrors.ErrUndefined)
 		return

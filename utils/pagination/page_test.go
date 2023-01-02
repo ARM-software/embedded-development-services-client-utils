@@ -2,6 +2,7 @@
  * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package pagination
 
 import (
@@ -105,7 +106,7 @@ func TestToPage(t *testing.T) {
 					elem, err := it.GetNext()
 					assert.NoError(t, err)
 					assert.NotNil(t, elem)
-					count += 1
+					count++
 				}
 				pageCount, err := mapped.GetItemCount()
 				if err != nil {

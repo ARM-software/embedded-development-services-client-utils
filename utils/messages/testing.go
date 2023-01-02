@@ -2,6 +2,7 @@
  * Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package messages
 
 import (
@@ -22,6 +23,7 @@ import (
 )
 
 func newMockHalLink() (link *client.HalLinkData, err error) {
+	faker.ResetUnique()
 	linkP, err := linkstest.NewFakeLink()
 	if err != nil {
 		return
@@ -70,6 +72,7 @@ func newMockHalFeedLinks(ctx context.Context, hasNext, hasFuture bool) (links *c
 
 // NewMockNotificationFeedPage generates a mock message page for testing
 func NewMockNotificationFeedPage(ctx context.Context, hasNext, hasFuture bool) (f *client.NotificationFeed, err error) {
+	faker.ResetUnique()
 	links, err := newMockHalFeedLinks(ctx, hasNext, hasFuture)
 	if err != nil {
 		return
@@ -85,6 +88,7 @@ func NewMockNotificationFeedPage(ctx context.Context, hasNext, hasFuture bool) (
 
 // NewMockNotificationFeedPaginator generates a mock message paginator for testing
 func NewMockNotificationFeedPaginator(ctx context.Context) (pagination.IPaginatorAndPageFetcher, error) {
+	faker.ResetUnique()
 	pageNumber := rand.Intn(50) //nolint:gosec //causes G404: Use of weak random number generator
 	pageCount := atomic.NewInt64(0)
 	return pagination.NewStaticPagePaginator(ctx, func(fctx context.Context) (pagination.IStaticPage, error) {

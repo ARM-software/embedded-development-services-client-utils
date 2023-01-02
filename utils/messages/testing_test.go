@@ -20,7 +20,19 @@ func Test_newMockHalLink(t *testing.T) {
 
 func Test_NewMockNotificationFeedPage(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		_, err := NewMockNotificationFeedPage(context.TODO(), true, false)
+		page, err := NewMockNotificationFeedPage(context.TODO(), true, false)
 		require.NoError(t, err)
+		it, err := page.GetItemIterator()
+		require.NoError(t, err)
+		for {
+			if !it.HasNext() {
+				break
+			}
+			next, err := it.GetNext()
+			require.NoError(t, err)
+			require.NotNil(t, next)
+			_, err = convertRawMessageIntoIMessage(next)
+			require.NoError(t, err)
+		}
 	}
 }
