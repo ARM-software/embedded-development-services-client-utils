@@ -21,6 +21,7 @@ func TestFormatMessage(t *testing.T) {
 	message, err := FormatMessage(nil)
 	require.Error(t, err)
 	assert.True(t, commonerrors.Any(err, commonerrors.ErrUndefined))
+	assert.Empty(t, message)
 	message, err = FormatMessage(client.NewMessageObject(faker.Sentence()))
 	require.NoError(t, err)
 	assert.NotEmpty(t, message)
