@@ -8,6 +8,10 @@ package resource
 
 import "github.com/ARM-software/embedded-development-services-client/client"
 
+// Mocks are generated using `go generate ./...`
+// Add interfaces to the following command for a mock to be generated
+//go:generate mockgen -destination=../mocks/mock_$GOPACKAGE.go -package=mocks github.com/ARM-software/embedded-development-services-client-utils/utils/$GOPACKAGE IResource
+
 // IResource describe an API resource.
 type IResource interface {
 	client.IModel

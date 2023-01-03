@@ -14,6 +14,10 @@ import (
 	"github.com/ARM-software/golang-utils/utils/logs"
 )
 
+// Mocks are generated using `go generate ./...`
+// Add interfaces to the following command for a mock to be generated
+//go:generate mockgen -destination=../mocks/mock_$GOPACKAGE.go -package=mocks github.com/ARM-software/embedded-development-services-client-utils/utils/$GOPACKAGE IMessage,IMessageLogger
+
 // IMessage defines a generic service message.
 type IMessage interface {
 	// GetCtimeOk returns the creation time
