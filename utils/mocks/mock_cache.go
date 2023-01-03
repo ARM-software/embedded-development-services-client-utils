@@ -42,10 +42,10 @@ func (m *MockIServerCache) EXPECT() *MockIServerCacheMockRecorder {
 }
 
 // GetCacheControl mocks base method.
-func (m *MockIServerCache) GetCacheControl() cache.CacheControl {
+func (m *MockIServerCache) GetCacheControl() cache.Control {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetCacheControl")
-	ret0, _ := ret[0].(cache.CacheControl)
+	ret0, _ := ret[0].(cache.Control)
 	return ret0
 }
 
@@ -84,7 +84,7 @@ func (mr *MockIServerCacheMockRecorder) Invalidate(arg0 interface{}) *gomock.Cal
 }
 
 // SetCacheControl mocks base method.
-func (m *MockIServerCache) SetCacheControl(arg0 cache.CacheControl) error {
+func (m *MockIServerCache) SetCacheControl(arg0 cache.Control) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetCacheControl", arg0)
 	ret0, _ := ret[0].(error)

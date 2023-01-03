@@ -2,6 +2,7 @@
  * Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package cache
 
 import (
@@ -11,18 +12,18 @@ import (
 
 type ServiceCache struct {
 	mu      sync.RWMutex
-	control CacheControl
+	control Control
 	key     string
 }
 
-func (c *ServiceCache) SetCacheControl(control CacheControl) error {
+func (c *ServiceCache) SetCacheControl(control Control) error {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.control = control
 	return nil
 }
 
-func (c *ServiceCache) GetCacheControl() CacheControl {
+func (c *ServiceCache) GetCacheControl() Control {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 	return c.control

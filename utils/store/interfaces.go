@@ -21,7 +21,7 @@ type IStore interface {
 	io.Closer
 	// GetPath returns the store path
 	GetPath() string
-	//SetPath sets the store path
+	// SetPath sets the store path
 	SetPath(path string) error
 	// Create sets up the store
 	Create(ctx context.Context) error

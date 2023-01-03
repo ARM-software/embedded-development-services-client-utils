@@ -12,7 +12,7 @@ import "context"
 // Add interfaces to the following command for a mock to be generated
 //go:generate mockgen -destination=../mocks/mock_$GOPACKAGE.go -package=mocks github.com/ARM-software/embedded-development-services-client-utils/utils/$GOPACKAGE IServerCache
 
-type CacheControl int
+type Control int
 
 const (
 	// Apply caching wherever possible
@@ -26,9 +26,9 @@ const (
 // IServerCache defines a caching mechanism server-side.
 type IServerCache interface {
 	// SetCacheControl specifies the caching behaviour.
-	SetCacheControl(control CacheControl) error
+	SetCacheControl(control Control) error
 	// GetCacheControl returns the caching behaviour followed.
-	GetCacheControl() CacheControl
+	GetCacheControl() Control
 	// SetKey sets  an explicit key for restoring and saving the cache
 	SetKey(key string) error
 	// GetKey returns  an explicit key for restoring a cache
