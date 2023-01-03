@@ -7,6 +7,7 @@ require (
 	github.com/ARM-software/golang-utils/utils v1.23.0
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/go-logr/logr v0.4.0
+	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.1
 	go.uber.org/atomic v1.10.0
 	go.uber.org/goleak v1.2.0
