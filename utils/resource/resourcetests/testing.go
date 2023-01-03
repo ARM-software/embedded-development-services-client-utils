@@ -13,44 +13,44 @@ import (
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 )
 
-type ResourceTest struct {
+type MockResource struct {
 	links        *any
 	name         string
 	title        *string
 	resourceType string
 }
 
-func (r *ResourceTest) FetchLinks() (any, error) {
+func (r *MockResource) FetchLinks() (any, error) {
 	if r.links == nil {
 		return nil, commonerrors.ErrUndefined
 	}
 	return *r.links, nil
 }
 
-func (r *ResourceTest) FetchName() (string, error) {
+func (r *MockResource) FetchName() (string, error) {
 	return r.name, nil
 }
 
-func (r *ResourceTest) FetchTitle() (string, error) {
+func (r *MockResource) FetchTitle() (string, error) {
 	if r.title == nil {
 		return "", commonerrors.ErrUndefined
 	}
 	return *r.title, nil
 }
 
-func (r *ResourceTest) FetchType() string {
+func (r *MockResource) FetchType() string {
 	return r.resourceType
 }
 
-// NewResourceTest generates a fake resource for testing purposes.
-func NewResourceTest() (resource.IResource, error) {
+// NewMockResource generates a fake resource for testing purposes.
+func NewMockResource() (resource.IResource, error) {
 	links, err := linkstest.NewFakeLinks()
 	if err != nil {
 		return nil, err
 	}
 	title := faker.Name()
 	l := any(links)
-	return &ResourceTest{
+	return &MockResource{
 		links:        &l,
 		name:         faker.UUIDHyphenated(),
 		title:        &title,

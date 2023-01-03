@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Package messages provides utilities to log messages
+// Package messages provides utilities to handle messages
 package messages
 
 import (
@@ -17,6 +17,17 @@ import (
 // Mocks are generated using `go generate ./...`
 // Add interfaces to the following command for a mock to be generated
 //go:generate mockgen -destination=../mocks/mock_$GOPACKAGE.go -package=mocks github.com/ARM-software/embedded-development-services-client-utils/utils/$GOPACKAGE IMessage,IMessageLogger
+
+const (
+	// DefaultMessagesPrintingFrequency describes the default frequency at which messages are printed
+	DefaultMessagesPrintingFrequency = 100 * time.Millisecond
+
+	// DefaultMessageFetchingBackoff describes the fixed backoff duration before more messages are fetched.
+	DefaultMessageFetchingBackoff = 10 * time.Millisecond
+
+	// DefaultStreamExhaustionGracePeriod describes the grace period which should happen when expecting message stream exhaustion.
+	DefaultStreamExhaustionGracePeriod = time.Second
+)
 
 // IMessage defines a generic service message.
 type IMessage interface {

@@ -42,6 +42,26 @@ func TestNewMessageLogger(t *testing.T) {
 				return NewPeriodicAsynchronousMessageLogger(ctx, l, period)
 			},
 		},
+		{
+			messageLogger: func(ctx context.Context, l logging.ILogger) (IMessageLogger, error) {
+				return NewMessageLoggerFactory(l, false, 0).Create(ctx)
+			},
+		},
+		{
+			messageLogger: func(ctx context.Context, l logging.ILogger) (IMessageLogger, error) {
+				return NewMessageLoggerFactory(l, false, period).Create(ctx)
+			},
+		},
+		{
+			messageLogger: func(ctx context.Context, l logging.ILogger) (IMessageLogger, error) {
+				return NewMessageLoggerFactory(l, true, 0).Create(ctx)
+			},
+		},
+		{
+			messageLogger: func(ctx context.Context, l logging.ILogger) (IMessageLogger, error) {
+				return NewMessageLoggerFactory(l, true, period).Create(ctx)
+			},
+		},
 	}
 	for i := range tests {
 		test := tests[i]
@@ -105,7 +125,7 @@ func TestLogMessageCollectionCancel(t *testing.T) {
 }
 
 func TestLogMessageCollection(t *testing.T) {
-	period := 100 * time.Millisecond
+	period := 100 * time.Nanosecond
 	tests := []struct {
 		messageLogger func(context.Context, logging.ILogger) (IMessageLogger, error)
 	}{

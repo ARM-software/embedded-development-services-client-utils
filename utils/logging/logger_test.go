@@ -35,7 +35,7 @@ func TestClientLogger(t *testing.T) {
 	logger.LogErrorMessage("%v ....", faker.Sentence())
 	logger.LogErrorAndMessage(commonerrors.ErrUnexpected, "some error %v (%v): %v", "no idea", 123, faker.Sentence())
 	logger.LogInfo("information %v", faker.Sentence())
-	resource, err := resourcetests.NewResourceTest()
+	resource, err := resourcetests.NewMockResource()
 	require.NoError(t, err)
 	logger.LogResource(resource)
 
@@ -63,7 +63,7 @@ func TestStandardClientLogger(t *testing.T) {
 	logger.LogErrorMessage("%v ....", faker.Sentence())
 	logger.LogErrorAndMessage(commonerrors.ErrUnexpected, "some error %v (%v): %v", "no idea", 123, faker.Sentence())
 	logger.LogInfo("information %v", faker.Sentence())
-	resource, err := resourcetests.NewResourceTest()
+	resource, err := resourcetests.NewMockResource()
 	require.NoError(t, err)
 	logger.LogResource(resource)
 
