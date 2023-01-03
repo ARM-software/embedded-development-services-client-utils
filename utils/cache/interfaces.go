@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // Package cache defines utilities for caching data or state.
 package cache
 
