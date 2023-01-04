@@ -33,6 +33,11 @@ func TestManager_HasJobCompleted(t *testing.T) {
 		expectedError   error
 	}{
 		{
+			jobFunc:         func() (IAsynchronousJob, error) { return nil, nil },
+			expectCompleted: false,
+			expectedError:   commonerrors.ErrUndefined,
+		},
+		{
 			jobFunc:         NewMockFailedAsynchronousJob,
 			expectCompleted: true,
 			expectedError:   commonerrors.ErrInvalid,
@@ -66,48 +71,97 @@ func TestManager_HasJobCompleted(t *testing.T) {
 			} else {
 				assert.Error(t, err)
 				assert.True(t, commonerrors.Any(err, test.expectedError))
+				assert.Equal(t, test.expectCompleted, completed)
 			}
 		})
 	}
 }
 
-// FIXME to enable
-// func TestManager_WaitForJobCompletion(t *testing.T) {
-//	logger, err := logging.NewStandardClientLogger("test", nil)
-//	require.NoError(t, err)
-//	loggerF := messages.NewMessageLoggerFactory(logger, false, time.Nanosecond)
-//
-//	tests := []struct {
-//		jobFunc       func() (IAsynchronousJob, error)
-//		expectedError error
-//	}{
-//		//{
-//		//	jobFunc:       NewMockFailedAsynchronousJob,
-//		//	expectedError: commonerrors.ErrInvalid,
-//		//},
-//		{
-//			jobFunc:       NewMockSuccessfulAsynchronousJob,
-//			expectedError: nil,
-//		},
-//	}
-//	for i := range tests {
-//		test := tests[i]
-//
-//		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
-//         defer goleak.VerifyNone(t)
-//			job, err := test.jobFunc()
-//			factory, err := newJobManagerFromMessageFactory(loggerF, time.Nanosecond, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
-//				return job, httptest.NewRecorder().Result(), err
-//			}, messages.NewMockMessagePaginatorFactory().UpdateRunOutTimeout(time.Nanosecond))
-//			require.NoError(t, err)
-//			require.NotNil(t, factory)
-//			err = factory.WaitForJobCompletion(context.TODO(), job)
-//			if test.expectedError == nil {
-//				assert.NoError(t, err)
-//			} else {
-//				assert.Error(t, err)
-//				assert.True(t, commonerrors.Any(err, test.expectedError))
-//			}
-//		})
-//	}
-// }
+func TestManager_checkForMessageStreamExhaustion(t *testing.T) {
+	logger, err := logging.NewStandardClientLogger("test", nil)
+	require.NoError(t, err)
+	loggerF := messages.NewMessageLoggerFactory(logger, false, time.Nanosecond)
+
+	tests := []struct {
+		jobFunc       func() (IAsynchronousJob, error)
+		expectedError error
+	}{
+		{
+			jobFunc:       func() (IAsynchronousJob, error) { return nil, nil },
+			expectedError: commonerrors.ErrUndefined,
+		},
+		{
+			jobFunc:       NewMockFailedAsynchronousJob,
+			expectedError: nil,
+		},
+		{
+			jobFunc:       NewMockSuccessfulAsynchronousJob,
+			expectedError: nil,
+		},
+	}
+	for i := range tests {
+		test := tests[i]
+
+		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
+			defer goleak.VerifyNone(t)
+			job, err := test.jobFunc()
+			factory, err := newJobManagerFromMessageFactory(loggerF, 100*time.Millisecond, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
+				return job, httptest.NewRecorder().Result(), err
+			}, messages.NewMockMessagePaginatorFactory())
+			require.NoError(t, err)
+			require.NotNil(t, factory)
+			messagePaginator, err := factory.messagesPaginatorFactory.Create(context.TODO())
+			assert.False(t, messagePaginator.IsRunningDry())
+
+			err = factory.checkForMessageStreamExhaustion(context.TODO(), messagePaginator, job)
+			if test.expectedError == nil {
+				assert.NoError(t, err)
+				assert.True(t, messagePaginator.IsRunningDry())
+			} else {
+				assert.Error(t, err)
+				assert.True(t, commonerrors.Any(err, test.expectedError))
+				assert.False(t, messagePaginator.IsRunningDry())
+			}
+		})
+	}
+}
+
+func TestManager_WaitForJobCompletion(t *testing.T) {
+	defer goleak.VerifyNone(t)
+	tests := []struct {
+		jobFunc       func() (IAsynchronousJob, error)
+		expectedError error
+	}{
+		{
+			jobFunc:       NewMockFailedAsynchronousJob,
+			expectedError: commonerrors.ErrInvalid,
+		},
+		{
+			jobFunc:       NewMockSuccessfulAsynchronousJob,
+			expectedError: nil,
+		},
+	}
+	for i := range tests {
+		test := tests[i]
+
+		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
+			// t.Parallel()
+			logger, err := logging.NewStandardClientLogger(fmt.Sprintf("test #%v", i), nil)
+			require.NoError(t, err)
+			loggerF := messages.NewMessageLoggerFactory(logger, false, time.Nanosecond)
+			job, err := test.jobFunc()
+			factory, err := newJobManagerFromMessageFactory(loggerF, time.Nanosecond, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
+				return job, httptest.NewRecorder().Result(), err
+			}, messages.NewMockMessagePaginatorFactory().UpdateRunOutTimeout(time.Nanosecond))
+			require.NoError(t, err)
+			require.NotNil(t, factory)
+			err = factory.WaitForJobCompletion(context.TODO(), job)
+			if test.expectedError == nil {
+				assert.NoError(t, err)
+			} else {
+				assert.Error(t, err)
+				assert.True(t, commonerrors.Any(err, test.expectedError))
+			}
+		})
+	}
+}

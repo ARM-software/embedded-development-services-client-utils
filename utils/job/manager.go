@@ -60,25 +60,27 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 		return m.checkForMessageStreamExhaustion(gCtx, messagePaginator, job)
 	})
 	err = wait.Wait()
-	if err == nil {
-		return
+	if err != nil {
+		messageLogger.LogError(err)
 	}
 	_, err = m.HasJobCompleted(ctx, job)
 	return
 }
 
 func (m *Manager) checkForMessageStreamExhaustion(ctx context.Context, paginator pagination.IGenericStreamPaginator, job IAsynchronousJob) error {
+
 	for {
 		err := parallelisation.DetermineContextError(ctx)
 		if err != nil {
 			return err
 		}
-		completed, _ := m.HasJobCompleted(ctx, job)
+		completed, err := m.HasJobCompleted(ctx, job)
+		if commonerrors.Any(err, commonerrors.ErrUndefined) {
+			return err
+		}
 		if completed {
 			err = paginator.DryUp()
-			if err != nil {
-				return err
-			}
+			return err
 		}
 		parallelisation.SleepWithContext(ctx, m.backOffPeriod)
 	}
@@ -138,7 +140,7 @@ func NewJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time.Dur
 
 func newJobManagerFromMessageFactory(logger *messages.MessageLoggerFactory, backOffPeriod time.Duration,
 	fetchJobStatusFunc func(ctx context.Context, jobName string) (IAsynchronousJob, *http.Response, error),
-	messagePaginator *messages.PaginatorFactory) (IJobManager, error) {
+	messagePaginator *messages.PaginatorFactory) (*Manager, error) {
 	if logger == nil {
 		return nil, commonerrors.ErrNoLogger
 	}
