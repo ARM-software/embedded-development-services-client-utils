@@ -1,4 +1,27 @@
 <!--
+Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
+"" "1.3.0" (2023-01-04)
+=======================
+
+Features
+--------
+
+- :sparkles: `[field]` Added conversion utilities for `any` (#20221229173222)
+- :sparkles: `[message]` Added utilities to work with messages (#20221229173247)
+- :sparkles: `[pagination]` Added converters for collections and streams (#20221229173318)
+- :sparkles: Added `cache` and `store` utilities (#20230103131100)
+- :sparkles: Added utilities for dealing with jobs (#20230103145501)
+
+
+Misc
+----
+
+- #20230103131143
+
+
+<!--
 Copyright (C) 2020-2022 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
