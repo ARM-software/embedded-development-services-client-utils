@@ -2,14 +2,16 @@
  * Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package job
 
 import (
 	"context"
 	"fmt"
-	"golang.org/x/sync/errgroup"
 	"net/http"
 	"time"
+
+	"golang.org/x/sync/errgroup"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/api"
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/messages"
@@ -20,7 +22,7 @@ import (
 
 type Manager struct {
 	messageLoggerFactory     messages.MessageLoggerFactory
-	messagesPaginatorFactory messages.MessagesPaginatorFactory
+	messagesPaginatorFactory messages.PaginatorFactory
 	backOffPeriod            time.Duration
 	fetchJobStatusFunc       func(ctx context.Context, jobName string) (IAsynchronousJob, *http.Response, error)
 }
@@ -71,7 +73,7 @@ func (m *Manager) checkForMessageStreamExhaustion(ctx context.Context, paginator
 		if err != nil {
 			return err
 		}
-		completed, err := m.HasJobCompleted(ctx, job)
+		completed, _ := m.HasJobCompleted(ctx, job)
 		if completed {
 			err = paginator.DryUp()
 			if err != nil {
@@ -131,12 +133,12 @@ func NewJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time.Dur
 	fetchFirstJobMessagesPageFunc func(context.Context) (pagination.IStaticPageStream, error),
 	fetchNextJobMessagesPageFunc func(context.Context, pagination.IStaticPage) (pagination.IStaticPage, error),
 	fetchFutureJobMessagesPageFunc func(context.Context, pagination.IStaticPageStream) (pagination.IStaticPageStream, error)) (IJobManager, error) {
-	return newJobManagerFromMessageFactory(logger, backOffPeriod, fetchJobStatusFunc, messages.NewMessagePaginatorFactory(messages.DefaultStreamExhaustionGracePeriod, backOffPeriod, fetchFirstJobMessagesPageFunc, fetchNextJobMessagesPageFunc, fetchFutureJobMessagesPageFunc))
+	return newJobManagerFromMessageFactory(logger, backOffPeriod, fetchJobStatusFunc, messages.NewPaginatorFactory(messages.DefaultStreamExhaustionGracePeriod, backOffPeriod, fetchFirstJobMessagesPageFunc, fetchNextJobMessagesPageFunc, fetchFutureJobMessagesPageFunc))
 }
 
 func newJobManagerFromMessageFactory(logger *messages.MessageLoggerFactory, backOffPeriod time.Duration,
 	fetchJobStatusFunc func(ctx context.Context, jobName string) (IAsynchronousJob, *http.Response, error),
-	messagePaginator *messages.MessagesPaginatorFactory) (IJobManager, error) {
+	messagePaginator *messages.PaginatorFactory) (IJobManager, error) {
 	if logger == nil {
 		return nil, commonerrors.ErrNoLogger
 	}

@@ -108,10 +108,10 @@ func NewMockNotificationFeedPaginator(ctx context.Context) (pagination.IPaginato
 }
 
 // NewMockMessagePaginatorFactory generates a mock message paginator factory
-func NewMockMessagePaginatorFactory() *MessagesPaginatorFactory {
+func NewMockMessagePaginatorFactory() *PaginatorFactory {
 	pageNumber := rand.Intn(50) //nolint:gosec //causes G404: Use of weak random number generator
 	pageCount := atomic.NewInt64(0)
-	return NewMessagePaginatorFactory(DefaultStreamExhaustionGracePeriod, DefaultMessageFetchingBackoff, func(fctx context.Context) (pagination.IStaticPageStream, error) {
+	return NewPaginatorFactory(DefaultStreamExhaustionGracePeriod, DefaultMessageFetchingBackoff, func(fctx context.Context) (pagination.IStaticPageStream, error) {
 		firstPage, err := NewMockNotificationFeedPage(fctx, pageNumber > 0, false)
 		if err != nil {
 			return nil, err
