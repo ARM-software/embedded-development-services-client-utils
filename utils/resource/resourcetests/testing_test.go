@@ -12,7 +12,7 @@ import (
 )
 
 func TestNewResourceTest(t *testing.T) {
-	l, err := NewResourceTest()
+	l, err := NewMockResource()
 	require.NoError(t, err)
 	fmt.Println(l)
 }

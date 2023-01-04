@@ -19,13 +19,6 @@ import (
 )
 
 const (
-	// SleepBetweenMessages describes the frequency of message printing
-	SleepBetweenMessages = 100 * time.Millisecond
-	// SleepAtEnd describes the grace period which should happen when expecting message stream exhaustion.
-	SleepAtEnd = 10 * SleepBetweenMessages
-
-	MessageBackOff = 10 * time.Millisecond
-
 	messageBufferSize = 1000
 )
 
@@ -154,6 +147,39 @@ func NewPeriodicSynchronousMessageLogger(ctx context.Context, rawLogger logging.
 		rawLogger: rawLogger,
 		printer:   newPeriodicSynchronousMessagePrinter(ctx, rawLogger, printPeriod),
 	}, nil
+}
+
+// MessageLoggerFactory defines a message logger factory
+type MessageLoggerFactory struct {
+	asynchronous bool
+	period       time.Duration
+	rawLogger    logging.ILogger
+}
+
+// Create returns a message logger.
+func (f *MessageLoggerFactory) Create(ctx context.Context) (IMessageLogger, error) {
+	if f.rawLogger == nil {
+		return nil, commonerrors.ErrNoLogger
+	}
+	if f.asynchronous {
+		if f.period > 0 {
+			return NewPeriodicAsynchronousMessageLogger(ctx, f.rawLogger, f.period)
+		}
+		return NewBasicAsynchronousMessageLogger(ctx, f.rawLogger)
+	}
+	if f.period > 0 {
+		return NewPeriodicSynchronousMessageLogger(ctx, f.rawLogger, f.period)
+	}
+	return NewBasicSynchronousMessageLogger(ctx, f.rawLogger)
+}
+
+// NewMessageLoggerFactory returns a message logger factory.
+func NewMessageLoggerFactory(logger logging.ILogger, asynchronous bool, printingPeriod time.Duration) *MessageLoggerFactory {
+	return &MessageLoggerFactory{
+		asynchronous: asynchronous,
+		period:       printingPeriod,
+		rawLogger:    logger,
+	}
 }
 
 // basicMessagePrinter will print messages as they come.
