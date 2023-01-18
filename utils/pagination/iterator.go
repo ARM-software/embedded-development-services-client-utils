@@ -24,7 +24,7 @@ func (i *iteratorMapper) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *iteratorMapper) GetNext() (*interface{}, error) {
+func (i *iteratorMapper) GetNext() (interface{}, error) {
 	return i.iterator.GetNext()
 }
 
