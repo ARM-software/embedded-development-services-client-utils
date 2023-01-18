@@ -2,6 +2,20 @@
 Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.3.1" (2023-01-18)
+=======================
+
+Bugfixes
+--------
+
+- Update `golang-utils` to `1.24.0` (#20230118200409)
+- Update `embedded-development-services-client` to `v1.20.0` (#20230118200444)
+
+
+<!--
+Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.3.0" (2023-01-04)
 =======================
 
