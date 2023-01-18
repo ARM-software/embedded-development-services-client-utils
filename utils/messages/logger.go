@@ -98,7 +98,7 @@ func (l *Logger) LogMessagesCollection(ctx context.Context, messagePaginator pag
 		}
 		messageItem, err := convertRawMessageIntoIMessage(m)
 		if err != nil {
-			l.LogMarshallingError(m)
+			l.LogMarshallingError(&m)
 		} else {
 			l.LogMessage(messageItem)
 		}
