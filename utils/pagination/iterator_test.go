@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/bxcodec/faker/v3"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/ARM-software/embedded-development-services-client/client"
@@ -91,16 +92,23 @@ func TestToIterator(t *testing.T) {
 			iterator, err := test.iteratorFunc()
 			require.NoError(t, err)
 			mapped := ToIterator(iterator)
+			mappedBack := ToClientIterator(mapped)
 			if iterator == nil {
 				require.Nil(t, mapped)
+				require.Nil(t, mappedBack)
 			} else {
 				for {
 					if mapped.HasNext() {
+						assert.True(t, mappedBack.HasNext())
 						elem, err := mapped.GetNext()
 						require.NoError(t, err)
 						require.NotNil(t, elem)
 					} else {
 						elem, err := mapped.GetNext()
+						require.Error(t, err)
+						require.Empty(t, elem)
+						assert.False(t, mappedBack.HasNext())
+						elem, err = mappedBack.GetNext()
 						require.Error(t, err)
 						require.Empty(t, elem)
 						break

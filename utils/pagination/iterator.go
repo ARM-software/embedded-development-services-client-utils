@@ -36,3 +36,29 @@ func newIteratorMapper(iterator client.IIterator) pagination.IIterator {
 		iterator: iterator,
 	}
 }
+
+// ToClientIterator converts an iterator into another
+func ToClientIterator(iterator pagination.IIterator) client.IIterator {
+	return newClientIteratorMapper(iterator)
+}
+
+type clientIteratorMapper struct {
+	iterator pagination.IIterator
+}
+
+func (i *clientIteratorMapper) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *clientIteratorMapper) GetNext() (interface{}, error) {
+	return i.iterator.GetNext()
+}
+
+func newClientIteratorMapper(iterator pagination.IIterator) client.IIterator {
+	if iterator == nil {
+		return nil
+	}
+	return &clientIteratorMapper{
+		iterator: iterator,
+	}
+}

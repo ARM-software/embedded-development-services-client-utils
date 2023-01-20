@@ -48,3 +48,41 @@ func newStreamMapper(clientStream client.IMessageStream) pagination.IStaticPageS
 		stream: clientStream,
 	}
 }
+
+// ToClientStream converts a message stream into another
+func ToClientStream(stream pagination.IStaticPageStream) client.IMessageStream {
+	return newClientStreamMapper(stream)
+}
+
+type clientStreamMapper struct {
+	stream pagination.IStaticPageStream
+}
+
+func (m *clientStreamMapper) HasNext() bool {
+	return m.stream.HasNext()
+}
+
+func (m *clientStreamMapper) GetItemIterator() (client.IIterator, error) {
+	iterator, err := m.stream.GetItemIterator()
+	if err != nil {
+		return nil, err
+	}
+	return ToClientIterator(iterator), nil
+}
+
+func (m *clientStreamMapper) GetItemCount() (int64, error) {
+	return m.stream.GetItemCount()
+}
+
+func (m *clientStreamMapper) HasFuture() bool {
+	return m.stream.HasFuture()
+}
+
+func newClientStreamMapper(stream pagination.IStaticPageStream) client.IMessageStream {
+	if stream == nil {
+		return nil
+	}
+	return &clientStreamMapper{
+		stream: stream,
+	}
+}
