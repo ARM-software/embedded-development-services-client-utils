@@ -86,18 +86,25 @@ func TestToStream(t *testing.T) {
 			stream, err := test.streamFunc()
 			require.NoError(t, err)
 			mapped := ToStream(stream)
+			mappedBack := ToClientStream(mapped)
 			if stream == nil {
 				require.Nil(t, mapped)
+				require.Nil(t, mappedBack)
 			} else {
 				assert.Equal(t, test.hasNext, mapped.HasNext())
 				assert.Equal(t, test.hasFuture, mapped.HasFuture())
+				assert.Equal(t, test.hasNext, mappedBack.HasNext())
+				assert.Equal(t, test.hasFuture, mappedBack.HasFuture())
 				count := 0
 				it, err := mapped.GetItemIterator()
+				require.NoError(t, err)
+				itBack, err := mappedBack.GetItemIterator()
 				require.NoError(t, err)
 				for {
 					if !it.HasNext() {
 						break
 					}
+					assert.True(t, itBack.HasNext())
 					elem, err := it.GetNext()
 					assert.NoError(t, err)
 					assert.NotNil(t, elem)
@@ -108,6 +115,11 @@ func TestToStream(t *testing.T) {
 					assert.Zero(t, pageCount)
 				}
 				assert.Equal(t, pageCount, int64(count))
+				pageClientCount, err := mappedBack.GetItemCount()
+				if err != nil {
+					assert.Zero(t, pageClientCount)
+				}
+				assert.Equal(t, pageCount, pageClientCount)
 
 			}
 		})

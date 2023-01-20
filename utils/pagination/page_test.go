@@ -92,17 +92,23 @@ func TestToPage(t *testing.T) {
 			page, err := test.pageFunc()
 			require.NoError(t, err)
 			mapped := ToPage(page)
+			mappedBack := ToClientPage(mapped)
 			if page == nil {
 				require.Nil(t, mapped)
+				require.Nil(t, mappedBack)
 			} else {
 				assert.Equal(t, test.hasNext, mapped.HasNext())
+				assert.Equal(t, test.hasNext, mappedBack.HasNext())
 				count := 0
 				it, err := mapped.GetItemIterator()
+				require.NoError(t, err)
+				itback, err := mappedBack.GetItemIterator()
 				require.NoError(t, err)
 				for {
 					if !it.HasNext() {
 						break
 					}
+					assert.True(t, itback.HasNext())
 					elem, err := it.GetNext()
 					assert.NoError(t, err)
 					assert.NotNil(t, elem)
@@ -113,6 +119,11 @@ func TestToPage(t *testing.T) {
 					assert.Zero(t, pageCount)
 				}
 				assert.Equal(t, pageCount, int64(count))
+				initialPageCount, err := mappedBack.GetItemCount()
+				if err != nil {
+					assert.Zero(t, initialPageCount)
+				}
+				assert.Equal(t, pageCount, initialPageCount)
 
 			}
 		})
