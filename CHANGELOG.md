@@ -2,6 +2,19 @@
 Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.3.2" (2023-01-20)
+=======================
+
+Bugfixes
+--------
+
+- `[pagination]` extended mappers (#20230120151442)
+
+
+<!--
+Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.3.1" (2023-01-18)
 =======================
 
