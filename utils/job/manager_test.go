@@ -8,6 +8,7 @@ package job
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -19,6 +20,8 @@ import (
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/logging"
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/messages"
+	pagination2 "github.com/ARM-software/embedded-development-services-client-utils/utils/pagination"
+	"github.com/ARM-software/golang-utils/utils/collection/pagination"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 )
 
@@ -59,9 +62,7 @@ func TestManager_HasJobCompleted(t *testing.T) {
 		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
 			defer goleak.VerifyNone(t)
 			job, err := test.jobFunc()
-			factory, err := newJobManagerFromMessageFactory(loggerF, 100*time.Millisecond, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
-				return job, httptest.NewRecorder().Result(), err
-			}, messages.NewMockMessagePaginatorFactory())
+			factory, err := newMockJobManager(loggerF, 100*time.Millisecond, nil, job, err)
 			require.NoError(t, err)
 			require.NotNil(t, factory)
 			completed, err := factory.HasJobCompleted(context.TODO(), job)
@@ -105,12 +106,13 @@ func TestManager_checkForMessageStreamExhaustion(t *testing.T) {
 		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
 			defer goleak.VerifyNone(t)
 			job, err := test.jobFunc()
-			factory, err := newJobManagerFromMessageFactory(loggerF, 100*time.Millisecond, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
-				return job, httptest.NewRecorder().Result(), err
-			}, messages.NewMockMessagePaginatorFactory())
+			factory, err := newMockJobManager(loggerF, 100*time.Millisecond, nil, job, err)
 			require.NoError(t, err)
 			require.NotNil(t, factory)
-			messagePaginator, err := factory.messagesPaginatorFactory.Create(context.TODO())
+			messagePaginator, err := factory.messagesPaginatorFactory.Create(context.TODO(), func(subCtx context.Context) (pagination.IStaticPageStream, error) {
+				return factory.FetchJobMessagesFirstPage(subCtx, job)
+			})
+
 			assert.False(t, messagePaginator.IsRunningDry())
 
 			err = factory.checkForMessageStreamExhaustion(context.TODO(), messagePaginator, job)
@@ -150,9 +152,9 @@ func TestManager_WaitForJobCompletion(t *testing.T) {
 			require.NoError(t, err)
 			loggerF := messages.NewMessageLoggerFactory(logger, false, time.Nanosecond)
 			job, err := test.jobFunc()
-			factory, err := newJobManagerFromMessageFactory(loggerF, time.Nanosecond, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
-				return job, httptest.NewRecorder().Result(), err
-			}, messages.NewMockMessagePaginatorFactory().UpdateRunOutTimeout(time.Nanosecond))
+			runOut := time.Nanosecond
+			factory, err := newMockJobManager(loggerF, time.Nanosecond, &runOut, job, err)
+
 			require.NoError(t, err)
 			require.NotNil(t, factory)
 			err = factory.WaitForJobCompletion(context.TODO(), job)
@@ -164,4 +166,22 @@ func TestManager_WaitForJobCompletion(t *testing.T) {
 			}
 		})
 	}
+}
+
+func newMockJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time.Duration, messagePaginatorRunOutTimeout *time.Duration, job IAsynchronousJob, errToReturn error) (*Manager, error) {
+	pageNumber := rand.Intn(50) //nolint:gosec //causes G404: Use of weak random number generator
+	messageStream := messages.NewMockMessagePaginatorFactory(pageNumber)
+	if messagePaginatorRunOutTimeout != nil {
+		messageStream = messageStream.UpdateRunOutTimeout(*messagePaginatorRunOutTimeout)
+	}
+
+	return newJobManagerFromMessageFactory(logger, backOffPeriod, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
+		return job, httptest.NewRecorder().Result(), errToReturn
+	}, func(fctx context.Context, jobName string) (pagination.IStaticPageStream, *http.Response, error) {
+		firstPage, err := messages.NewMockNotificationFeedPage(fctx, pageNumber > 0, false)
+		if err != nil {
+			return nil, httptest.NewRecorder().Result(), err
+		}
+		return pagination2.ToStream(firstPage), httptest.NewRecorder().Result(), nil
+	}, messageStream)
 }
