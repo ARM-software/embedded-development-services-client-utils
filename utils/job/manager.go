@@ -53,6 +53,13 @@ func (m *Manager) FetchJobMessagesFirstPage(ctx context.Context, job IAsynchrono
 	return
 }
 
+func (m *Manager) createMessagePaginator(ctx context.Context, job IAsynchronousJob) (paginator pagination.IStreamPaginatorAndPageFetcher, err error) {
+	paginator, err = m.messagesPaginatorFactory.Create(ctx, func(subCtx context.Context) (pagination.IStaticPageStream, error) {
+		return m.FetchJobMessagesFirstPage(subCtx, job)
+	})
+	return
+}
+
 func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
@@ -67,9 +74,7 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 			_ = messageLogger.Close()
 		}
 	}()
-	messagePaginator, err := m.messagesPaginatorFactory.Create(ctx, func(subCtx context.Context) (pagination.IStaticPageStream, error) {
-		return m.FetchJobMessagesFirstPage(subCtx, job)
-	})
+	messagePaginator, err := m.createMessagePaginator(ctx, job)
 	if err != nil {
 		return
 	}

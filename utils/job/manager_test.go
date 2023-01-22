@@ -109,11 +109,16 @@ func TestManager_checkForMessageStreamExhaustion(t *testing.T) {
 			factory, err := newMockJobManager(loggerF, 100*time.Millisecond, nil, job, err)
 			require.NoError(t, err)
 			require.NotNil(t, factory)
-			messagePaginator, err := factory.messagesPaginatorFactory.Create(context.TODO(), func(subCtx context.Context) (pagination.IStaticPageStream, error) {
-				return factory.FetchJobMessagesFirstPage(subCtx, job)
-			})
 
-			assert.False(t, messagePaginator.IsRunningDry())
+			messagePaginator, err := factory.createMessagePaginator(context.TODO(), job)
+			if test.expectedError == nil {
+				require.NoError(t, err)
+				assert.NotNil(t, messagePaginator)
+				assert.False(t, messagePaginator.IsRunningDry())
+			} else {
+				require.Error(t, err)
+				assert.Nil(t, messagePaginator)
+			}
 
 			err = factory.checkForMessageStreamExhaustion(context.TODO(), messagePaginator, job)
 			if test.expectedError == nil {
@@ -122,7 +127,6 @@ func TestManager_checkForMessageStreamExhaustion(t *testing.T) {
 			} else {
 				assert.Error(t, err)
 				assert.True(t, commonerrors.Any(err, test.expectedError))
-				assert.False(t, messagePaginator.IsRunningDry())
 			}
 		})
 	}
