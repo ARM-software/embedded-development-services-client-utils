@@ -21,10 +21,43 @@ import (
 )
 
 type Manager struct {
-	messageLoggerFactory     messages.MessageLoggerFactory
-	messagesPaginatorFactory messages.PaginatorFactory
-	backOffPeriod            time.Duration
-	fetchJobStatusFunc       func(ctx context.Context, jobName string) (IAsynchronousJob, *http.Response, error)
+	messageLoggerFactory         messages.MessageLoggerFactory
+	messagesPaginatorFactory     messages.PaginatorFactory
+	backOffPeriod                time.Duration
+	fetchJobStatusFunc           func(ctx context.Context, jobName string) (IAsynchronousJob, *http.Response, error)
+	fetchJobFirstMessagePageFunc func(ctx context.Context, jobName string) (pagination.IStaticPageStream, *http.Response, error)
+}
+
+func (m *Manager) FetchJobMessagesFirstPage(ctx context.Context, job IAsynchronousJob) (page pagination.IStaticPageStream, err error) {
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
+	if job == nil {
+		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
+		return
+	}
+	jobName, err := job.FetchName()
+	if err != nil {
+		return
+	}
+	jobType := job.FetchType()
+	page, resp, apierr := m.fetchJobFirstMessagePageFunc(ctx, jobName)
+	if resp != nil {
+		_ = resp.Body.Close()
+	}
+	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("could not fetch %v [%v]'s messages first page", jobType, jobName), resp, apierr)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (m *Manager) createMessagePaginator(ctx context.Context, job IAsynchronousJob) (paginator pagination.IStreamPaginatorAndPageFetcher, err error) {
+	paginator, err = m.messagesPaginatorFactory.Create(ctx, func(subCtx context.Context) (pagination.IStaticPageStream, error) {
+		return m.FetchJobMessagesFirstPage(subCtx, job)
+	})
+	return
 }
 
 func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) (err error) {
@@ -41,7 +74,7 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 			_ = messageLogger.Close()
 		}
 	}()
-	messagePaginator, err := m.messagesPaginatorFactory.Create(ctx)
+	messagePaginator, err := m.createMessagePaginator(ctx, job)
 	if err != nil {
 		return
 	}
@@ -132,14 +165,15 @@ func (m *Manager) HasJobCompleted(ctx context.Context, job IAsynchronousJob) (co
 // NewJobManager creates a new job manager.
 func NewJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time.Duration,
 	fetchJobStatusFunc func(ctx context.Context, jobName string) (IAsynchronousJob, *http.Response, error),
-	fetchFirstJobMessagesPageFunc func(context.Context) (pagination.IStaticPageStream, error),
+	fetchJobFirstMessagePageFunc func(ctx context.Context, jobName string) (pagination.IStaticPageStream, *http.Response, error),
 	fetchNextJobMessagesPageFunc func(context.Context, pagination.IStaticPage) (pagination.IStaticPage, error),
 	fetchFutureJobMessagesPageFunc func(context.Context, pagination.IStaticPageStream) (pagination.IStaticPageStream, error)) (IJobManager, error) {
-	return newJobManagerFromMessageFactory(logger, backOffPeriod, fetchJobStatusFunc, messages.NewPaginatorFactory(messages.DefaultStreamExhaustionGracePeriod, backOffPeriod, fetchFirstJobMessagesPageFunc, fetchNextJobMessagesPageFunc, fetchFutureJobMessagesPageFunc))
+	return newJobManagerFromMessageFactory(logger, backOffPeriod, fetchJobStatusFunc, fetchJobFirstMessagePageFunc, messages.NewPaginatorFactory(messages.DefaultStreamExhaustionGracePeriod, backOffPeriod, fetchNextJobMessagesPageFunc, fetchFutureJobMessagesPageFunc))
 }
 
 func newJobManagerFromMessageFactory(logger *messages.MessageLoggerFactory, backOffPeriod time.Duration,
 	fetchJobStatusFunc func(ctx context.Context, jobName string) (IAsynchronousJob, *http.Response, error),
+	fetchJobFirstMessagePageFunc func(ctx context.Context, jobName string) (pagination.IStaticPageStream, *http.Response, error),
 	messagePaginator *messages.PaginatorFactory) (*Manager, error) {
 	if logger == nil {
 		return nil, commonerrors.ErrNoLogger
@@ -148,9 +182,10 @@ func newJobManagerFromMessageFactory(logger *messages.MessageLoggerFactory, back
 		return nil, fmt.Errorf("%w: missing paginator factory", commonerrors.ErrUndefined)
 	}
 	return &Manager{
-		messageLoggerFactory:     *logger,
-		messagesPaginatorFactory: *messagePaginator,
-		backOffPeriod:            backOffPeriod,
-		fetchJobStatusFunc:       fetchJobStatusFunc,
+		messageLoggerFactory:         *logger,
+		messagesPaginatorFactory:     *messagePaginator,
+		backOffPeriod:                backOffPeriod,
+		fetchJobStatusFunc:           fetchJobStatusFunc,
+		fetchJobFirstMessagePageFunc: fetchJobFirstMessagePageFunc,
 	}, nil
 }

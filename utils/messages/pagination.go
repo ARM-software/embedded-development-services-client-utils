@@ -13,15 +13,14 @@ import (
 )
 
 type PaginatorFactory struct {
-	backOffPeriod      time.Duration
-	runOutTimeout      time.Duration
-	fetchFirstPageFunc func(context.Context) (pagination.IStaticPageStream, error)
-	fetchNextPageFunc  func(context.Context, pagination.IStaticPage) (pagination.IStaticPage, error)
-	fetchFutureFunc    func(context.Context, pagination.IStaticPageStream) (pagination.IStaticPageStream, error)
+	backOffPeriod     time.Duration
+	runOutTimeout     time.Duration
+	fetchNextPageFunc func(context.Context, pagination.IStaticPage) (pagination.IStaticPage, error)
+	fetchFutureFunc   func(context.Context, pagination.IStaticPageStream) (pagination.IStaticPageStream, error)
 }
 
-func (f *PaginatorFactory) Create(ctx context.Context) (paginator pagination.IStreamPaginatorAndPageFetcher, err error) {
-	return pagination.NewStaticPageStreamPaginator(ctx, f.runOutTimeout, f.backOffPeriod, f.fetchFirstPageFunc, f.fetchNextPageFunc, f.fetchFutureFunc)
+func (f *PaginatorFactory) Create(ctx context.Context, fetchFirstPageFunc func(context.Context) (pagination.IStaticPageStream, error)) (paginator pagination.IStreamPaginatorAndPageFetcher, err error) {
+	return pagination.NewStaticPageStreamPaginator(ctx, f.runOutTimeout, f.backOffPeriod, fetchFirstPageFunc, f.fetchNextPageFunc, f.fetchFutureFunc)
 }
 
 func (f *PaginatorFactory) UpdateRunOutTimeout(runOutTimeOut time.Duration) *PaginatorFactory {
@@ -35,12 +34,11 @@ func (f *PaginatorFactory) UpdatBackOffPeriod(backoff time.Duration) *PaginatorF
 }
 
 // NewPaginatorFactory returns a message paginator factory.
-func NewPaginatorFactory(runOutTimeOut, backoff time.Duration, fetchFirstPageFunc func(context.Context) (pagination.IStaticPageStream, error), fetchNextPageFunc func(context.Context, pagination.IStaticPage) (pagination.IStaticPage, error), fetchFutureFunc func(context.Context, pagination.IStaticPageStream) (pagination.IStaticPageStream, error)) *PaginatorFactory {
+func NewPaginatorFactory(runOutTimeOut, backoff time.Duration, fetchNextPageFunc func(context.Context, pagination.IStaticPage) (pagination.IStaticPage, error), fetchFutureFunc func(context.Context, pagination.IStaticPageStream) (pagination.IStaticPageStream, error)) *PaginatorFactory {
 	return &PaginatorFactory{
-		backOffPeriod:      backoff,
-		runOutTimeout:      runOutTimeOut,
-		fetchFirstPageFunc: fetchFirstPageFunc,
-		fetchNextPageFunc:  fetchNextPageFunc,
-		fetchFutureFunc:    fetchFutureFunc,
+		backOffPeriod:     backoff,
+		runOutTimeout:     runOutTimeOut,
+		fetchNextPageFunc: fetchNextPageFunc,
+		fetchFutureFunc:   fetchFutureFunc,
 	}
 }
