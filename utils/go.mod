@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.20.0
-	github.com/ARM-software/golang-utils/utils v1.25.0
+	github.com/ARM-software/golang-utils/utils v1.26.0
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/go-logr/logr v0.4.0
 	github.com/golang/mock v1.6.0
@@ -40,7 +40,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect
-	github.com/rs/zerolog v1.28.0 // indirect
+	github.com/rs/zerolog v1.29.0 // indirect
 	github.com/sasha-s/go-deadlock v0.3.1 // indirect
 	github.com/shirou/gopsutil/v3 v3.22.12 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
