@@ -4,13 +4,13 @@ go 1.19
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.21.0
-	github.com/ARM-software/golang-utils/utils v1.25.0
+	github.com/ARM-software/golang-utils/utils v1.26.0
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/go-logr/logr v0.4.0
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.1
 	go.uber.org/atomic v1.10.0
-	go.uber.org/goleak v1.2.0
+	go.uber.org/goleak v1.2.1
 	golang.org/x/sync v0.1.0
 )
 
@@ -40,7 +40,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect
-	github.com/rs/zerolog v1.28.0 // indirect
+	github.com/rs/zerolog v1.29.0 // indirect
 	github.com/sasha-s/go-deadlock v0.3.1 // indirect
 	github.com/shirou/gopsutil/v3 v3.22.12 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
@@ -54,10 +54,10 @@ require (
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
 	github.com/tklauser/numcpus v0.6.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
-	golang.org/x/net v0.5.0 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783 // indirect
-	golang.org/x/sys v0.4.0 // indirect
-	golang.org/x/text v0.6.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
