@@ -40,7 +40,7 @@ jobs:
           NEW_GO_VERSION=$(cat .github/workflows/build-and-test.yml | grep '^  go_version:' | awk '{ print $2 }' | tr -d '"')
           echo "go_version=$NEW_GO_VERSION" >> $GITHUB_ENV
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ env.go_version }}
 
