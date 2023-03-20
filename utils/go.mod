@@ -3,12 +3,12 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.19
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.21.0
+	github.com/ARM-software/embedded-development-services-client/client v1.21.1
 	github.com/ARM-software/golang-utils/utils v1.28.0
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/go-logr/logr v0.4.0
 	github.com/golang/mock v1.6.0
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 	go.uber.org/atomic v1.10.0
 	go.uber.org/goleak v1.2.1
 	golang.org/x/sync v0.1.0
