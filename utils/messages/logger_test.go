@@ -15,10 +15,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/goleak"
 
-	"github.com/ARM-software/embedded-development-services-client-utils/utils/field"
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/logging"
 	"github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
+	"github.com/ARM-software/golang-utils/utils/field"
 )
 
 func TestNewMessageLogger(t *testing.T) {
