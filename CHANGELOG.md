@@ -2,6 +2,30 @@
 Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.3.5" (2023-03-20)
+=======================
+
+Bugfixes
+--------
+
+- Dependency upgrade: checkout-3 (#20230224190552)
+- Dependency upgrade: utils-1.28.0 (#20230224191107)
+- Dependency upgrade: client-1.21.1 (#20230224191156)
+- Dependency upgrade: testify-1.8.2 (#20230228191353)
+- Dependency upgrade: setup-go-4 (#20230315190419)
+- Dependency upgrade: utils-1.30.0 (#20230320171116)
+
+
+Deprecations and Removals
+-------------------------
+
+- :eraser: Removed the `field` module as it moved to `golang-utils` (#20230320170951)
+
+
+<!--
+Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.3.4" (2023-02-24)
 =======================
 
