@@ -2,6 +2,26 @@
 Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.4.0" (2023-04-21)
+=======================
+
+Features
+--------
+
+- :sparkle: `[links]` Added a facility for serialising links (#20230421142554)
+
+
+Bugfixes
+--------
+
+- Dependency upgrade: utils-1.31.0 (#20230404180928)
+- Dependency upgrade: fetch-metadata-1.4.0 (#20230419180255)
+
+
+<!--
+Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.3.5" (2023-03-20)
 =======================
 
