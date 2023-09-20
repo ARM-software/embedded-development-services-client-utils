@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.21.1
-	github.com/ARM-software/golang-utils/utils v1.31.0
+	github.com/ARM-software/golang-utils/utils v1.31.1
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/go-logr/logr v0.4.0
 	github.com/golang/mock v1.6.0
@@ -21,7 +21,7 @@ require (
 	github.com/bombsimon/logrusr v1.1.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/djherbis/times v1.5.0 // indirect
-	github.com/dolmen-go/contextio v0.0.0-20220904134943-e50796217f5f // indirect
+	github.com/dolmen-go/contextio v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-logr/stdr v0.4.0 // indirect
 	github.com/go-logr/zapr v0.4.0 // indirect
@@ -41,7 +41,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect
-	github.com/rs/zerolog v1.29.0 // indirect
+	github.com/rs/zerolog v1.29.1 // indirect
 	github.com/sasha-s/go-deadlock v0.3.1 // indirect
 	github.com/shirou/gopsutil/v3 v3.23.3 // indirect
 	github.com/shoenig/go-m1cpu v0.1.4 // indirect
@@ -58,10 +58,10 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783 // indirect
-	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
