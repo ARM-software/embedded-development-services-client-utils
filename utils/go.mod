@@ -6,7 +6,7 @@ require (
 	github.com/ARM-software/embedded-development-services-client/client v1.21.1
 	github.com/ARM-software/golang-utils/utils v1.31.1
 	github.com/bxcodec/faker/v3 v3.8.1
-	github.com/go-logr/logr v0.4.0
+	github.com/go-logr/logr v1.2.4
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.2
 	go.uber.org/atomic v1.11.0
