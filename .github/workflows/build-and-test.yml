@@ -31,7 +31,7 @@ jobs:
     steps:
       # we want the head of the branch that triggered this, not the reference of the commit, this is so we get updated go versions etc.
       - name: Check out [${{ inputs.branch || github.ref }}]
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch || github.ref }}
       - name: Update Go env version
