@@ -2,6 +2,27 @@
 Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.4.1" (2023-10-26)
+=======================
+
+Bugfixes
+--------
+
+- Dependency upgrade: utils-1.31.1 (#20230426180800)
+- Dependency upgrade: atomic-1.11.0 (#20230504180607)
+- Dependency upgrade: sync-0.2.0 (#20230504180628)
+- Dependency upgrade: fetch-metadata-1.5.0 (#20230522180551)
+- Dependency upgrade: goleak-1.3.0 (#20231024171215)
+- Dependency upgrade: golang-1.21.3 (#20231026105138)
+- Dependency upgrade: checkout-4 (#20231026105824)
+- Dependency upgrade: fetch-metadata-1.6.0 (#20231026105857)
+- Dependency upgrade: utils-1.51.0 (#20231026122113)
+
+
+<!--
+Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.4.0" (2023-04-21)
 =======================
 
