@@ -19,7 +19,7 @@ import (
 )
 
 type ClientLogger struct {
-	mLogger *logs.MultipleLogger
+	mLogger *logs.MultipleLoggerWithLoggerSource
 }
 
 func (c *ClientLogger) Close() error {
@@ -133,7 +133,7 @@ func NewClientLogger(loggerSource string, defaultLoggers ...logs.Loggers) (l ILo
 	if err != nil {
 		return
 	}
-	multipleLogger, ok := multipleL.(*logs.MultipleLogger)
+	multipleLogger, ok := multipleL.(*logs.MultipleLoggerWithLoggerSource)
 	if !ok && multipleLogger == nil {
 		err = fmt.Errorf("%w: multiple logger is not of the expected type", commonerrors.ErrUnexpected)
 		return
