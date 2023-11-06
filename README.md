@@ -45,7 +45,7 @@ The follow described the major aspects of the project structure:
 
 ## Getting Help
 
-- For interface definition and usage documentation, please see [GitHub Pages](https://arm-software.github.io/embedded-development-services-client-utils).
+- For interface definition and usage documentation, please see [Reference Pages](https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client-utils/utils).
 - For a list of known issues and possible workarounds, please see [Known Issues](KNOWN_ISSUES.md).
 - To raise a defect or enhancement please use [GitHub Issues](https://github.com/ARM-software/embedded-development-services-client-utils/issues) or [GitHub discussions](https://github.com/ARM-software/embedded-development-services-client-utils/discussions).
 
