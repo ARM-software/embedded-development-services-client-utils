@@ -181,7 +181,7 @@ func newMockJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time
 
 	return newJobManagerFromMessageFactory(logger, backOffPeriod, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
 		return job, httptest.NewRecorder().Result(), errToReturn
-	}, func(fctx context.Context, jobName string) (pagination.IStaticPageStream, *http.Response, error) {
+	}, func(fctx context.Context, _ string) (pagination.IStaticPageStream, *http.Response, error) {
 		firstPage, err := messages.NewMockNotificationFeedPage(fctx, pageNumber > 0, false)
 		if err != nil {
 			return nil, httptest.NewRecorder().Result(), err
