@@ -8,6 +8,7 @@ package messages
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"time"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/logging"
@@ -80,6 +81,8 @@ func (l *Logger) LogMarshallingError(rawMessage *any) {
 	}
 }
 
+var completedRegex = regexp.MustCompile(`<JOB COMPLETED [0-9]{2}:[0-9]{2}:[0-9]{2}>`)
+
 func (l *Logger) LogMessagesCollection(ctx context.Context, messagePaginator pagination.IGenericPaginator) error {
 	for {
 		err := parallelisation.DetermineContextError(ctx)
@@ -90,7 +93,8 @@ func (l *Logger) LogMessagesCollection(ctx context.Context, messagePaginator pag
 			return fmt.Errorf("%w: missing paginator", commonerrors.ErrUndefined)
 		}
 		if !messagePaginator.HasNext() {
-			return nil
+			parallelisation.SleepWithContext(ctx, 200*time.Millisecond)
+			continue
 		}
 		m, err := messagePaginator.GetNext()
 		if err != nil {
@@ -102,7 +106,13 @@ func (l *Logger) LogMessagesCollection(ctx context.Context, messagePaginator pag
 		} else {
 			l.LogMessage(messageItem)
 		}
+		if message, ok := messageItem.GetMessageOk(); ok {
+			if completedRegex.MatchString(*message) {
+				break
+			}
+		}
 	}
+	return nil
 }
 
 // NewBasicAsynchronousMessageLogger creates an asynchronous logger for messages which prints them as they come.
