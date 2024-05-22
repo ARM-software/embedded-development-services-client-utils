@@ -128,7 +128,7 @@ func TestArtefactDownload(t *testing.T) {
 		err := m.DownloadJobArtefact(context.Background(), faker.Word(), out, client.HalLinkData{
 			Name: field.ToOptionalString(faker.Word()),
 		})
-		errortest.AssertErrorDescription(t, err, "cannot fetch artefact manager")
+		errortest.AssertErrorDescription(t, err, "cannot fetch artefact's manager")
 	})
 
 	t.Run("Empty Artefact", func(t *testing.T) {

@@ -8,79 +8,88 @@ package artefacts
 import (
 	"context"
 	"fmt"
-	"io"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
 
-	utils "github.com/ARM-software/embedded-development-services-client-utils/utils/api"
+	"github.com/ARM-software/embedded-development-services-client-utils/utils/api"
 	"github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/filesystem"
 	"github.com/ARM-software/golang-utils/utils/hashing"
 	"github.com/ARM-software/golang-utils/utils/parallelisation"
+	"github.com/ARM-software/golang-utils/utils/safeio"
 )
 
 type (
 	getArtefactManagerFunc = func(ctx context.Context, job, artefact string) (*client.ArtefactManagerItem, *http.Response, error)
-	getOutputArtefactFunc  = func(ctx context.Context, job, artefactID string) (*os.File, *http.Response, error)
+	getArtefactContentFunc = func(ctx context.Context, job, artefactID string) (*os.File, *http.Response, error)
 )
 
 type ArtefactManager struct {
-	getArtefactManager getArtefactManagerFunc
-	getOutputArtefact  getOutputArtefactFunc
+	getArtefactManagerFunc getArtefactManagerFunc
+	getArtefactContentFunc getArtefactContentFunc
 }
 
-func NewArtefactManager(getArtefactManager getArtefactManagerFunc, getOutputArtefact getOutputArtefactFunc) *ArtefactManager {
+func NewArtefactManager(getArtefactManager getArtefactManagerFunc, getOutputArtefact getArtefactContentFunc) *ArtefactManager {
 	return &ArtefactManager{
-		getArtefactManager: getArtefactManager,
-		getOutputArtefact:  getOutputArtefact,
+		getArtefactManagerFunc: getArtefactManager,
+		getArtefactContentFunc: getOutputArtefact,
 	}
 }
 
 func (m *ArtefactManager) DownloadJobArtefact(ctx context.Context, jobName string, outputDirectory string, artefactManagerItem client.HalLinkData) (err error) {
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
+
 	artefactManagerName := artefactManagerItem.GetName()
-	artefactManager, resp, apierr := m.getArtefactManager(ctx, jobName, artefactManagerName)
+	artefactManager, resp, apierr := m.getArtefactManagerFunc(ctx, jobName, artefactManagerName)
 	defer func() {
 		if resp != nil {
 			_ = resp.Body.Close()
 		}
 	}()
-	err = utils.CheckAPICallSuccess(ctx, fmt.Sprintf("cannot fetch artefact manager [%v]", artefactManager), resp, apierr)
+	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("cannot fetch artefact's manager [%v]", artefactManager), resp, apierr)
 	if err != nil {
 		return
 	}
 
 	artefactFilenamePtr, ok := artefactManager.GetTitleOk()
 	if !ok {
-		err = fmt.Errorf("%w: could not fetch artefact title from artefact manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
+		err = fmt.Errorf("%w: could not fetch artefact's title from artefact's manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
 		return
 	}
+
 	artefactFilename := *artefactFilenamePtr
+	if unescapedName, err := url.PathUnescape(artefactFilename); err == nil {
+		artefactFilename = unescapedName
+	}
 
 	expectedSizePtr, ok := artefactManager.GetSizeOk()
 	if !ok {
-		err = fmt.Errorf("%w: could not fetch artefact size from artefact manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
+		err = fmt.Errorf("%w: could not fetch artefact's size from artefact's manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
 		return
 	}
 	expectedSize := *expectedSizePtr
 
 	expectedHashPtr, ok := artefactManager.GetHashOk()
 	if !ok {
-		err = fmt.Errorf("%w: could not fetch artefact hash from artefact manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
+		err = fmt.Errorf("%w: could not fetch artefact's hash from artefact's manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
 		return
 	}
 	expectedHash := *expectedHashPtr
 
-	artefactIDPtr, ok := artefactManager.GetNameOk()
+	artefactNamePtr, ok := artefactManager.GetNameOk()
 	if !ok {
-		err = fmt.Errorf("%w: could not fetch artefact name from artefact manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
+		err = fmt.Errorf("%w: could not fetch artefact's name from artefact's manager [%v]", commonerrors.ErrUndefined, artefactManagerName)
 		return
 	}
-	artefactID := *artefactIDPtr
+	artefactName := *artefactNamePtr
 
-	artefact, resp, apierr := m.getOutputArtefact(ctx, jobName, artefactID)
+	artefact, resp, apierr := m.getArtefactContentFunc(ctx, jobName, artefactName)
 	defer func() {
 		if resp != nil {
 			_ = resp.Body.Close()
@@ -90,18 +99,12 @@ func (m *ArtefactManager) DownloadJobArtefact(ctx context.Context, jobName strin
 		}
 	}()
 
-	err = utils.CheckAPICallSuccess(ctx, fmt.Sprintf("cannot fetch generated artefact [%v]", artefactFilename), resp, apierr)
+	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("cannot fetch generated artefact [%v]", artefactFilename), resp, apierr)
 	if err != nil {
 		return
 	}
 
-	unescapedName, err := url.PathUnescape(artefactFilename)
-	if err == nil {
-		artefactFilename = unescapedName
-	}
-
-	destinationPath := filepath.Join(outputDirectory, artefactFilename)
-	destination, err := filesystem.CreateFile(destinationPath)
+	destination, err := filesystem.CreateFile(filepath.Join(outputDirectory, artefactFilename))
 	if err != nil {
 		err = fmt.Errorf("%w: could not create a location to store generated artefact [%v]: %v", commonerrors.ErrUnexpected, artefactFilename, err.Error())
 		return
@@ -113,7 +116,7 @@ func (m *ArtefactManager) DownloadJobArtefact(ctx context.Context, jobName strin
 		return
 	}
 
-	actualSize, err := io.Copy(destination, artefact)
+	actualSize, err := safeio.CopyDataWithContext(ctx, artefact, destination)
 	if err != nil {
 		err = fmt.Errorf("%w: failed to copy artefact [%v]: %v", commonerrors.ErrUnexpected, artefactFilename, err.Error())
 		return
