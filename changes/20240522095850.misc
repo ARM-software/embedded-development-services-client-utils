@@ -1,0 +1,1 @@
+:lock: Prevent code execution when referencing GIT_BRANCH variable in workflow
