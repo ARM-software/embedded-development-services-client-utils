@@ -1,4 +1,32 @@
 <!--
+Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
+"" "1.5.0" (2024-05-22)
+=======================
+
+Features
+--------
+
+- :sparkles: Add reusable manager for downloading artefacts (#20240423090834)
+
+
+Bugfixes
+--------
+
+- Dependency upgrade: golang-1.21.4 (#20231108190631)
+- Dependency upgrade: setup-python-5 (#20231206181029)
+- Dependency upgrade: setup-go-5 (#20231206181033)
+- Dependency upgrade: cache-4 (#20240117181416)
+
+
+Misc
+----
+
+- #20240522095850
+
+
+<!--
 Copyright (C) 2020-2023 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
