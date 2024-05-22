@@ -97,7 +97,7 @@ func NewMockNotificationFeedPaginator(ctx context.Context) (pagination.IPaginato
 			return nil, err
 		}
 		return pagination2.ToPage(firstPage), nil
-	}, func(gCtx context.Context, page pagination.IStaticPage) (pagination.IStaticPage, error) {
+	}, func(gCtx context.Context, _ pagination.IStaticPage) (pagination.IStaticPage, error) {
 		pageCount.Inc()
 		newPage, err := NewMockNotificationFeedPage(gCtx, int64(pageNumber) != pageCount.Load(), false)
 		if err != nil {
@@ -110,7 +110,7 @@ func NewMockNotificationFeedPaginator(ctx context.Context) (pagination.IPaginato
 // NewMockMessagePaginatorFactory generates a mock message paginator factory
 func NewMockMessagePaginatorFactory(pageNumber int) *PaginatorFactory {
 	pageCount := atomic.NewInt64(0)
-	return NewPaginatorFactory(DefaultStreamExhaustionGracePeriod, DefaultMessageFetchingBackoff, func(gCtx context.Context, page pagination.IStaticPage) (pagination.IStaticPage, error) {
+	return NewPaginatorFactory(DefaultStreamExhaustionGracePeriod, DefaultMessageFetchingBackoff, func(gCtx context.Context, _ pagination.IStaticPage) (pagination.IStaticPage, error) {
 		pageCount.Inc()
 		newPage, err := NewMockNotificationFeedPage(gCtx, int64(pageNumber) != pageCount.Load(), false)
 		if err != nil {
@@ -118,7 +118,7 @@ func NewMockMessagePaginatorFactory(pageNumber int) *PaginatorFactory {
 		}
 		return pagination2.ToPage(newPage), nil
 
-	}, func(ctx context.Context, stream pagination.IStaticPageStream) (pagination.IStaticPageStream, error) {
+	}, func(_ context.Context, _ pagination.IStaticPageStream) (pagination.IStaticPageStream, error) {
 		return nil, nil
 	})
 }
