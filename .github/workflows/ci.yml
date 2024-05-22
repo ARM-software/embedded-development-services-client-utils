@@ -34,9 +34,10 @@ jobs:
       - name: Install CI/CD tools
         run: pip install continuous-delivery-scripts && pip list
       - name: Assert news
-        run: bash ./scripts/setup_github.sh && cd-assert-news -b ${{ github.head_ref || github.ref }}
+        run: bash ./scripts/setup_github.sh && cd-assert-news -b $GIT_BRANCH
         env:
           GIT_TOKEN: ${{ secrets.GIT_SECRET }}
+          GIT_BRANCH: ${{ github.head_ref || github.ref }}
       - name: Report failure if needed
         if: ${{ failure() }}
         run: |
