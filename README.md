@@ -8,6 +8,8 @@ SPDX-License-Identifier: Apache-2.0
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Go Reference](https://pkg.go.dev/badge/github.com/ARM-software/embedded-development-services-client-utils/utils.svg)](https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client-utils/utils)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ARM-software/embedded-development-services-client-utils/utils)](https://goreportcard.com/report/github.com/ARM-software/embedded-development-services-client-utils/utils)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/9086/badge)](https://bestpractices.coreinfrastructure.org/projects/9086)
+![Scorecard](https://img.shields.io/ossf-scorecard/github.com/ARM-software/embedded-development-services-client-utils?label=openssf%20scorecard&style=flat)
 
 ## Overview
  
