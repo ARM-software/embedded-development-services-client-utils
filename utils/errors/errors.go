@@ -84,16 +84,16 @@ func FetchAPIErrorDescriptionWithContext(ctx context.Context, resp *_http.Respon
 
 type alternativeErrorMessage struct {
 	Fields         []client.FieldObject `json:"fields,omitempty"`
-	HttpStatusCode *int32               `json:"httpStatusCode,omitempty"`
+	HTTPStatusCode *int32               `json:"httpStatusCode,omitempty"`
 	Message        string               `json:"message"`
-	RequestId      string               `json:"requestId"`
+	RequestID      string               `json:"requestId"`
 }
 
 func (e *alternativeErrorMessage) setErrorResponse(err *client.ErrorResponse) {
 	err.SetMessage(e.Message)
-	err.SetRequestId(e.RequestId)
+	err.SetRequestId(e.RequestID)
 	err.SetFields(e.Fields)
-	if e.HttpStatusCode != nil {
-		err.SetHttpStatusCode(*e.HttpStatusCode)
+	if e.HTTPStatusCode != nil {
+		err.SetHttpStatusCode(*e.HTTPStatusCode)
 	}
 }
