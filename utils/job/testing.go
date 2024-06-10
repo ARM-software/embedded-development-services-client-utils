@@ -6,7 +6,7 @@
 package job
 
 import (
-	"github.com/bxcodec/faker/v3"
+	"github.com/go-faker/faker/v4"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/resource"
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/resource/resourcetests"

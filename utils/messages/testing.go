@@ -11,7 +11,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/bxcodec/faker/v3"
+	"github.com/go-faker/faker/v4"
 	"go.uber.org/atomic"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/links/linkstest"

@@ -28,7 +28,7 @@ func (f *PaginatorFactory) UpdateRunOutTimeout(runOutTimeOut time.Duration) *Pag
 	return f
 }
 
-func (f *PaginatorFactory) UpdatBackOffPeriod(backoff time.Duration) *PaginatorFactory {
+func (f *PaginatorFactory) UpdateBackOffPeriod(backoff time.Duration) *PaginatorFactory {
 	f.backOffPeriod = backoff
 	return f
 }

@@ -30,15 +30,20 @@ func IsCallSuccessful(r *_http.Response) bool {
 // resp corresponds to the HTTP response from a certain endpoint. The body of such response is not closed by this function.
 // apiErr corresponds to the error which may be returned by the HTTP client when calling the endpoint.
 func CheckAPICallSuccess(ctx context.Context, errorContext string, resp *_http.Response, apiErr error) (err error) {
-	if err = parallelisation.DetermineContextError(ctx); err != nil {
-		return err
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
 	}
 	if !IsCallSuccessful(resp) {
 		statusCode := 0
 		errorMessage := strings.Builder{}
 		if resp != nil {
 			statusCode = resp.StatusCode
-			errorDetails := errors.FetchAPIErrorDescription(resp)
+			errorDetails, subErr := errors.FetchAPIErrorDescriptionWithContext(ctx, resp)
+			if subErr != nil {
+				err = subErr
+				return
+			}
 			if !reflection.IsEmpty(errorDetails) {
 				errorMessage.WriteString(errorDetails)
 			}
