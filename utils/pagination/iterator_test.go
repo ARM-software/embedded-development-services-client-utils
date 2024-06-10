@@ -41,47 +41,47 @@ func TestToIterator(t *testing.T) {
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewBuildersIterator(nil)
+				return client.NewCmsisBuilderIterator(nil)
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewBuildersIterator([]client.CmsisBuilderItem{})
+				return client.NewCmsisBuilderIterator([]client.CmsisBuilderItem{})
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewBuildersIterator([]client.CmsisBuilderItem{*client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults()})
+				return client.NewCmsisBuilderIterator([]client.CmsisBuilderItem{*client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults(), *client.NewCmsisBuilderItemWithDefaults()})
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewMessagesIterator(nil)
+				return client.NewMessageIterator(nil)
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewMessagesIterator([]client.MessageObject{})
+				return client.NewMessageIterator([]client.MessageObject{})
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewMessagesIterator([]client.MessageObject{*client.NewMessageObject(faker.Sentence()), *client.NewMessageObjectWithDefaults(), *client.NewMessageObject(faker.Word()), *client.NewMessageObjectWithDefaults(), *client.NewMessageObject(faker.Name())})
+				return client.NewMessageIterator([]client.MessageObject{*client.NewMessageObject(faker.Sentence()), *client.NewMessageObjectWithDefaults(), *client.NewMessageObject(faker.Word()), *client.NewMessageObjectWithDefaults(), *client.NewMessageObject(faker.Name())})
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewNotificationMessagesIterator(nil)
+				return client.NewNotificationMessageIterator(nil)
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewNotificationMessagesIterator([]client.NotificationMessageObject{})
+				return client.NewNotificationMessageIterator([]client.NotificationMessageObject{})
 			},
 		},
 		{
 			iteratorFunc: func() (client.IIterator, error) {
-				return client.NewNotificationMessagesIterator([]client.NotificationMessageObject{*client.NewNotificationMessageObject(faker.Sentence()), *client.NewNotificationMessageObject(faker.Word()), *client.NewNotificationMessageObject(faker.Name()), *client.NewNotificationMessageObjectWithDefaults()})
+				return client.NewNotificationMessageIterator([]client.NotificationMessageObject{*client.NewNotificationMessageObject(faker.Sentence()), *client.NewNotificationMessageObject(faker.Word()), *client.NewNotificationMessageObject(faker.Name()), *client.NewNotificationMessageObjectWithDefaults()})
 			},
 		},
 	}
