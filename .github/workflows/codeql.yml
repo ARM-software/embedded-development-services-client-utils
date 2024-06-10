@@ -12,10 +12,11 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+# FIXME: enable when codeQL supports go 1.22
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
   schedule:
     - cron: '19 21 * * 5'
 
