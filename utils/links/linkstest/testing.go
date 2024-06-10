@@ -8,7 +8,7 @@ package linkstest
 import (
 	"fmt"
 
-	"github.com/bxcodec/faker/v3"
+	"github.com/go-faker/faker/v4"
 
 	"github.com/ARM-software/embedded-development-services-client/client"
 )
