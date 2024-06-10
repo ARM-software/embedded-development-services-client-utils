@@ -7,28 +7,48 @@
 package errors
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"io"
 	_http "net/http"
 	"strings"
 
 	"github.com/ARM-software/embedded-development-services-client/client"
+	"github.com/ARM-software/golang-utils/utils/parallelisation"
 	"github.com/ARM-software/golang-utils/utils/reflection"
+	"github.com/ARM-software/golang-utils/utils/safeio"
 )
 
 // FetchAPIErrorDescription returns the error message from an API response.
 // This function does not close the response body.
 func FetchAPIErrorDescription(resp *_http.Response) (message string) {
+	message, _ = FetchAPIErrorDescriptionWithContext(context.Background(), resp)
+	return
+}
+
+// FetchAPIErrorDescriptionWithContext returns the error message from an API response.
+// This function does not close the response body.
+func FetchAPIErrorDescriptionWithContext(ctx context.Context, resp *_http.Response) (message string, err error) {
 	if resp == nil {
 		return
 	}
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
 	errorResponse := client.ErrorResponse{}
-	bytes, err := io.ReadAll(resp.Body)
+	bytes, err := safeio.ReadAll(ctx, resp.Body)
 	if err != nil {
 		return
 	}
 	err = json.Unmarshal(bytes, &errorResponse)
+	if err != nil {
+		alternativeErrorResponse := alternativeErrorMessage{}
+		err = json.Unmarshal(bytes, &alternativeErrorResponse)
+		if err == nil {
+			alternativeErrorResponse.setErrorResponse(&errorResponse)
+		}
+	}
 	if err != nil {
 		message = string(bytes)
 		return
@@ -44,6 +64,11 @@ func FetchAPIErrorDescription(resp *_http.Response) (message string) {
 		apiErrorMessage.WriteString(" [")
 		start := true
 		for i := range fields {
+			subErr := parallelisation.DetermineContextError(ctx)
+			if subErr != nil {
+				err = subErr
+				return
+			}
 			if !start {
 				apiErrorMessage.WriteString(",")
 			}
@@ -55,4 +80,20 @@ func FetchAPIErrorDescription(resp *_http.Response) (message string) {
 	}
 	message = apiErrorMessage.String()
 	return
+}
+
+type alternativeErrorMessage struct {
+	Fields         []client.FieldObject `json:"fields,omitempty"`
+	HttpStatusCode *int32               `json:"httpStatusCode,omitempty"`
+	Message        string               `json:"message"`
+	RequestId      string               `json:"requestId"`
+}
+
+func (e *alternativeErrorMessage) setErrorResponse(err *client.ErrorResponse) {
+	err.SetMessage(e.Message)
+	err.SetRequestId(e.RequestId)
+	err.SetFields(e.Fields)
+	if e.HttpStatusCode != nil {
+		err.SetHttpStatusCode(*e.HttpStatusCode)
+	}
 }

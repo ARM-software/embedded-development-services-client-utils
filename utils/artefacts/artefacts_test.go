@@ -30,9 +30,7 @@ type testArtefact struct {
 	path string
 }
 
-func newTestArtefact(t *testing.T, artefactContent string) *testArtefact {
-	tmpDir := t.TempDir()
-
+func newTestArtefact(t *testing.T, tmpDir, artefactContent string) *testArtefact {
 	path, err := filesystem.TouchTempFile(tmpDir, "artefact")
 	require.NoError(t, err)
 
@@ -98,17 +96,20 @@ func (t *testArtefact) testGetOutputArtefact(_ context.Context, _, artefact stri
 	return nil, &http.Response{StatusCode: http.StatusNotFound, Body: io.NopCloser(bytes.NewReader([]byte("hello")))}, commonerrors.ErrNotFound
 }
 
-func newTestArtefactManager(t *testing.T, artefactContent string) (*ArtefactManager, *testArtefact) {
-	testArtefact := newTestArtefact(t, artefactContent)
+func newTestArtefactManager(t *testing.T, tmpDir, artefactContent string) (*ArtefactManager, *testArtefact) {
+	testArtefact := newTestArtefact(t, tmpDir, artefactContent)
 	return NewArtefactManager(testArtefact.testGetArtefactManager, testArtefact.testGetOutputArtefact), testArtefact
 }
 
 func TestArtefactDownload(t *testing.T) {
 	t.Run("Happy", func(t *testing.T) {
-		m, a := newTestArtefactManager(t, faker.Sentence())
+		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-")
+		require.NoError(t, err)
+		defer func() { _ = filesystem.Rm(tmpDir) }()
+		m, a := newTestArtefactManager(t, tmpDir, faker.Sentence())
 
 		out := t.TempDir()
-		err := m.DownloadJobArtefact(context.Background(), faker.Word(), out, client.HalLinkData{
+		err = m.DownloadJobArtefact(context.Background(), faker.Word(), out, client.HalLinkData{
 			Name: &a.name,
 		})
 		require.NoError(t, err)
@@ -122,20 +123,26 @@ func TestArtefactDownload(t *testing.T) {
 	})
 
 	t.Run("Invalid Artefact", func(t *testing.T) {
-		m, _ := newTestArtefactManager(t, faker.Sentence())
+		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-")
+		require.NoError(t, err)
+		defer func() { _ = filesystem.Rm(tmpDir) }()
+		m, _ := newTestArtefactManager(t, tmpDir, faker.Sentence())
 
 		out := t.TempDir()
-		err := m.DownloadJobArtefact(context.Background(), faker.Word(), out, client.HalLinkData{
+		err = m.DownloadJobArtefact(context.Background(), faker.Word(), out, client.HalLinkData{
 			Name: field.ToOptionalString(faker.Word()),
 		})
 		errortest.AssertErrorDescription(t, err, "cannot fetch artefact's manager")
 	})
 
 	t.Run("Empty Artefact", func(t *testing.T) {
-		m, a := newTestArtefactManager(t, "")
+		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-")
+		require.NoError(t, err)
+		defer func() { _ = filesystem.Rm(tmpDir) }()
+		m, a := newTestArtefactManager(t, tmpDir, "")
 
 		out := t.TempDir()
-		err := m.DownloadJobArtefact(context.Background(), faker.Word(), out, client.HalLinkData{
+		err = m.DownloadJobArtefact(context.Background(), faker.Word(), out, client.HalLinkData{
 			Name: &a.name,
 		})
 		errortest.AssertError(t, err, commonerrors.ErrEmpty)
