@@ -3,7 +3,7 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.22
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.31.2
+	github.com/ARM-software/embedded-development-services-client/client v1.31.3
 	github.com/ARM-software/golang-utils/utils v1.66.1
 	github.com/go-faker/faker/v4 v4.4.2
 	github.com/go-logr/logr v1.4.2
