@@ -2,6 +2,32 @@
 Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.5.1" (2024-06-10)
+=======================
+
+Bugfixes
+--------
+
+- Dependency upgrade: golang-1.22.0 (#20240214184515)
+- Dependency upgrade: fetch-metadata-1.7.0 (#20240321184603)
+- Dependency upgrade: golangci-lint-action-4 (#20240422100124)
+- Dependency upgrade: golang-1.22.4 (#20240605175520)
+- Dependency upgrade: golangci-lint-action-6 (#20240610093118)
+- Dependency upgrade: fetch-metadata-2.1.0 (#20240610093119)
+- :gear: Upgrade dependencies (#20240610144505)
+- :gear: Update deprecated [`faker`](https://github.com/go-faker/faker/) (#20240610144554)
+
+
+Misc
+----
+
+- #202406101045
+
+
+<!--
+Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.5.0" (2024-05-22)
 =======================
 
