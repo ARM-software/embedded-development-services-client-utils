@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package job
+package jobtest
 
 import (
 	"github.com/go-faker/faker/v4"
@@ -16,6 +16,10 @@ type MockAsynchronousJob struct {
 	resource.IResource
 	done    bool
 	failure bool
+}
+
+func (m *MockAsynchronousJob) GetQueued() bool {
+	return !m.done
 }
 
 func (m *MockAsynchronousJob) FetchType() string {
@@ -42,7 +46,7 @@ func (m *MockAsynchronousJob) GetStatus() string {
 	return faker.Word()
 }
 
-func newMockAsynchronousJob(done bool, failure bool) (IAsynchronousJob, error) {
+func newMockAsynchronousJob(done bool, failure bool) (*MockAsynchronousJob, error) {
 	r, err := resourcetests.NewMockResource()
 	if err != nil {
 		return nil, err
@@ -54,14 +58,18 @@ func newMockAsynchronousJob(done bool, failure bool) (IAsynchronousJob, error) {
 	}, nil
 }
 
-func NewMockUndoneAsynchronousJob() (IAsynchronousJob, error) {
+func NewMockUndoneAsynchronousJob() (*MockAsynchronousJob, error) {
 	return newMockAsynchronousJob(false, false)
 }
 
-func NewMockSuccessfulAsynchronousJob() (IAsynchronousJob, error) {
+func NewMockQueuedAsynchronousJob() (*MockAsynchronousJob, error) {
+	return newMockAsynchronousJob(false, false)
+}
+
+func NewMockSuccessfulAsynchronousJob() (*MockAsynchronousJob, error) {
 	return newMockAsynchronousJob(true, false)
 }
 
-func NewMockFailedAsynchronousJob() (IAsynchronousJob, error) {
+func NewMockFailedAsynchronousJob() (*MockAsynchronousJob, error) {
 	return newMockAsynchronousJob(true, true)
 }

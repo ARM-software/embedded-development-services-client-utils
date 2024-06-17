@@ -142,6 +142,20 @@ func (mr *MockIAsynchronousJobMockRecorder) GetFailure() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFailure", reflect.TypeOf((*MockIAsynchronousJob)(nil).GetFailure))
 }
 
+// GetQueued mocks base method.
+func (m *MockIAsynchronousJob) GetQueued() bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetQueued")
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// GetQueued indicates an expected call of GetQueued.
+func (mr *MockIAsynchronousJobMockRecorder) GetQueued() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetQueued", reflect.TypeOf((*MockIAsynchronousJob)(nil).GetQueued))
+}
+
 // GetStatus mocks base method.
 func (m *MockIAsynchronousJob) GetStatus() string {
 	m.ctrl.T.Helper()
@@ -206,6 +220,21 @@ func (m *MockIJobManager) HasJobCompleted(arg0 context.Context, arg1 job.IAsynch
 func (mr *MockIJobManagerMockRecorder) HasJobCompleted(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasJobCompleted", reflect.TypeOf((*MockIJobManager)(nil).HasJobCompleted), arg0, arg1)
+}
+
+// HasJobStarted mocks base method.
+func (m *MockIJobManager) HasJobStarted(arg0 context.Context, arg1 job.IAsynchronousJob) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HasJobStarted", arg0, arg1)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// HasJobStarted indicates an expected call of HasJobStarted.
+func (mr *MockIJobManagerMockRecorder) HasJobStarted(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasJobStarted", reflect.TypeOf((*MockIJobManager)(nil).HasJobStarted), arg0, arg1)
 }
 
 // WaitForJobCompletion mocks base method.
