@@ -17,7 +17,9 @@ import (
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/messages"
 	"github.com/ARM-software/golang-utils/utils/collection/pagination"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
+	"github.com/ARM-software/golang-utils/utils/logs"
 	"github.com/ARM-software/golang-utils/utils/parallelisation"
+	"github.com/ARM-software/golang-utils/utils/retry"
 )
 
 type Manager struct {
@@ -53,6 +55,30 @@ func (m *Manager) FetchJobMessagesFirstPage(ctx context.Context, job IAsynchrono
 	return
 }
 
+func (m *Manager) waitForJobToStart(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob) (err error) {
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
+
+	jobName, err := job.FetchName()
+	if err != nil {
+		return
+	}
+	notStartedError := fmt.Errorf("%w: job [%v] has not started", commonerrors.ErrCondition, jobName)
+	err = retry.RetryOnError(ctx, logs.NewPlainLogrLoggerFromLoggers(logger), retry.DefaultExponentialBackoffRetryPolicyConfiguration(), func() error {
+		started, subErr := m.HasJobStarted(ctx, job)
+		if subErr != nil {
+			return subErr
+		}
+		if started {
+			return nil
+		}
+		return notStartedError
+	}, fmt.Sprintf("Waiting for job [%v] to start...", jobName), notStartedError)
+	return
+}
+
 func (m *Manager) createMessagePaginator(ctx context.Context, job IAsynchronousJob) (paginator pagination.IStreamPaginatorAndPageFetcher, err error) {
 	paginator, err = m.messagesPaginatorFactory.Create(ctx, func(subCtx context.Context) (pagination.IStaticPageStream, error) {
 		return m.FetchJobMessagesFirstPage(subCtx, job)
@@ -74,6 +100,10 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 			_ = messageLogger.Close()
 		}
 	}()
+	err = m.waitForJobToStart(ctx, messageLogger, job)
+	if err != nil {
+		return
+	}
 	messagePaginator, err := m.createMessagePaginator(ctx, job)
 	if err != nil {
 		return
@@ -117,6 +147,36 @@ func (m *Manager) checkForMessageStreamExhaustion(ctx context.Context, paginator
 		}
 		parallelisation.SleepWithContext(ctx, m.backOffPeriod)
 	}
+}
+
+func (m *Manager) HasJobStarted(ctx context.Context, job IAsynchronousJob) (started bool, err error) {
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
+	if job == nil {
+		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
+		return
+	}
+	jobName, err := job.FetchName()
+	if err != nil {
+		return
+	}
+	jobType := job.FetchType()
+	jobStatus, resp, apierr := m.fetchJobStatusFunc(ctx, jobName)
+	if resp != nil {
+		_ = resp.Body.Close()
+	}
+	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("could not fetch %v [%v]'s status", jobType, jobName), resp, apierr)
+	if err != nil {
+		return
+	}
+	if jobStatus.GetDone() {
+		started = true
+	} else {
+		started = !jobStatus.GetQueued()
+	}
+	return
 }
 
 func (m *Manager) HasJobCompleted(ctx context.Context, job IAsynchronousJob) (completed bool, err error) {

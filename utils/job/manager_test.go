@@ -18,6 +18,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/goleak"
 
+	"github.com/ARM-software/embedded-development-services-client-utils/utils/job/jobtest"
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/logging"
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/messages"
 	pagination2 "github.com/ARM-software/embedded-development-services-client-utils/utils/pagination"
@@ -41,17 +42,22 @@ func TestManager_HasJobCompleted(t *testing.T) {
 			expectedError:   commonerrors.ErrUndefined,
 		},
 		{
-			jobFunc:         NewMockFailedAsynchronousJob,
+			jobFunc:         mapFunc(jobtest.NewMockFailedAsynchronousJob),
 			expectCompleted: true,
 			expectedError:   commonerrors.ErrInvalid,
 		},
 		{
-			jobFunc:         NewMockUndoneAsynchronousJob,
+			jobFunc:         mapFunc(jobtest.NewMockUndoneAsynchronousJob),
 			expectCompleted: false,
 			expectedError:   nil,
 		},
 		{
-			jobFunc:         NewMockSuccessfulAsynchronousJob,
+			jobFunc:         mapFunc(jobtest.NewMockQueuedAsynchronousJob),
+			expectCompleted: false,
+			expectedError:   nil,
+		},
+		{
+			jobFunc:         mapFunc(jobtest.NewMockSuccessfulAsynchronousJob),
 			expectCompleted: true,
 			expectedError:   nil,
 		},
@@ -92,11 +98,11 @@ func TestManager_checkForMessageStreamExhaustion(t *testing.T) {
 			expectedError: commonerrors.ErrUndefined,
 		},
 		{
-			jobFunc:       NewMockFailedAsynchronousJob,
+			jobFunc:       mapFunc(jobtest.NewMockFailedAsynchronousJob),
 			expectedError: nil,
 		},
 		{
-			jobFunc:       NewMockSuccessfulAsynchronousJob,
+			jobFunc:       mapFunc(jobtest.NewMockSuccessfulAsynchronousJob),
 			expectedError: nil,
 		},
 	}
@@ -132,6 +138,13 @@ func TestManager_checkForMessageStreamExhaustion(t *testing.T) {
 	}
 }
 
+func mapFunc(f func() (*jobtest.MockAsynchronousJob, error)) func() (IAsynchronousJob, error) {
+	return func() (IAsynchronousJob, error) {
+		job, err := f()
+		return job, err
+	}
+}
+
 func TestManager_WaitForJobCompletion(t *testing.T) {
 	defer goleak.VerifyNone(t)
 	tests := []struct {
@@ -139,11 +152,15 @@ func TestManager_WaitForJobCompletion(t *testing.T) {
 		expectedError error
 	}{
 		{
-			jobFunc:       NewMockFailedAsynchronousJob,
+			jobFunc:       mapFunc(jobtest.NewMockFailedAsynchronousJob),
 			expectedError: commonerrors.ErrInvalid,
 		},
 		{
-			jobFunc:       NewMockSuccessfulAsynchronousJob,
+			jobFunc:       mapFunc(jobtest.NewMockQueuedAsynchronousJob),
+			expectedError: commonerrors.ErrCondition,
+		},
+		{
+			jobFunc:       mapFunc(jobtest.NewMockSuccessfulAsynchronousJob),
 			expectedError: nil,
 		},
 	}

@@ -29,13 +29,16 @@ type IAsynchronousJob interface {
 	GetSuccess() bool
 	// GetStatus returns the state the job is in. This is for information only and should not be relied upon as likely to change. Use flags for implementing a state machine.
 	GetStatus() string
+	// GetQueued returns whether the job is being queued and has not started just yet
+	GetQueued() bool
 }
 
 // IJobManager defines a manager of asynchronous jobs
 type IJobManager interface {
 	// HasJobCompleted calls the services to determine whether the job has completed.
 	HasJobCompleted(ctx context.Context, job IAsynchronousJob) (completed bool, err error)
-
+	// HasJobStarted calls the services to determine whether the job has started.
+	HasJobStarted(ctx context.Context, job IAsynchronousJob) (completed bool, err error)
 	// WaitForJobCompletion waits for a job to complete.
 	WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) (err error)
 }
