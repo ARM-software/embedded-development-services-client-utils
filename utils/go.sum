@@ -1,6 +1,6 @@
 bitbucket.org/creachadair/stringset v0.0.9/go.mod h1:t+4WcQ4+PXTa8aQdNKe40ZP6iwesoMFWAxPGd3UGjyY=
-github.com/ARM-software/embedded-development-services-client/client v1.31.4 h1:sUtf53bEPaME7GBqPAFCBoVRDdAn6brZAuVnlYfsKns=
-github.com/ARM-software/embedded-development-services-client/client v1.31.4/go.mod h1:ZNNMwjBLtXKIUHed1p3EYy71CzFWeUv8C/HLgqlNvY0=
+github.com/ARM-software/embedded-development-services-client/client v1.32.0 h1:8xaBwOT/vyCsMbiOBliG1JOpSGoI6x2GcBlT23wdriU=
+github.com/ARM-software/embedded-development-services-client/client v1.32.0/go.mod h1:4InxEuNB10hcU2a8b8YAjCtT2jmPFqY3V/A4zuls9CU=
 github.com/ARM-software/golang-utils/utils v1.68.0 h1:Sp92FvRhGhzfnvIKHDdLb8slrhcidBNFzB9GkpcsN3E=
 github.com/ARM-software/golang-utils/utils v1.68.0/go.mod h1:pjIYW6jPUXH7/kxkZEPyzRwiux+NUG/BFJFn8zaJ/0A=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=

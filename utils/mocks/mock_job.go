@@ -184,6 +184,34 @@ func (mr *MockIAsynchronousJobMockRecorder) GetSuccess() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSuccess", reflect.TypeOf((*MockIAsynchronousJob)(nil).GetSuccess))
 }
 
+// HasArtefacts mocks base method.
+func (m *MockIAsynchronousJob) HasArtefacts() bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HasArtefacts")
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// HasArtefacts indicates an expected call of HasArtefacts.
+func (mr *MockIAsynchronousJobMockRecorder) HasArtefacts() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasArtefacts", reflect.TypeOf((*MockIAsynchronousJob)(nil).HasArtefacts))
+}
+
+// HasMessages mocks base method.
+func (m *MockIAsynchronousJob) HasMessages() bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HasMessages")
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// HasMessages indicates an expected call of HasMessages.
+func (mr *MockIAsynchronousJobMockRecorder) HasMessages() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasMessages", reflect.TypeOf((*MockIAsynchronousJob)(nil).HasMessages))
+}
+
 // MockIJobManager is a mock of IJobManager interface.
 type MockIJobManager struct {
 	ctrl     *gomock.Controller

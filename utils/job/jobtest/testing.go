@@ -18,9 +18,11 @@ type MockAsynchronousJob struct {
 	failure bool
 }
 
-func (m *MockAsynchronousJob) GetQueued() bool {
-	return !m.done
-}
+func (m *MockAsynchronousJob) HasMessages() bool { return true }
+
+func (m *MockAsynchronousJob) HasArtefacts() bool { return false }
+
+func (m *MockAsynchronousJob) GetQueued() bool { return !m.done }
 
 func (m *MockAsynchronousJob) FetchType() string {
 	return "Mock Asynchronous Job"

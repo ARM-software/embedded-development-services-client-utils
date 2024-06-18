@@ -31,6 +31,10 @@ type IAsynchronousJob interface {
 	GetStatus() string
 	// GetQueued returns whether the job is being queued and has not started just yet
 	GetQueued() bool
+	// HasMessages returns whether the job has messages available.
+	HasMessages() bool
+	// HasArtefacts returns whether the job has artefacts available.
+	HasArtefacts() bool
 }
 
 // IJobManager defines a manager of asynchronous jobs
