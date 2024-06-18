@@ -55,7 +55,7 @@ func (m *Manager) FetchJobMessagesFirstPage(ctx context.Context, job IAsynchrono
 	return
 }
 
-func (m *Manager) waitForJobToStart(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob) (err error) {
+func waitForJobState(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, jobState string, checkStateFunc func(context.Context, IAsynchronousJob) (bool, error)) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
@@ -65,18 +65,26 @@ func (m *Manager) waitForJobToStart(ctx context.Context, logger messages.IMessag
 	if err != nil {
 		return
 	}
-	notStartedError := fmt.Errorf("%w: job [%v] has not started", commonerrors.ErrCondition, jobName)
+	notStartedError := fmt.Errorf("%w: job [%v] has not reached the expected state [%v]", commonerrors.ErrCondition, jobName, jobState)
 	err = retry.RetryOnError(ctx, logs.NewPlainLogrLoggerFromLoggers(logger), retry.DefaultExponentialBackoffRetryPolicyConfiguration(), func() error {
-		started, subErr := m.HasJobStarted(ctx, job)
+		inState, subErr := checkStateFunc(ctx, job)
 		if subErr != nil {
 			return subErr
 		}
-		if started {
+		if inState {
 			return nil
 		}
 		return notStartedError
-	}, fmt.Sprintf("Waiting for job [%v] to start...", jobName), notStartedError)
+	}, fmt.Sprintf("Waiting for job [%v] to %v...", jobName, jobState), notStartedError)
 	return
+}
+
+func (m *Manager) waitForJobToStart(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob) error {
+	return waitForJobState(ctx, logger, job, "start", m.HasJobStarted)
+}
+
+func (m *Manager) waitForJobToHaveMessagesAvailable(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob) error {
+	return waitForJobState(ctx, logger, job, "have messages", m.areThereMessages)
 }
 
 func (m *Manager) createMessagePaginator(ctx context.Context, job IAsynchronousJob) (paginator pagination.IStreamPaginatorAndPageFetcher, err error) {
@@ -101,6 +109,10 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 		}
 	}()
 	err = m.waitForJobToStart(ctx, messageLogger, job)
+	if err != nil {
+		return
+	}
+	err = m.waitForJobToHaveMessagesAvailable(ctx, messageLogger, job)
 	if err != nil {
 		return
 	}
@@ -149,6 +161,37 @@ func (m *Manager) checkForMessageStreamExhaustion(ctx context.Context, paginator
 	}
 }
 
+func (m *Manager) areThereMessages(ctx context.Context, job IAsynchronousJob) (hasMessages bool, err error) {
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
+	if job == nil {
+		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
+		return
+	}
+	if job.HasMessages() {
+		hasMessages = true
+		return
+	}
+
+	jobName, err := job.FetchName()
+	if err != nil {
+		return
+	}
+	jobType := job.FetchType()
+	jobStatus, resp, apierr := m.fetchJobStatusFunc(ctx, jobName)
+	if resp != nil {
+		_ = resp.Body.Close()
+	}
+	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("could not fetch %v [%v]'s status", jobType, jobName), resp, apierr)
+	if err != nil {
+		return
+	}
+	hasMessages = jobStatus.HasMessages()
+	return
+}
+
 func (m *Manager) HasJobStarted(ctx context.Context, job IAsynchronousJob) (started bool, err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
@@ -158,6 +201,15 @@ func (m *Manager) HasJobStarted(ctx context.Context, job IAsynchronousJob) (star
 		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
 		return
 	}
+	if job.GetDone() {
+		started = true
+		return
+	}
+	if !job.GetQueued() {
+		started = true
+		return
+	}
+
 	jobName, err := job.FetchName()
 	if err != nil {
 		return
