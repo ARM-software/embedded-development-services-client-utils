@@ -65,7 +65,7 @@ func waitForJobState(ctx context.Context, logger messages.IMessageLogger, job IA
 	if err != nil {
 		return
 	}
-	notStartedError := fmt.Errorf("%w: job [%v] has not reach the expected state [%v]", commonerrors.ErrCondition, jobName, jobState)
+	notStartedError := fmt.Errorf("%w: job [%v] has not reached the expected state [%v]", commonerrors.ErrCondition, jobName, jobState)
 	err = retry.RetryOnError(ctx, logs.NewPlainLogrLoggerFromLoggers(logger), retry.DefaultExponentialBackoffRetryPolicyConfiguration(), func() error {
 		inState, subErr := checkStateFunc(ctx, job)
 		if subErr != nil {
