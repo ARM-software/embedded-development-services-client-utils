@@ -2,6 +2,25 @@
 Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.6.0" (2024-06-18)
+=======================
+
+Features
+--------
+
+- :sparkles: Improve message logging by checking job affordances (#20240618142953)
+
+
+Bugfixes
+--------
+
+- :bug: [`job`] Wait for job to start before progressing with messages (#20240617160218)
+
+
+<!--
+Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.5.2" (2024-06-17)
 =======================
 
