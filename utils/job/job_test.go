@@ -6,10 +6,10 @@ package job
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/job/jobtest"
 	"github.com/ARM-software/embedded-development-services-client/client"
@@ -33,9 +33,9 @@ func TestAsynchronousJobImplementation(t *testing.T) {
 		{
 			impl: mock,
 		},
-		//{
+		// {
 		//	impl: client.NewVhtRunJobItemWithDefaults(),
-		//},
+		// },
 	}
 	for i := range tests {
 		test := tests[i]
