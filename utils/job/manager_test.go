@@ -24,6 +24,8 @@ import (
 	pagination2 "github.com/ARM-software/embedded-development-services-client-utils/utils/pagination"
 	"github.com/ARM-software/golang-utils/utils/collection/pagination"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
+	"github.com/ARM-software/golang-utils/utils/commonerrors/errortest"
+	"github.com/ARM-software/golang-utils/utils/field"
 )
 
 func TestManager_HasJobCompleted(t *testing.T) {
@@ -77,7 +79,7 @@ func TestManager_HasJobCompleted(t *testing.T) {
 				assert.Equal(t, test.expectCompleted, completed)
 			} else {
 				assert.Error(t, err)
-				assert.True(t, commonerrors.Any(err, test.expectedError))
+				errortest.AssertError(t, err, test.expectedError)
 				assert.Equal(t, test.expectCompleted, completed)
 			}
 		})
@@ -132,7 +134,7 @@ func TestManager_checkForMessageStreamExhaustion(t *testing.T) {
 				assert.True(t, messagePaginator.IsRunningDry())
 			} else {
 				assert.Error(t, err)
-				assert.True(t, commonerrors.Any(err, test.expectedError))
+				errortest.AssertError(t, err, test.expectedError)
 			}
 		})
 	}
@@ -149,15 +151,17 @@ func TestManager_WaitForJobCompletion(t *testing.T) {
 	defer goleak.VerifyNone(t)
 	tests := []struct {
 		jobFunc       func() (IAsynchronousJob, error)
-		expectedError error
+		expectedError []error
+		timeout       *time.Duration
 	}{
 		{
 			jobFunc:       mapFunc(jobtest.NewMockFailedAsynchronousJob),
-			expectedError: commonerrors.ErrInvalid,
+			expectedError: []error{commonerrors.ErrInvalid},
 		},
 		{
 			jobFunc:       mapFunc(jobtest.NewMockQueuedAsynchronousJob),
-			expectedError: commonerrors.ErrCondition,
+			expectedError: []error{commonerrors.ErrCondition, commonerrors.ErrTimeout, commonerrors.ErrCancelled},
+			timeout:       field.ToOptionalDuration(500 * time.Millisecond),
 		},
 		{
 			jobFunc:       mapFunc(jobtest.NewMockSuccessfulAsynchronousJob),
@@ -178,13 +182,54 @@ func TestManager_WaitForJobCompletion(t *testing.T) {
 
 			require.NoError(t, err)
 			require.NotNil(t, factory)
-			err = factory.WaitForJobCompletion(context.TODO(), job)
+			if test.timeout == nil {
+				err = factory.WaitForJobCompletion(context.TODO(), job)
+			} else {
+				err = factory.WaitForJobCompletionWithTimeout(context.TODO(), job, *test.timeout)
+			}
 			if test.expectedError == nil {
 				assert.NoError(t, err)
 			} else {
 				assert.Error(t, err)
-				assert.True(t, commonerrors.Any(err, test.expectedError))
+				errortest.AssertError(t, err, test.expectedError...)
 			}
+		})
+	}
+}
+
+func TestManager_WaitForJobCompletionTimeout(t *testing.T) {
+	defer goleak.VerifyNone(t)
+	tests := []struct {
+		jobFunc func() (IAsynchronousJob, error)
+	}{
+		{
+			jobFunc: mapFunc(jobtest.NewMockFailedAsynchronousJob),
+		},
+		{
+			jobFunc: mapFunc(jobtest.NewMockQueuedAsynchronousJob),
+		},
+		{
+			jobFunc: mapFunc(jobtest.NewMockSuccessfulAsynchronousJob),
+		},
+	}
+	for i := range tests {
+		test := tests[i]
+
+		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
+			// t.Parallel()
+			logger, err := logging.NewStandardClientLogger(fmt.Sprintf("test #%v", i), nil)
+			require.NoError(t, err)
+			loggerF := messages.NewMessageLoggerFactory(logger, false, time.Nanosecond)
+			job, err := test.jobFunc()
+			runOut := time.Nanosecond
+			factory, err := newMockJobManager(loggerF, time.Nanosecond, &runOut, job, err)
+
+			require.NoError(t, err)
+			require.NotNil(t, factory)
+
+			err = factory.WaitForJobCompletionWithTimeout(context.TODO(), job, time.Nanosecond)
+			assert.Error(t, err)
+			errortest.AssertError(t, err, commonerrors.ErrTimeout, commonerrors.ErrCancelled, commonerrors.ErrCondition)
 		})
 	}
 }

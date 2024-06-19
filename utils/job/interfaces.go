@@ -8,6 +8,7 @@ package job
 
 import (
 	"context"
+	"time"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/resource"
 )
@@ -43,6 +44,8 @@ type IJobManager interface {
 	HasJobCompleted(ctx context.Context, job IAsynchronousJob) (completed bool, err error)
 	// HasJobStarted calls the services to determine whether the job has started.
 	HasJobStarted(ctx context.Context, job IAsynchronousJob) (completed bool, err error)
-	// WaitForJobCompletion waits for a job to complete.
+	// WaitForJobCompletion waits for a job to complete. Similar to WaitForJobCompletionWithTimeout but with a timeout set to 5 minutes.
 	WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) (err error)
+	// WaitForJobCompletionWithTimeout waits for a job to complete but with timeout protection.
+	WaitForJobCompletionWithTimeout(ctx context.Context, job IAsynchronousJob, timeout time.Duration) (err error)
 }

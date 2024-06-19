@@ -12,6 +12,7 @@ package mocks
 import (
 	context "context"
 	reflect "reflect"
+	time "time"
 
 	gomock "github.com/golang/mock/gomock"
 
@@ -277,4 +278,18 @@ func (m *MockIJobManager) WaitForJobCompletion(arg0 context.Context, arg1 job.IA
 func (mr *MockIJobManagerMockRecorder) WaitForJobCompletion(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitForJobCompletion", reflect.TypeOf((*MockIJobManager)(nil).WaitForJobCompletion), arg0, arg1)
+}
+
+// WaitForJobCompletionWithTimeout mocks base method.
+func (m *MockIJobManager) WaitForJobCompletionWithTimeout(arg0 context.Context, arg1 job.IAsynchronousJob, arg2 time.Duration) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WaitForJobCompletionWithTimeout", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WaitForJobCompletionWithTimeout indicates an expected call of WaitForJobCompletionWithTimeout.
+func (mr *MockIJobManagerMockRecorder) WaitForJobCompletionWithTimeout(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitForJobCompletionWithTimeout", reflect.TypeOf((*MockIJobManager)(nil).WaitForJobCompletionWithTimeout), arg0, arg1, arg2)
 }
