@@ -8,6 +8,7 @@ package job
 import (
 	"context"
 	"fmt"
+	"math"
 	"net/http"
 	"time"
 
@@ -55,19 +56,24 @@ func (m *Manager) FetchJobMessagesFirstPage(ctx context.Context, job IAsynchrono
 	return
 }
 
-func waitForJobState(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, jobState string, checkStateFunc func(context.Context, IAsynchronousJob) (bool, error)) (err error) {
+func waitForJobState(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, jobState string, checkStateFunc func(context.Context, IAsynchronousJob) (bool, error), timeout time.Duration) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
 	}
+
+	subCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+	retryCfg := retry.DefaultExponentialBackoffRetryPolicyConfiguration()
+	retryCfg.RetryMax = int(float64(timeout.Milliseconds())/math.Max(float64(retryCfg.RetryWaitMin.Milliseconds()), 1)) + 1
 
 	jobName, err := job.FetchName()
 	if err != nil {
 		return
 	}
 	notStartedError := fmt.Errorf("%w: job [%v] has not reached the expected state [%v]", commonerrors.ErrCondition, jobName, jobState)
-	err = retry.RetryOnError(ctx, logs.NewPlainLogrLoggerFromLoggers(logger), retry.DefaultExponentialBackoffRetryPolicyConfiguration(), func() error {
-		inState, subErr := checkStateFunc(ctx, job)
+	err = retry.RetryOnError(subCtx, logs.NewPlainLogrLoggerFromLoggers(logger), retryCfg, func() error {
+		inState, subErr := checkStateFunc(subCtx, job)
 		if subErr != nil {
 			return subErr
 		}
@@ -79,12 +85,12 @@ func waitForJobState(ctx context.Context, logger messages.IMessageLogger, job IA
 	return
 }
 
-func (m *Manager) waitForJobToStart(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob) error {
-	return waitForJobState(ctx, logger, job, "start", m.HasJobStarted)
+func (m *Manager) waitForJobToStart(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, timeout time.Duration) error {
+	return waitForJobState(ctx, logger, job, "start", m.HasJobStarted, timeout)
 }
 
-func (m *Manager) waitForJobToHaveMessagesAvailable(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob) error {
-	return waitForJobState(ctx, logger, job, "have messages", m.areThereMessages)
+func (m *Manager) waitForJobToHaveMessagesAvailable(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, timeout time.Duration) error {
+	return waitForJobState(ctx, logger, job, "have messages", m.areThereMessages, timeout)
 }
 
 func (m *Manager) createMessagePaginator(ctx context.Context, job IAsynchronousJob) (paginator pagination.IStreamPaginatorAndPageFetcher, err error) {
@@ -94,7 +100,11 @@ func (m *Manager) createMessagePaginator(ctx context.Context, job IAsynchronousJ
 	return
 }
 
-func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) (err error) {
+func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) error {
+	return m.WaitForJobCompletionWithTimeout(ctx, job, 5*time.Minute)
+}
+
+func (m *Manager) WaitForJobCompletionWithTimeout(ctx context.Context, job IAsynchronousJob, timeout time.Duration) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
@@ -108,15 +118,17 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 			_ = messageLogger.Close()
 		}
 	}()
-	err = m.waitForJobToStart(ctx, messageLogger, job)
+	subCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+	err = m.waitForJobToStart(subCtx, messageLogger, job, timeout)
 	if err != nil {
 		return
 	}
-	err = m.waitForJobToHaveMessagesAvailable(ctx, messageLogger, job)
+	err = m.waitForJobToHaveMessagesAvailable(subCtx, messageLogger, job, timeout)
 	if err != nil {
 		return
 	}
-	messagePaginator, err := m.createMessagePaginator(ctx, job)
+	messagePaginator, err := m.createMessagePaginator(subCtx, job)
 	if err != nil {
 		return
 	}
@@ -126,7 +138,7 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 		}
 	}()
 
-	wait, gCtx := errgroup.WithContext(ctx)
+	wait, gCtx := errgroup.WithContext(subCtx)
 	wait.Go(func() error {
 		return messageLogger.LogMessagesCollection(gCtx, messagePaginator)
 
@@ -138,7 +150,7 @@ func (m *Manager) WaitForJobCompletion(ctx context.Context, job IAsynchronousJob
 	if err != nil {
 		messageLogger.LogError(err)
 	}
-	_, err = m.HasJobCompleted(ctx, job)
+	_, err = m.HasJobCompleted(subCtx, job)
 	return
 }
 
