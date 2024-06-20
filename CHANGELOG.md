@@ -2,6 +2,19 @@
 Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.7.0" (2024-06-20)
+=======================
+
+Features
+--------
+
+- :sparkles: Add the possibility to set a timeout for waiting job completion (#20240619155022)
+
+
+<!--
+Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.6.0" (2024-06-18)
 =======================
 
