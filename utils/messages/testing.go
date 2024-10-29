@@ -82,7 +82,7 @@ func NewMockNotificationFeedPage(ctx context.Context, hasNext, hasFuture bool) (
 	for i := 0; i < messageCount; i++ {
 		messages = append(messages, *client.NewNotificationMessageObject(faker.Sentence()))
 	}
-	f = client.NewNotificationFeed(*client.NewNullableHalFeedLinks(links), *client.NewNullablePagingMetadata(client.NewPagingMetadata(int32(messageCount), time.Now(), 50, time.Now(), 45, 100)), messages, faker.Name())
+	f = client.NewNotificationFeed(*client.NewNullableHalFeedLinks(links), *client.NewNullablePagingMetadata(client.NewPagingMetadata(int32(messageCount), time.Now(), 50, time.Now(), 45, 100)), messages, faker.Name()) //nolint:gosec // causes  G115: integer overflow conversion int -> int32 Not a problem as for testing only
 	return
 }
 
