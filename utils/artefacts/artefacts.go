@@ -28,7 +28,7 @@ type (
 	// GetArtefactManagersFirstPageFunc defines the function which can retrieve the first page of artefact managers.
 	GetArtefactManagersFirstPageFunc = func(ctx context.Context, job string) (*client.ArtefactManagerCollection, *http.Response, error)
 	// FollowLinkToArtefactManagersPageFunc is a function able to follow a link to an artefact manager page.
-	FollowLinkToArtefactManagersPageFunc = func(ctx context.Context, href string) (*client.ArtefactManagerCollection, *http.Response, error)
+	FollowLinkToArtefactManagersPageFunc = func(ctx context.Context, link *client.HalLinkData) (*client.ArtefactManagerCollection, *http.Response, error)
 	// GetArtefactManagerFunc is a function which retrieves information about an artefact manager.
 	GetArtefactManagerFunc = func(ctx context.Context, job, artefact string) (*client.ArtefactManagerItem, *http.Response, error)
 	// GetArtefactContentFunc is a function able to return the content of any artefact managers.
@@ -247,7 +247,7 @@ func (m *ArtefactManager) fetchJobArtefactsNextPage(ctx context.Context, current
 		return
 	}
 	link := links.GetNext()
-	clientPage, resp, apierr := m.getArtefactManagersFollowLinkFunc(ctx, link.GetHref())
+	clientPage, resp, apierr := m.getArtefactManagersFollowLinkFunc(ctx, &link)
 	if resp != nil {
 		_ = resp.Body.Close()
 	}
