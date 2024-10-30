@@ -2,6 +2,25 @@
 Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.9.0" (2024-10-30)
+=======================
+
+Features
+--------
+
+- :sparkles: `[pagination]` Added an unwrap function to retrieve raw collection types (#20241030192708)
+
+
+Bugfixes
+--------
+
+- :bug: `[artefacts]` fix artefact collection unwrapping (#20241030192749)
+
+
+<!--
+Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.8.2" (2024-10-30)
 =======================
 
