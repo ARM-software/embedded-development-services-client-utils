@@ -13,8 +13,10 @@ import (
 	context "context"
 	reflect "reflect"
 
-	client "github.com/ARM-software/embedded-development-services-client/client"
 	gomock "github.com/golang/mock/gomock"
+
+	client "github.com/ARM-software/embedded-development-services-client/client"
+	pagination "github.com/ARM-software/golang-utils/utils/collection/pagination"
 )
 
 // MockIArtefactManager is a mock of IArtefactManager interface.
@@ -40,8 +42,22 @@ func (m *MockIArtefactManager) EXPECT() *MockIArtefactManagerMockRecorder {
 	return m.recorder
 }
 
+// DownloadAllJobArtefacts mocks base method.
+func (m *MockIArtefactManager) DownloadAllJobArtefacts(arg0 context.Context, arg1, arg2 string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DownloadAllJobArtefacts", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DownloadAllJobArtefacts indicates an expected call of DownloadAllJobArtefacts.
+func (mr *MockIArtefactManagerMockRecorder) DownloadAllJobArtefacts(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefacts", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadAllJobArtefacts), arg0, arg1, arg2)
+}
+
 // DownloadJobArtefact mocks base method.
-func (m *MockIArtefactManager) DownloadJobArtefact(arg0 context.Context, arg1, arg2 string, arg3 client.HalLinkData) error {
+func (m *MockIArtefactManager) DownloadJobArtefact(arg0 context.Context, arg1, arg2 string, arg3 *client.ArtefactManagerItem) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DownloadJobArtefact", arg0, arg1, arg2, arg3)
 	ret0, _ := ret[0].(error)
@@ -52,4 +68,33 @@ func (m *MockIArtefactManager) DownloadJobArtefact(arg0 context.Context, arg1, a
 func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefact(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefact", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefact), arg0, arg1, arg2, arg3)
+}
+
+// DownloadJobArtefactFromLink mocks base method.
+func (m *MockIArtefactManager) DownloadJobArtefactFromLink(arg0 context.Context, arg1, arg2 string, arg3 *client.HalLinkData) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DownloadJobArtefactFromLink", arg0, arg1, arg2, arg3)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DownloadJobArtefactFromLink indicates an expected call of DownloadJobArtefactFromLink.
+func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefactFromLink(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactFromLink", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefactFromLink), arg0, arg1, arg2, arg3)
+}
+
+// ListJobArtefacts mocks base method.
+func (m *MockIArtefactManager) ListJobArtefacts(arg0 context.Context, arg1 string) (pagination.IPaginatorAndPageFetcher, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListJobArtefacts", arg0, arg1)
+	ret0, _ := ret[0].(pagination.IPaginatorAndPageFetcher)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListJobArtefacts indicates an expected call of ListJobArtefacts.
+func (mr *MockIArtefactManagerMockRecorder) ListJobArtefacts(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListJobArtefacts", reflect.TypeOf((*MockIArtefactManager)(nil).ListJobArtefacts), arg0, arg1)
 }
