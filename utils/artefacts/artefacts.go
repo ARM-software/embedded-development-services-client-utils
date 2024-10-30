@@ -232,18 +232,23 @@ func (m *ArtefactManager) fetchJobArtefactsNextPage(ctx context.Context, current
 		err = fmt.Errorf("%w: function to retrieve artefact managers was not properly defined", commonerrors.ErrUndefined)
 		return
 	}
-	page, ok := paginationUtils.ToClientPage(currentPage).(*client.ArtefactManagerCollection)
+	unwrappedPage := paginationUtils.UnwrapPage(currentPage)
+	if unwrappedPage == nil {
+		err = fmt.Errorf("%w: returned artefact managers page is empty", commonerrors.ErrUnexpected)
+		return
+	}
+	page, ok := unwrappedPage.(*client.ArtefactManagerCollection)
 	if !ok {
-		err = fmt.Errorf("%w: returned build job page [%T] is not of the expected type [%v]", commonerrors.ErrUnexpected, currentPage, "*BuildJobCollection")
+		err = fmt.Errorf("%w: returned artefact managers page[%T] is not of the expected type [%v]", commonerrors.ErrUnexpected, currentPage, "*ArtefactManagerCollection")
 		return
 	}
 	links, has := page.GetLinksOk()
 	if !has {
-		err = fmt.Errorf("%w: returned page of build jobs has no links", commonerrors.ErrUnexpected)
+		err = fmt.Errorf("%w: returned page of artefact managers has no links", commonerrors.ErrUnexpected)
 		return
 	}
 	if !links.HasNext() {
-		err = fmt.Errorf("%w: returned page of build job has no `next` link", commonerrors.ErrUnexpected)
+		err = fmt.Errorf("%w: returned page of artefact managers has no `next` link", commonerrors.ErrUnexpected)
 		return
 	}
 	link := links.GetNext()

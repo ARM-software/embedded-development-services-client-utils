@@ -129,3 +129,23 @@ func TestToPage(t *testing.T) {
 		})
 	}
 }
+
+func TestUnwrapPage(t *testing.T) {
+	var rawPage client.IStaticPage
+	assert.Nil(t, rawPage)
+	rawPage = client.NewArtefactManagerCollectionWithDefaults()
+	require.NotNil(t, rawPage)
+	u, ok := rawPage.(*client.ArtefactManagerCollection)
+	assert.True(t, ok)
+	assert.NotNil(t, u)
+	wrappedPage := ToPage(ToClientPage(ToPage(ToClientPage(ToPage(rawPage)))))
+	require.NotNil(t, wrappedPage)
+	u, ok = wrappedPage.(*client.ArtefactManagerCollection)
+	assert.False(t, ok)
+	assert.Nil(t, u)
+	unwrappedPage := UnwrapPage(wrappedPage)
+	require.NotNil(t, unwrappedPage)
+	u, ok = unwrappedPage.(*client.ArtefactManagerCollection)
+	assert.True(t, ok)
+	assert.NotNil(t, u)
+}

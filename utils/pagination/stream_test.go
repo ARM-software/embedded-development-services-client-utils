@@ -125,3 +125,20 @@ func TestToStream(t *testing.T) {
 		})
 	}
 }
+func TestUnwrapStream(t *testing.T) {
+	rawStream := client.NewNotificationFeedMessageStream()
+	require.NotNil(t, rawStream)
+	u, ok := rawStream.(*client.NotificationFeed)
+	assert.True(t, ok)
+	assert.NotNil(t, u)
+	wrappedStream := ToStream(ToClientStream(ToStream(ToClientStream(ToStream(rawStream)))))
+	require.NotNil(t, wrappedStream)
+	u, ok = wrappedStream.(*client.NotificationFeed)
+	assert.False(t, ok)
+	assert.Nil(t, u)
+	unwrappedStream := UnwrapStream(wrappedStream)
+	require.NotNil(t, unwrappedStream)
+	u, ok = unwrappedStream.(*client.NotificationFeed)
+	assert.True(t, ok)
+	assert.NotNil(t, u)
+}

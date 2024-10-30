@@ -78,3 +78,19 @@ func newClientPageMapper(page pagination.IStaticPage) client.IStaticPage {
 		page: page,
 	}
 }
+
+// UnwrapPage tends to unwraps the page mappers to retrieve the raw page object.
+func UnwrapPage(page any) any {
+	if page == nil {
+		return nil
+	}
+	wrappedPageMapper, ok := page.(*pageMapper)
+	if ok {
+		return UnwrapPage(wrappedPageMapper.page)
+	}
+	wrappedClientPageMapper, ok := page.(*clientPageMapper)
+	if ok {
+		return UnwrapPage(wrappedClientPageMapper.page)
+	}
+	return UnwrapIterator(page)
+}

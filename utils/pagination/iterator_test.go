@@ -118,3 +118,23 @@ func TestToIterator(t *testing.T) {
 		})
 	}
 }
+
+func TestUnwrapIterator(t *testing.T) {
+	var rawIterator client.IIterator
+	rawIterator, err := client.NewArtefactManagerIterator([]client.ArtefactManagerItem{})
+	require.NoError(t, err)
+	require.NotNil(t, rawIterator)
+	u, ok := rawIterator.(*client.ArtefactManagerIterator)
+	assert.True(t, ok)
+	assert.NotNil(t, u)
+	wrappedIt := ToClientIterator(ToIterator(ToClientIterator(ToIterator(rawIterator))))
+	require.NotNil(t, wrappedIt)
+	u, ok = wrappedIt.(*client.ArtefactManagerIterator)
+	assert.False(t, ok)
+	assert.Nil(t, u)
+	unwrappedIt := UnwrapIterator(wrappedIt)
+	require.NotNil(t, unwrappedIt)
+	u, ok = unwrappedIt.(*client.ArtefactManagerIterator)
+	assert.True(t, ok)
+	assert.NotNil(t, u)
+}

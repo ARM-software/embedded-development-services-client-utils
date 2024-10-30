@@ -62,3 +62,19 @@ func newClientIteratorMapper(iterator pagination.IIterator) client.IIterator {
 		iterator: iterator,
 	}
 }
+
+// UnwrapIterator tends to unwraps the iterator mappers to retrieve the raw iterator.
+func UnwrapIterator(iterator any) any {
+	if iterator == nil {
+		return nil
+	}
+	wrappedIteratorMapper, ok := iterator.(*iteratorMapper)
+	if ok {
+		return UnwrapIterator(wrappedIteratorMapper.iterator)
+	}
+	wrappedClientIteratorMapper, ok := iterator.(*clientIteratorMapper)
+	if ok {
+		return UnwrapIterator(wrappedClientIteratorMapper.iterator)
+	}
+	return iterator
+}

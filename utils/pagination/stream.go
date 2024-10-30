@@ -86,3 +86,19 @@ func newClientStreamMapper(stream pagination.IStaticPageStream) client.IMessageS
 		stream: stream,
 	}
 }
+
+// UnwrapStream tends to unwraps the stream mappers to retrieve the raw stream.
+func UnwrapStream(stream any) any {
+	if stream == nil {
+		return nil
+	}
+	wrappedStreamMapper, ok := stream.(*streamMapper)
+	if ok {
+		return UnwrapStream(wrappedStreamMapper.stream)
+	}
+	wrappedClientStreamMapper, ok := stream.(*clientStreamMapper)
+	if ok {
+		return UnwrapStream(wrappedClientStreamMapper.stream)
+	}
+	return UnwrapPage(stream)
+}
