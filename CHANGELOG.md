@@ -2,6 +2,29 @@
 Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.8.0" (2024-10-30)
+=======================
+
+Features
+--------
+
+- :sparkles: `[artefacts]` Enhance artefact management (#20241029184949)
+
+
+Bugfixes
+--------
+
+- Dependency upgrade: fetch-metadata-2.2.0 (#20240705173358)
+- Dependency upgrade: upload-artifact-4.3.4 (#20240705173359)
+- Dependency upgrade: scorecard-action-2.4.0 (#20240726175950)
+- Dependency upgrade: upload-artifact-4.4.3 (#20241023084143)
+- Dependency upgrade: golang-1.23.2 (#20241030091104)
+
+
+<!--
+Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.7.0" (2024-06-20)
 =======================
 
