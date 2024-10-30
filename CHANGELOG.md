@@ -2,6 +2,19 @@
 Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.8.2" (2024-10-30)
+=======================
+
+Bugfixes
+--------
+
+- :bug: `[artefacts]` fix artefact pagination (#20241030182224)
+
+
+<!--
+Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.8.1" (2024-10-30)
 =======================
 
