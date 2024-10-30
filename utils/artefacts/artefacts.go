@@ -232,7 +232,7 @@ func (m *ArtefactManager) fetchJobArtefactsNextPage(ctx context.Context, current
 		err = fmt.Errorf("%w: function to retrieve artefact managers was not properly defined", commonerrors.ErrUndefined)
 		return
 	}
-	page, ok := paginationUtils.ToClientPage(currentPage).(*client.BuildJobCollection)
+	page, ok := paginationUtils.ToClientPage(currentPage).(*client.ArtefactManagerCollection)
 	if !ok {
 		err = fmt.Errorf("%w: returned build job page [%T] is not of the expected type [%v]", commonerrors.ErrUnexpected, currentPage, "*BuildJobCollection")
 		return
