@@ -3,15 +3,15 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.23
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.35.3
-	github.com/ARM-software/golang-utils/utils v1.73.2
+	github.com/ARM-software/embedded-development-services-client/client v1.36.1
+	github.com/ARM-software/golang-utils/utils v1.74.1
 	github.com/go-faker/faker/v4 v4.5.0
 	github.com/go-logr/logr v1.4.2
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.9.0
 	go.uber.org/atomic v1.11.0
 	go.uber.org/goleak v1.3.0
-	golang.org/x/sync v0.8.0
+	golang.org/x/sync v0.9.0
 )
 
 require (
@@ -68,10 +68,10 @@ require (
 	github.com/zailic/slogr v0.0.2-alpha // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/crypto v0.28.0 // indirect
+	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
-	golang.org/x/sys v0.26.0 // indirect
-	golang.org/x/text v0.19.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/text v0.20.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
