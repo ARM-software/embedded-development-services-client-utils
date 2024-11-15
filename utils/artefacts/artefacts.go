@@ -49,7 +49,6 @@ func determineArtefactDestination(outputDir string, maintainTree bool, item *cli
 		return
 	}
 	rawFileName := artefactManagerName
-	artefactFileName = rawFileName
 	if item.HasTitle() {
 		rawFileName = item.GetTitle()
 	}
