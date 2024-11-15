@@ -56,6 +56,20 @@ func (mr *MockIArtefactManagerMockRecorder) DownloadAllJobArtefacts(arg0, arg1, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefacts", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadAllJobArtefacts), arg0, arg1, arg2)
 }
 
+// DownloadAllJobArtefactsWithTree mocks base method.
+func (m *MockIArtefactManager) DownloadAllJobArtefactsWithTree(arg0 context.Context, arg1 string, arg2 bool, arg3 string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DownloadAllJobArtefactsWithTree", arg0, arg1, arg2, arg3)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DownloadAllJobArtefactsWithTree indicates an expected call of DownloadAllJobArtefactsWithTree.
+func (mr *MockIArtefactManagerMockRecorder) DownloadAllJobArtefactsWithTree(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefactsWithTree", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadAllJobArtefactsWithTree), arg0, arg1, arg2, arg3)
+}
+
 // DownloadJobArtefact mocks base method.
 func (m *MockIArtefactManager) DownloadJobArtefact(arg0 context.Context, arg1, arg2 string, arg3 *client.ArtefactManagerItem) error {
 	m.ctrl.T.Helper()
@@ -82,6 +96,34 @@ func (m *MockIArtefactManager) DownloadJobArtefactFromLink(arg0 context.Context,
 func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefactFromLink(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactFromLink", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefactFromLink), arg0, arg1, arg2, arg3)
+}
+
+// DownloadJobArtefactFromLinkWithTree mocks base method.
+func (m *MockIArtefactManager) DownloadJobArtefactFromLinkWithTree(arg0 context.Context, arg1 string, arg2 bool, arg3 string, arg4 *client.HalLinkData) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DownloadJobArtefactFromLinkWithTree", arg0, arg1, arg2, arg3, arg4)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DownloadJobArtefactFromLinkWithTree indicates an expected call of DownloadJobArtefactFromLinkWithTree.
+func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefactFromLinkWithTree(arg0, arg1, arg2, arg3, arg4 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactFromLinkWithTree", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefactFromLinkWithTree), arg0, arg1, arg2, arg3, arg4)
+}
+
+// DownloadJobArtefactWithTree mocks base method.
+func (m *MockIArtefactManager) DownloadJobArtefactWithTree(arg0 context.Context, arg1 string, arg2 bool, arg3 string, arg4 *client.ArtefactManagerItem) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DownloadJobArtefactWithTree", arg0, arg1, arg2, arg3, arg4)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DownloadJobArtefactWithTree indicates an expected call of DownloadJobArtefactWithTree.
+func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefactWithTree(arg0, arg1, arg2, arg3, arg4 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactWithTree", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefactWithTree), arg0, arg1, arg2, arg3, arg4)
 }
 
 // ListJobArtefacts mocks base method.

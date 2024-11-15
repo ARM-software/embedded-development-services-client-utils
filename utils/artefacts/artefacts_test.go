@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -164,6 +165,113 @@ func newTestArtefactManagerWithEmbeddedResources(t *testing.T, tmpDir, artefactC
 	return newTestArtefactManager(t, tmpDir, artefactContent, false)
 }
 
+func TestDetermineDestination(t *testing.T) {
+	outputDir := strings.ReplaceAll(faker.Sentence(), " ", "//") + "                  "
+	cleanedOutputDir := filepath.Clean(outputDir)
+
+	tests := []struct {
+		item             client.ArtefactManagerItem
+		maintainTree     bool
+		outputDir        string
+		expectedFileName string
+		expectedDir      string
+	}{
+		{
+			item: client.ArtefactManagerItem{
+				ExtraMetadata: nil,
+				Name:          faker.Name(),
+				Size:          nil,
+				Title:         *client.NewNullableString(field.ToOptionalString("test.j")),
+			},
+			maintainTree:     false,
+			outputDir:        outputDir,
+			expectedFileName: "test.j",
+			expectedDir:      cleanedOutputDir,
+		},
+		{
+			item: client.ArtefactManagerItem{
+				ExtraMetadata: nil,
+				Name:          faker.Name(),
+				Size:          nil,
+				Title:         *client.NewNullableString(field.ToOptionalString("test.j")),
+			},
+			maintainTree:     true,
+			outputDir:        outputDir,
+			expectedFileName: "test.j",
+			expectedDir:      cleanedOutputDir,
+		},
+		{
+			item: client.ArtefactManagerItem{
+				ExtraMetadata: nil,
+				Name:          faker.Name(),
+				Size:          nil,
+				Title:         *client.NewNullableString(field.ToOptionalString("cool+blog&about%2Cstuff.yep")),
+			},
+			maintainTree:     true,
+			outputDir:        outputDir,
+			expectedFileName: "cool+blog&about,stuff.yep",
+			expectedDir:      cleanedOutputDir,
+		},
+		{
+			item: client.ArtefactManagerItem{
+				ExtraMetadata: &map[string]string{faker.Name(): faker.Sentence()},
+				Name:          faker.Name(),
+				Size:          nil,
+				Title:         *client.NewNullableString(field.ToOptionalString("cool+blog&about%2Cstuff.yep")),
+			},
+			maintainTree:     true,
+			outputDir:        outputDir,
+			expectedFileName: "cool+blog&about,stuff.yep",
+			expectedDir:      cleanedOutputDir,
+		},
+		{
+			item: client.ArtefactManagerItem{
+				ExtraMetadata: &map[string]string{relativePathKey: "        test/1     "},
+				Name:          faker.Name(),
+				Size:          nil,
+				Title:         *client.NewNullableString(field.ToOptionalString("cool+blog&about%2Cstuff.yep")),
+			},
+			maintainTree:     true,
+			outputDir:        outputDir,
+			expectedFileName: "cool+blog&about,stuff.yep",
+			expectedDir:      filepath.Join(cleanedOutputDir, "test", "1"),
+		},
+		{
+			item: client.ArtefactManagerItem{
+				ExtraMetadata: &map[string]string{relativePathKey: "        test/1/cool+blog&about,stuff.yep     "},
+				Name:          faker.Name(),
+				Size:          nil,
+				Title:         *client.NewNullableString(field.ToOptionalString("cool+blog&about%2Cstuff.yep")),
+			},
+			maintainTree:     true,
+			outputDir:        outputDir,
+			expectedFileName: "cool+blog&about,stuff.yep",
+			expectedDir:      filepath.Join(cleanedOutputDir, "test", "1"),
+		},
+		{
+			item: client.ArtefactManagerItem{
+				ExtraMetadata: &map[string]string{relativePathKey: "        test/1/cool+blog&about%2Cstuff.yep     "},
+				Name:          faker.Name(),
+				Size:          nil,
+				Title:         *client.NewNullableString(field.ToOptionalString("cool+blog&about%2Cstuff.yep")),
+			},
+			maintainTree:     true,
+			outputDir:        outputDir,
+			expectedFileName: "cool+blog&about,stuff.yep",
+			expectedDir:      filepath.Join(cleanedOutputDir, "test", "1"),
+		},
+	}
+	for i := range tests {
+		test := tests[i]
+		t.Run(fmt.Sprintf("%d_%s", i, test.expectedFileName), func(t *testing.T) {
+			fileName, fileDest, err := determineArtefactDestination(test.outputDir, test.maintainTree, &test.item)
+			require.NoError(t, err)
+			assert.Equal(t, test.expectedFileName, fileName)
+			assert.Equal(t, test.expectedDir, fileDest)
+		})
+	}
+}
+
 func TestArtefactDownload(t *testing.T) {
 	t.Run("Happy download artefact", func(t *testing.T) {
 		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-")
@@ -184,7 +292,25 @@ func TestArtefactDownload(t *testing.T) {
 		require.NoError(t, err)
 		assert.Equal(t, expectedContents, actualContents)
 	})
+	t.Run("Happy download artefact and keep tree", func(t *testing.T) {
+		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-with-tree-")
+		require.NoError(t, err)
+		defer func() { _ = filesystem.Rm(tmpDir) }()
+		m, a := newTestArtefactManagerWithEmbeddedResources(t, tmpDir, faker.Sentence())
 
+		out := t.TempDir()
+		err = m.DownloadJobArtefactFromLinkWithTree(context.Background(), faker.Word(), true, out, &client.HalLinkData{
+			Name: &a.name,
+		})
+		require.NoError(t, err)
+
+		require.FileExists(t, filepath.Join(out, a.name))
+		expectedContents, err := filesystem.ReadFile(a.path)
+		require.NoError(t, err)
+		actualContents, err := filesystem.ReadFile(filepath.Join(out, a.name))
+		require.NoError(t, err)
+		assert.Equal(t, expectedContents, actualContents)
+	})
 	t.Run("Happy list artefacts links", func(t *testing.T) {
 		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-")
 		require.NoError(t, err)
