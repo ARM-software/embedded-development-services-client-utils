@@ -14,9 +14,10 @@ import (
 	reflect "reflect"
 	time "time"
 
-	gomock "github.com/golang/mock/gomock"
-
 	job "github.com/ARM-software/embedded-development-services-client-utils/utils/job"
+	pagination "github.com/ARM-software/golang-utils/utils/collection/pagination"
+	logs "github.com/ARM-software/golang-utils/utils/logs"
+	gomock "github.com/golang/mock/gomock"
 )
 
 // MockIAsynchronousJob is a mock of IAsynchronousJob interface.
@@ -236,6 +237,21 @@ func (m *MockIJobManager) EXPECT() *MockIJobManagerMockRecorder {
 	return m.recorder
 }
 
+// GetMessagePaginator mocks base method.
+func (m *MockIJobManager) GetMessagePaginator(arg0 context.Context, arg1 logs.Loggers, arg2 job.IAsynchronousJob, arg3 time.Duration) (pagination.IStreamPaginatorAndPageFetcher, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetMessagePaginator", arg0, arg1, arg2, arg3)
+	ret0, _ := ret[0].(pagination.IStreamPaginatorAndPageFetcher)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetMessagePaginator indicates an expected call of GetMessagePaginator.
+func (mr *MockIJobManagerMockRecorder) GetMessagePaginator(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMessagePaginator", reflect.TypeOf((*MockIJobManager)(nil).GetMessagePaginator), arg0, arg1, arg2, arg3)
+}
+
 // HasJobCompleted mocks base method.
 func (m *MockIJobManager) HasJobCompleted(arg0 context.Context, arg1 job.IAsynchronousJob) (bool, error) {
 	m.ctrl.T.Helper()
@@ -264,6 +280,20 @@ func (m *MockIJobManager) HasJobStarted(arg0 context.Context, arg1 job.IAsynchro
 func (mr *MockIJobManagerMockRecorder) HasJobStarted(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasJobStarted", reflect.TypeOf((*MockIJobManager)(nil).HasJobStarted), arg0, arg1)
+}
+
+// LogJobMessagesUntilNow mocks base method.
+func (m *MockIJobManager) LogJobMessagesUntilNow(arg0 context.Context, arg1 job.IAsynchronousJob, arg2 time.Duration) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "LogJobMessagesUntilNow", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// LogJobMessagesUntilNow indicates an expected call of LogJobMessagesUntilNow.
+func (mr *MockIJobManagerMockRecorder) LogJobMessagesUntilNow(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogJobMessagesUntilNow", reflect.TypeOf((*MockIJobManager)(nil).LogJobMessagesUntilNow), arg0, arg1, arg2)
 }
 
 // WaitForJobCompletion mocks base method.

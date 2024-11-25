@@ -8,12 +8,12 @@ package job
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
 
+	"github.com/go-faker/faker/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/goleak"
@@ -147,6 +147,56 @@ func mapFunc(f func() (*jobtest.MockAsynchronousJob, error)) func() (IAsynchrono
 	}
 }
 
+func TestManager_logMessages(t *testing.T) {
+	defer goleak.VerifyNone(t)
+	tests := []struct {
+		jobFunc       func() (IAsynchronousJob, error)
+		expectedError []error
+		timeout       *time.Duration
+	}{
+		{
+			jobFunc:       mapFunc(jobtest.NewMockFailedAsynchronousJob),
+			expectedError: nil,
+		},
+		{
+			jobFunc:       mapFunc(jobtest.NewMockQueuedAsynchronousJob),
+			expectedError: []error{commonerrors.ErrCondition, commonerrors.ErrTimeout, commonerrors.ErrCancelled},
+			timeout:       field.ToOptionalDuration(500 * time.Millisecond),
+		},
+		{
+			jobFunc:       mapFunc(jobtest.NewMockSuccessfulAsynchronousJob),
+			expectedError: nil,
+		},
+	}
+	for i := range tests {
+		test := tests[i]
+
+		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
+			// t.Parallel()
+			logger, err := logging.NewStandardClientLogger(fmt.Sprintf("test #%v", i), nil)
+			require.NoError(t, err)
+			loggerF := messages.NewMessageLoggerFactory(logger, false, time.Nanosecond)
+			job, err := test.jobFunc()
+			runOut := time.Nanosecond
+			factory, err := newMockJobManager(loggerF, time.Nanosecond, &runOut, job, err)
+
+			require.NoError(t, err)
+			require.NotNil(t, factory)
+			if test.timeout == nil {
+				err = factory.LogJobMessagesUntilNow(context.TODO(), job, 5*time.Minute)
+			} else {
+				err = factory.LogJobMessagesUntilNow(context.TODO(), job, *test.timeout)
+			}
+			if test.expectedError == nil {
+				assert.NoError(t, err)
+			} else {
+				assert.Error(t, err)
+				errortest.AssertError(t, err, test.expectedError...)
+			}
+		})
+	}
+}
+
 func TestManager_WaitForJobCompletion(t *testing.T) {
 	defer goleak.VerifyNone(t)
 	tests := []struct {
@@ -229,13 +279,17 @@ func TestManager_WaitForJobCompletionTimeout(t *testing.T) {
 
 			err = factory.WaitForJobCompletionWithTimeout(context.TODO(), job, time.Nanosecond)
 			assert.Error(t, err)
-			errortest.AssertError(t, err, commonerrors.ErrTimeout, commonerrors.ErrCancelled, commonerrors.ErrCondition)
+			errortest.AssertError(t, err, commonerrors.ErrInvalid, commonerrors.ErrTimeout, commonerrors.ErrCancelled, commonerrors.ErrCondition)
 		})
 	}
 }
 
 func newMockJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time.Duration, messagePaginatorRunOutTimeout *time.Duration, job IAsynchronousJob, errToReturn error) (*Manager, error) {
-	pageNumber := rand.Intn(50) //nolint:gosec //causes G404: Use of weak random number generator
+	n, err := faker.RandomInt(1, 50)
+	if err != nil {
+		return nil, err
+	}
+	pageNumber := n[0]
 	messageStream := messages.NewMockMessagePaginatorFactory(pageNumber)
 	if messagePaginatorRunOutTimeout != nil {
 		messageStream = messageStream.UpdateRunOutTimeout(*messagePaginatorRunOutTimeout)
