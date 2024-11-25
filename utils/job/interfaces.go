@@ -11,6 +11,8 @@ import (
 	"time"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/resource"
+	"github.com/ARM-software/golang-utils/utils/collection/pagination"
+	"github.com/ARM-software/golang-utils/utils/logs"
 )
 
 // Mocks are generated using `go generate ./...`
@@ -48,4 +50,8 @@ type IJobManager interface {
 	WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) (err error)
 	// WaitForJobCompletionWithTimeout waits for a job to complete but with timeout protection.
 	WaitForJobCompletionWithTimeout(ctx context.Context, job IAsynchronousJob, timeout time.Duration) (err error)
+	// GetMessagePaginator returns a paginator over job messages.
+	GetMessagePaginator(ctx context.Context, logger logs.Loggers, job IAsynchronousJob, timeout time.Duration) (pagination.IStreamPaginatorAndPageFetcher, error)
+	// LogJobMessagesUntilNow logs all the job messages until now. This is doing the same as WaitForJobCompletionWithTimeout apart from waiting for job completion.
+	LogJobMessagesUntilNow(ctx context.Context, job IAsynchronousJob, timeout time.Duration) (err error)
 }

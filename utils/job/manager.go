@@ -56,7 +56,7 @@ func (m *Manager) FetchJobMessagesFirstPage(ctx context.Context, job IAsynchrono
 	return
 }
 
-func waitForJobState(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, jobState string, checkStateFunc func(context.Context, IAsynchronousJob) (bool, error), timeout time.Duration) (err error) {
+func waitForJobState(ctx context.Context, logger logs.Loggers, job IAsynchronousJob, jobState string, checkStateFunc func(context.Context, IAsynchronousJob) (bool, error), timeout time.Duration) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
@@ -85,11 +85,11 @@ func waitForJobState(ctx context.Context, logger messages.IMessageLogger, job IA
 	return
 }
 
-func (m *Manager) waitForJobToStart(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, timeout time.Duration) error {
+func (m *Manager) waitForJobToStart(ctx context.Context, logger logs.Loggers, job IAsynchronousJob, timeout time.Duration) error {
 	return waitForJobState(ctx, logger, job, "start", m.HasJobStarted, timeout)
 }
 
-func (m *Manager) waitForJobToHaveMessagesAvailable(ctx context.Context, logger messages.IMessageLogger, job IAsynchronousJob, timeout time.Duration) error {
+func (m *Manager) waitForJobToHaveMessagesAvailable(ctx context.Context, logger logs.Loggers, job IAsynchronousJob, timeout time.Duration) error {
 	return waitForJobState(ctx, logger, job, "have messages", m.areThereMessages, timeout)
 }
 
@@ -97,6 +97,25 @@ func (m *Manager) createMessagePaginator(ctx context.Context, job IAsynchronousJ
 	paginator, err = m.messagesPaginatorFactory.Create(ctx, func(subCtx context.Context) (pagination.IStaticPageStream, error) {
 		return m.FetchJobMessagesFirstPage(subCtx, job)
 	})
+	return
+}
+
+func (m *Manager) GetMessagePaginator(ctx context.Context, logger logs.Loggers, job IAsynchronousJob, timeout time.Duration) (messagePaginator pagination.IStreamPaginatorAndPageFetcher, err error) {
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
+	subCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+	err = m.waitForJobToStart(subCtx, logger, job, timeout)
+	if err != nil {
+		return
+	}
+	err = m.waitForJobToHaveMessagesAvailable(subCtx, logger, job, timeout)
+	if err != nil {
+		return
+	}
+	messagePaginator, err = m.createMessagePaginator(subCtx, job)
 	return
 }
 
@@ -120,15 +139,8 @@ func (m *Manager) WaitForJobCompletionWithTimeout(ctx context.Context, job IAsyn
 	}()
 	subCtx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
-	err = m.waitForJobToStart(subCtx, messageLogger, job, timeout)
-	if err != nil {
-		return
-	}
-	err = m.waitForJobToHaveMessagesAvailable(subCtx, messageLogger, job, timeout)
-	if err != nil {
-		return
-	}
-	messagePaginator, err := m.createMessagePaginator(subCtx, job)
+
+	messagePaginator, err := m.GetMessagePaginator(subCtx, messageLogger, job, timeout)
 	if err != nil {
 		return
 	}
@@ -151,6 +163,45 @@ func (m *Manager) WaitForJobCompletionWithTimeout(ctx context.Context, job IAsyn
 		messageLogger.LogError(err)
 	}
 	_, err = m.HasJobCompleted(subCtx, job)
+	return
+}
+
+func (m *Manager) LogJobMessagesUntilNow(ctx context.Context, job IAsynchronousJob, timeout time.Duration) (err error) {
+	err = parallelisation.DetermineContextError(ctx)
+	if err != nil {
+		return
+	}
+	messageLogger, err := m.messageLoggerFactory.Create(ctx)
+	if err != nil {
+		return
+	}
+	defer func() {
+		if messageLogger != nil {
+			_ = messageLogger.Close()
+		}
+	}()
+	subCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	messagePaginator, err := m.GetMessagePaginator(subCtx, messageLogger, job, timeout)
+	if err != nil {
+		return
+	}
+	defer func() {
+		if messagePaginator != nil {
+			_ = messagePaginator.Close()
+		}
+	}()
+
+	err = messagePaginator.DryUp()
+	if err != nil {
+		messageLogger.LogError(err)
+		return
+	}
+	err = messageLogger.LogMessagesCollection(subCtx, messagePaginator)
+	if err != nil {
+		messageLogger.LogError(err)
+	}
 	return
 }
 

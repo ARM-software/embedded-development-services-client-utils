@@ -8,7 +8,6 @@ package messages
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"time"
 
 	"github.com/go-faker/faker/v4"
@@ -20,6 +19,7 @@ import (
 	"github.com/ARM-software/golang-utils/utils/collection/pagination"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/parallelisation"
+	"github.com/ARM-software/golang-utils/utils/safecast"
 )
 
 func newMockHalLink() (link *client.HalLinkData, err error) {
@@ -77,19 +77,27 @@ func NewMockNotificationFeedPage(ctx context.Context, hasNext, hasFuture bool) (
 	if err != nil {
 		return
 	}
-	messageCount := rand.Intn(50) //nolint:gosec //causes G404: Use of weak random number generator
+	n, err := faker.RandomInt(1, 50)
+	if err != nil {
+		return nil, err
+	}
+	messageCount := n[0]
 	var messages []client.NotificationMessageObject
 	for i := 0; i < messageCount; i++ {
 		messages = append(messages, *client.NewNotificationMessageObject(faker.Sentence()))
 	}
-	f = client.NewNotificationFeed(*client.NewNullableHalFeedLinks(links), *client.NewNullablePagingMetadata(client.NewPagingMetadata(int32(messageCount), time.Now(), 50, time.Now(), 45, 100)), messages, faker.Name()) //nolint:gosec // causes  G115: integer overflow conversion int -> int32 Not a problem as for testing only
+	f = client.NewNotificationFeed(*client.NewNullableHalFeedLinks(links), *client.NewNullablePagingMetadata(client.NewPagingMetadata(safecast.ToInt32(messageCount), time.Now(), 50, time.Now(), 45, 100)), messages, faker.Name())
 	return
 }
 
 // NewMockNotificationFeedPaginator generates a mock message paginator for testing
 func NewMockNotificationFeedPaginator(ctx context.Context) (pagination.IPaginatorAndPageFetcher, error) {
 	faker.ResetUnique()
-	pageNumber := rand.Intn(50) //nolint:gosec //causes G404: Use of weak random number generator
+	n, err := faker.RandomInt(1, 50)
+	if err != nil {
+		return nil, err
+	}
+	pageNumber := n[0]
 	pageCount := atomic.NewInt64(0)
 	return pagination.NewStaticPagePaginator(ctx, func(fctx context.Context) (pagination.IStaticPage, error) {
 		firstPage, err := NewMockNotificationFeedPage(fctx, pageNumber > 0, false)
@@ -125,7 +133,11 @@ func NewMockMessagePaginatorFactory(pageNumber int) *PaginatorFactory {
 
 // NewMockNotificationFeedStreamPaginator generates a mock message stream paginator for testing
 func NewMockNotificationFeedStreamPaginator(ctx context.Context) (pagination.IStreamPaginatorAndPageFetcher, error) {
-	pageNumber := rand.Intn(50) //nolint:gosec //causes G404: Use of weak random number generator
+	n, err := faker.RandomInt(1, 50)
+	if err != nil {
+		return nil, err
+	}
+	pageNumber := n[0]
 	return NewMockMessagePaginatorFactory(pageNumber).Create(ctx, func(fctx context.Context) (pagination.IStaticPageStream, error) {
 		firstPage, err := NewMockNotificationFeedPage(fctx, pageNumber > 0, false)
 		if err != nil {
