@@ -181,6 +181,7 @@ func TestManager_BrowseMessages(t *testing.T) {
 			pageNumber := 15
 			factory, err := newMockJobManagerWithPageNumber(pageNumber, loggerF, time.Nanosecond, &runOut, job, err)
 			require.NotNil(t, factory)
+			require.NoError(t, err)
 			var messagePaginator pagination.IStreamPaginatorAndPageFetcher
 
 			if test.timeout == nil {
@@ -248,7 +249,6 @@ func TestManager_logMessages(t *testing.T) {
 			job, err := test.jobFunc()
 			runOut := time.Nanosecond
 			factory, err := newMockJobManager(loggerF, time.Nanosecond, &runOut, job, err)
-
 			require.NoError(t, err)
 			require.NotNil(t, factory)
 			if test.timeout == nil {
