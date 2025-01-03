@@ -115,7 +115,7 @@ func (m *Manager) GetMessagePaginator(ctx context.Context, logger logs.Loggers, 
 	if err != nil {
 		return
 	}
-	messagePaginator, err = m.createMessagePaginator(subCtx, job)
+	messagePaginator, err = m.createMessagePaginator(ctx, job)
 	return
 }
 

@@ -62,3 +62,5 @@ exclude_patterns:
 - "**/vendor/"
 - "**/*.d.ts"
 - "**/*_test.go"
+- "**/*ffjson.go"
+- "**/*easyson.go"

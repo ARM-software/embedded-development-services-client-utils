@@ -49,9 +49,9 @@ type IJobManager interface {
 	// WaitForJobCompletion waits for a job to complete. Similar to WaitForJobCompletionWithTimeout but with a timeout set to 5 minutes.
 	WaitForJobCompletion(ctx context.Context, job IAsynchronousJob) (err error)
 	// WaitForJobCompletionWithTimeout waits for a job to complete but with timeout protection.
-	WaitForJobCompletionWithTimeout(ctx context.Context, job IAsynchronousJob, timeout time.Duration) (err error)
-	// GetMessagePaginator returns a paginator over job messages.
-	GetMessagePaginator(ctx context.Context, logger logs.Loggers, job IAsynchronousJob, timeout time.Duration) (pagination.IStreamPaginatorAndPageFetcher, error)
-	// LogJobMessagesUntilNow logs all the job messages until now. This is doing the same as WaitForJobCompletionWithTimeout apart from waiting for job completion.
-	LogJobMessagesUntilNow(ctx context.Context, job IAsynchronousJob, timeout time.Duration) (err error)
+	WaitForJobCompletionWithTimeout(ctx context.Context, job IAsynchronousJob, jobTimeout time.Duration) (err error)
+	// GetMessagePaginator returns a paginator over job messages. The timeout corresponds to the time given to obtain the paginator
+	GetMessagePaginator(ctx context.Context, logger logs.Loggers, job IAsynchronousJob, setupTimeout time.Duration) (pagination.IStreamPaginatorAndPageFetcher, error)
+	// LogJobMessagesUntilNow logs all the job messages until now unless the loggingTimeout is reached beforehand. This is doing the same as WaitForJobCompletionWithTimeout apart from waiting for job completion.
+	LogJobMessagesUntilNow(ctx context.Context, job IAsynchronousJob, loggingTimeout time.Duration) (err error)
 }
