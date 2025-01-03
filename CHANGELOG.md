@@ -1,4 +1,27 @@
 <!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
+"" "1.11.1" (2025-01-03)
+========================
+
+Bugfixes
+--------
+
+- Dependency upgrade: golang-1.23.4 (#20241204182913)
+- Dependency upgrade: upload-artifact-4.5.0 (#20241218180914)
+- :arrow_up: Upgrade dependencies (#20250103154248)
+- :recycle: Change mocking dependency to `go.uber.org/mock` (#20250103154321)
+- :bug: `[job]` fix bug with job message browsing (#20250103163519)
+
+
+Misc
+----
+
+- #20250103154727
+
+
+<!--
 Copyright (C) 2020-2024 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
