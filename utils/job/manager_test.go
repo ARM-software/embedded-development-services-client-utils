@@ -147,6 +147,75 @@ func mapFunc(f func() (*jobtest.MockAsynchronousJob, error)) func() (IAsynchrono
 	}
 }
 
+func TestManager_BrowseMessages(t *testing.T) {
+	defer goleak.VerifyNone(t)
+	tests := []struct {
+		jobFunc       func() (IAsynchronousJob, error)
+		expectedError []error
+		timeout       *time.Duration
+	}{
+		{
+			jobFunc:       mapFunc(jobtest.NewMockFailedAsynchronousJob),
+			expectedError: nil,
+		},
+		{
+			jobFunc:       mapFunc(jobtest.NewMockQueuedAsynchronousJob),
+			expectedError: []error{commonerrors.ErrCondition, commonerrors.ErrTimeout, commonerrors.ErrCancelled},
+			timeout:       field.ToOptionalDuration(500 * time.Millisecond),
+		},
+		{
+			jobFunc:       mapFunc(jobtest.NewMockSuccessfulAsynchronousJob),
+			expectedError: nil,
+		},
+	}
+	for i := range tests {
+		test := tests[i]
+
+		t.Run(fmt.Sprintf("#%v", i), func(t *testing.T) {
+			// t.Parallel()
+			logger, err := logging.NewStandardClientLogger(fmt.Sprintf("test #%v", i), nil)
+			require.NoError(t, err)
+			loggerF := messages.NewMessageLoggerFactory(logger, false, time.Nanosecond)
+			job, err := test.jobFunc()
+			runOut := time.Nanosecond
+			pageNumber := 15
+			factory, err := newMockJobManagerWithPageNumber(pageNumber, loggerF, time.Nanosecond, &runOut, job, err)
+			require.NotNil(t, factory)
+			var messagePaginator pagination.IStreamPaginatorAndPageFetcher
+
+			if test.timeout == nil {
+				messagePaginator, err = factory.GetMessagePaginator(context.TODO(), logger, job, 5*time.Minute)
+			} else {
+				messagePaginator, err = factory.GetMessagePaginator(context.TODO(), logger, job, *test.timeout)
+			}
+			defer func() {
+				if messagePaginator != nil {
+					_ = messagePaginator.Close()
+				}
+			}()
+			if test.expectedError == nil {
+				assert.NoError(t, err)
+				assert.NotNil(t, messagePaginator)
+				count := 0
+				for {
+					if !messagePaginator.HasNext() {
+						break
+					}
+					message, subErr := messagePaginator.GetNext()
+					require.NoError(t, subErr)
+					logger.Log(fmt.Sprintf("%+v", message))
+					count++
+				}
+				assert.Greater(t, count, pageNumber)
+			} else {
+				assert.Error(t, err)
+				errortest.AssertError(t, err, test.expectedError...)
+				assert.Nil(t, messagePaginator)
+			}
+		})
+	}
+}
+
 func TestManager_logMessages(t *testing.T) {
 	defer goleak.VerifyNone(t)
 	tests := []struct {
@@ -290,7 +359,11 @@ func newMockJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time
 		return nil, err
 	}
 	pageNumber := n[0]
-	messageStream := messages.NewMockMessagePaginatorFactory(pageNumber)
+	return newMockJobManagerWithPageNumber(pageNumber, logger, backOffPeriod, messagePaginatorRunOutTimeout, job, errToReturn)
+}
+
+func newMockJobManagerWithPageNumber(messagePageNumber int, logger *messages.MessageLoggerFactory, backOffPeriod time.Duration, messagePaginatorRunOutTimeout *time.Duration, job IAsynchronousJob, errToReturn error) (*Manager, error) {
+	messageStream := messages.NewMockMessagePaginatorFactory(messagePageNumber)
 	if messagePaginatorRunOutTimeout != nil {
 		messageStream = messageStream.UpdateRunOutTimeout(*messagePaginatorRunOutTimeout)
 	}
@@ -298,7 +371,7 @@ func newMockJobManager(logger *messages.MessageLoggerFactory, backOffPeriod time
 	return newJobManagerFromMessageFactory(logger, backOffPeriod, func(context.Context, string) (IAsynchronousJob, *http.Response, error) {
 		return job, httptest.NewRecorder().Result(), errToReturn
 	}, func(fctx context.Context, _ string) (pagination.IStaticPageStream, *http.Response, error) {
-		firstPage, err := messages.NewMockNotificationFeedPage(fctx, pageNumber > 0, false)
+		firstPage, err := messages.NewMockNotificationFeedPage(fctx, messagePageNumber > 0, false)
 		if err != nil {
 			return nil, httptest.NewRecorder().Result(), err
 		}
