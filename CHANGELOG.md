@@ -2,6 +2,24 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.11.2" (2025-03-05)
+========================
+
+Bugfixes
+--------
+
+- Dependency upgrade: upload-artifact-4.6.0 (#20250109185318)
+- Dependency upgrade: golang-1.23.5 (#20250117185757)
+- Dependency upgrade: fetch-metadata-2.3.0 (#20250127184049)
+- Dependency upgrade: scorecard-action-2.4.1 (#20250221183833)
+- Dependency upgrade: golang-1.24.1 (#20250305012249)
+- Dependency upgrade: upload-artifact-4.6.1 (#20250305012300)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.11.1" (2025-01-03)
 ========================
 
