@@ -2,6 +2,25 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.12.0" (2025-03-18)
+========================
+
+Features
+--------
+
+- :sparkles: Added client module to ease the creation of ClientAPI (#20250318181814)
+
+
+Bugfixes
+--------
+
+- :arrow_up: Update dependencies (#20250318183651)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.11.3" (2025-03-05)
 ========================
 
