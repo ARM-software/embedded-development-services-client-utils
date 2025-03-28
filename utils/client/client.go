@@ -13,6 +13,7 @@ import (
 	_client "github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/http"
+	"github.com/ARM-software/golang-utils/utils/reflection"
 )
 
 // NewClient returns a new API client based on request configuration
@@ -32,7 +33,7 @@ func NewClient(cfg *http.RequestConfiguration, logger logr.Logger, underlyingHTT
 	}
 
 	httpClientCfg := http.DefaultRobustHTTPClientConfiguration()
-	httpClient := http.NewConfigurableRetryableOauthClientWithLoggerAndCustomClient(httpClientCfg, underlyingHTTPClient, logger, cfg.Authorisation.AccessToken)
+	httpClient := http.NewConfigurableRetryableClientWithLoggerAndCustomClient(httpClientCfg, cfg, logger, underlyingHTTPClient)
 	clientCfg := newClientConfiguration(cfg)
 	clientCfg.HTTPClient = httpClient.StandardClient()
 	c = _client.NewAPIClient(clientCfg)
@@ -41,7 +42,7 @@ func NewClient(cfg *http.RequestConfiguration, logger logr.Logger, underlyingHTT
 
 func newClientConfiguration(cfg *http.RequestConfiguration) (clientCfg *_client.Configuration) {
 	clientCfg = _client.NewConfiguration()
-	if cfg.Target.Host != "" {
+	if !reflection.IsEmpty(cfg.Target.Host) {
 		basePathURL, err := url.Parse(cfg.Target.Host)
 		if err == nil {
 			clientCfg.Host = basePathURL.Host
