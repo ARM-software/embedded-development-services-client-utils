@@ -1,8 +1,8 @@
 bitbucket.org/creachadair/stringset v0.0.9/go.mod h1:t+4WcQ4+PXTa8aQdNKe40ZP6iwesoMFWAxPGd3UGjyY=
 github.com/ARM-software/embedded-development-services-client/client v1.45.1 h1:qB/nQm3RtVTLbPXI1BNH8RC8T0Bw06PJPY2geRKTpuw=
 github.com/ARM-software/embedded-development-services-client/client v1.45.1/go.mod h1:rQp94BDHwu/+Q27cwS8iObzaJW027hMTRpN5Jj+6Ddc=
-github.com/ARM-software/golang-utils/utils v1.88.0 h1:t82s7LjfCZBT2LEEG0heSHP+T0OA/Pnq4TybCdJsvqM=
-github.com/ARM-software/golang-utils/utils v1.88.0/go.mod h1:hbOnHpp3NKGQlSwI8YhIBLH5TrlPnFP3OE0HphMNqVI=
+github.com/ARM-software/golang-utils/utils v1.89.0 h1:WyrZiTkzzHemZ4oqS/LbkjukDYyV7TCS1efAT9rmB4A=
+github.com/ARM-software/golang-utils/utils v1.89.0/go.mod h1:hbOnHpp3NKGQlSwI8YhIBLH5TrlPnFP3OE0HphMNqVI=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/OneOfOne/xxhash v1.2.8 h1:31czK/TI9sNkxIKfaUfGlU47BAxQ0ztGgd9vPyqimf8=
 github.com/OneOfOne/xxhash v1.2.8/go.mod h1:eZbhyaAYD41SGSSsnmcpxVoRiQ/MPUTjUdIIOT9Um7Q=
