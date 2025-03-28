@@ -2,6 +2,19 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.12.2" (2025-03-28)
+========================
+
+Bugfixes
+--------
+
+- :arrow_up: Upgrade dependencies (#20250328161101)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.12.1" (2025-03-28)
 ========================
 
