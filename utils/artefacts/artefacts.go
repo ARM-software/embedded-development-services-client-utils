@@ -16,7 +16,6 @@ import (
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/api"
 	paginationUtils "github.com/ARM-software/embedded-development-services-client-utils/utils/pagination"
-	"github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/collection/pagination"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/filesystem"
@@ -29,17 +28,17 @@ const relativePathKey = "Relative Path"
 
 type (
 	// GetArtefactManagersFirstPageFunc defines the function which can retrieve the first page of artefact managers.
-	GetArtefactManagersFirstPageFunc = func(ctx context.Context, job string) (*client.ArtefactManagerCollection, *http.Response, error)
+	GetArtefactManagersFirstPageFunc[D LinkData, L Links[D], C Collection[D, L]] = func(ctx context.Context, job string) (C, *http.Response, error)
 	// FollowLinkToArtefactManagersPageFunc is a function able to follow a link to an artefact manager page.
-	FollowLinkToArtefactManagersPageFunc = func(ctx context.Context, link *client.HalLinkData) (*client.ArtefactManagerCollection, *http.Response, error)
+	FollowLinkToArtefactManagersPageFunc[D LinkData, L Links[D], C Collection[D, L]] = func(ctx context.Context, link D) (C, *http.Response, error)
 	// GetArtefactManagerFunc is a function which retrieves information about an artefact manager.
-	GetArtefactManagerFunc = func(ctx context.Context, job, artefact string) (*client.ArtefactManagerItem, *http.Response, error)
+	GetArtefactManagerFunc[M Manager] = func(ctx context.Context, job, artefact string) (M, *http.Response, error)
 	// GetArtefactContentFunc is a function able to return the content of any artefact managers.
 	GetArtefactContentFunc = func(ctx context.Context, job, artefactID string) (*os.File, *http.Response, error)
 )
 
-func determineArtefactDestination(outputDir string, maintainTree bool, item *client.ArtefactManagerItem) (artefactFileName string, destinationDir string, err error) {
-	if item == nil {
+func determineArtefactDestination[M Manager](outputDir string, maintainTree bool, item M) (artefactFileName string, destinationDir string, err error) {
+	if any(item) == nil {
 		err = fmt.Errorf("%w: missing artefact item", commonerrors.ErrUndefined)
 		return
 	}
@@ -76,27 +75,41 @@ func determineArtefactDestination(outputDir string, maintainTree bool, item *cli
 	return
 }
 
-type ArtefactManager struct {
-	getArtefactManagerFunc            GetArtefactManagerFunc
+type ArtefactManager[
+	M Manager,
+	D LinkData,
+	L Links[D],
+	C Collection[D, L],
+] struct {
+	getArtefactManagerFunc            GetArtefactManagerFunc[M]
 	getArtefactContentFunc            GetArtefactContentFunc
-	getArtefactManagersFirstPageFunc  GetArtefactManagersFirstPageFunc
-	getArtefactManagersFollowLinkFunc FollowLinkToArtefactManagersPageFunc
+	getArtefactManagersFirstPageFunc  GetArtefactManagersFirstPageFunc[D, L, C]
+	getArtefactManagersFollowLinkFunc FollowLinkToArtefactManagersPageFunc[D, L, C]
 }
 
 // NewArtefactManager returns an artefact manager.
-func NewArtefactManager(getArtefactManagersFirstPage GetArtefactManagersFirstPageFunc, getArtefactsManagersPage FollowLinkToArtefactManagersPageFunc, getArtefactManager GetArtefactManagerFunc, getOutputArtefact GetArtefactContentFunc) IArtefactManager {
-	return &ArtefactManager{
+func NewArtefactManager[
+	M Manager,
+	D LinkData,
+	L Links[D],
+	C Collection[D, L],
+](
+	getArtefactManagersFirstPage GetArtefactManagersFirstPageFunc[D, L, C],
+	getArtefactsManagersPage FollowLinkToArtefactManagersPageFunc[D, L, C],
+	getArtefactManager GetArtefactManagerFunc[M],
+	getOutputArtefact GetArtefactContentFunc) IArtefactManager[M, D] {
+	return &ArtefactManager[M, D, L, C]{
 		getArtefactManagerFunc:            getArtefactManager,
 		getArtefactContentFunc:            getOutputArtefact,
 		getArtefactManagersFirstPageFunc:  getArtefactManagersFirstPage,
 		getArtefactManagersFollowLinkFunc: getArtefactsManagersPage,
 	}
 }
-func (m *ArtefactManager) DownloadJobArtefact(ctx context.Context, jobName string, outputDirectory string, artefactManager *client.ArtefactManagerItem) (err error) {
+func (m *ArtefactManager[M, D, L, C]) DownloadJobArtefact(ctx context.Context, jobName string, outputDirectory string, artefactManager M) (err error) {
 	return m.DownloadJobArtefactWithTree(ctx, jobName, false, outputDirectory, artefactManager)
 }
 
-func (m *ArtefactManager) DownloadJobArtefactWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManager *client.ArtefactManagerItem) (err error) {
+func (m *ArtefactManager[M, D, L, C]) DownloadJobArtefactWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManager M) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
@@ -116,7 +129,7 @@ func (m *ArtefactManager) DownloadJobArtefactWithTree(ctx context.Context, jobNa
 	if err != nil {
 		return
 	}
-	if artefactManager == nil {
+	if any(artefactManager) == nil {
 		err = fmt.Errorf("%w: missing artefact manager", commonerrors.ErrUndefined)
 		return
 	}
@@ -207,11 +220,11 @@ func (m *ArtefactManager) DownloadJobArtefactWithTree(ctx context.Context, jobNa
 	return
 
 }
-func (m *ArtefactManager) DownloadJobArtefactFromLink(ctx context.Context, jobName string, outputDirectory string, artefactManagerItemLink *client.HalLinkData) error {
+func (m *ArtefactManager[M, D, L, C]) DownloadJobArtefactFromLink(ctx context.Context, jobName string, outputDirectory string, artefactManagerItemLink D) error {
 	return m.DownloadJobArtefactFromLinkWithTree(ctx, jobName, false, outputDirectory, artefactManagerItemLink)
 }
 
-func (m *ArtefactManager) DownloadJobArtefactFromLinkWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManagerItemLink *client.HalLinkData) (err error) {
+func (m *ArtefactManager[M, D, L, C]) DownloadJobArtefactFromLinkWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManagerItemLink D) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
@@ -220,7 +233,7 @@ func (m *ArtefactManager) DownloadJobArtefactFromLinkWithTree(ctx context.Contex
 		err = fmt.Errorf("%w: function to retrieve an artefact manager was not properly defined", commonerrors.ErrUndefined)
 		return
 	}
-	if artefactManagerItemLink == nil {
+	if any(artefactManagerItemLink) == nil {
 		err = fmt.Errorf("%w: missing artefact link", commonerrors.ErrUndefined)
 		return
 	}
@@ -243,7 +256,7 @@ func (m *ArtefactManager) DownloadJobArtefactFromLinkWithTree(ctx context.Contex
 	return
 }
 
-func (m *ArtefactManager) ListJobArtefacts(ctx context.Context, jobName string) (pagination.IPaginatorAndPageFetcher, error) {
+func (m *ArtefactManager[M, D, L, C]) ListJobArtefacts(ctx context.Context, jobName string) (pagination.IPaginatorAndPageFetcher, error) {
 	err := parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return nil, err
@@ -253,7 +266,7 @@ func (m *ArtefactManager) ListJobArtefacts(ctx context.Context, jobName string) 
 	}, m.fetchJobArtefactsNextPage)
 }
 
-func (m *ArtefactManager) fetchJobArtefactsFirstPage(ctx context.Context, jobName string) (page pagination.IStaticPage, err error) {
+func (m *ArtefactManager[M, D, L, C]) fetchJobArtefactsFirstPage(ctx context.Context, jobName string) (page pagination.IStaticPage, err error) {
 	if m.getArtefactManagersFirstPageFunc == nil {
 		err = fmt.Errorf("%w: function to retrieve artefact managers was not properly defined", commonerrors.ErrUndefined)
 		return
@@ -269,7 +282,7 @@ func (m *ArtefactManager) fetchJobArtefactsFirstPage(ctx context.Context, jobNam
 	return
 }
 
-func (m *ArtefactManager) fetchJobArtefactsNextPage(ctx context.Context, currentPage pagination.IStaticPage) (nextPage pagination.IStaticPage, err error) {
+func (m *ArtefactManager[M, D, L, C]) fetchJobArtefactsNextPage(ctx context.Context, currentPage pagination.IStaticPage) (nextPage pagination.IStaticPage, err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
@@ -286,7 +299,7 @@ func (m *ArtefactManager) fetchJobArtefactsNextPage(ctx context.Context, current
 		err = fmt.Errorf("%w: returned artefact managers page is empty", commonerrors.ErrUnexpected)
 		return
 	}
-	page, ok := unwrappedPage.(*client.ArtefactManagerCollection)
+	page, ok := unwrappedPage.(C)
 	if !ok {
 		err = fmt.Errorf("%w: returned artefact managers page[%T] is not of the expected type [%v]", commonerrors.ErrUnexpected, currentPage, "*ArtefactManagerCollection")
 		return
@@ -300,8 +313,8 @@ func (m *ArtefactManager) fetchJobArtefactsNextPage(ctx context.Context, current
 		err = fmt.Errorf("%w: returned page of artefact managers has no `next` link", commonerrors.ErrUnexpected)
 		return
 	}
-	link := links.GetNext()
-	clientPage, resp, apierr := m.getArtefactManagersFollowLinkFunc(ctx, &link)
+	link := links.GetNextP()
+	clientPage, resp, apierr := m.getArtefactManagersFollowLinkFunc(ctx, link)
 	if resp != nil {
 		_ = resp.Body.Close()
 	}
@@ -312,11 +325,11 @@ func (m *ArtefactManager) fetchJobArtefactsNextPage(ctx context.Context, current
 	return
 }
 
-func (m *ArtefactManager) DownloadAllJobArtefacts(ctx context.Context, jobName string, outputDirectory string) error {
+func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefacts(ctx context.Context, jobName string, outputDirectory string) error {
 	return m.DownloadAllJobArtefactsWithTree(ctx, jobName, false, outputDirectory)
 }
 
-func (m *ArtefactManager) DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) (err error) {
+func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
@@ -341,7 +354,7 @@ func (m *ArtefactManager) DownloadAllJobArtefactsWithTree(ctx context.Context, j
 			err = fmt.Errorf("%w: failed getting information about job artefacts: %v", commonerrors.ErrUnexpected, subErr.Error())
 			return
 		}
-		artefactLink, ok := item.(*client.HalLinkData)
+		artefactLink, ok := item.(D)
 		if ok {
 			subErr = m.DownloadJobArtefactFromLinkWithTree(ctx, jobName, maintainTreeStructure, outputDirectory, artefactLink)
 			if subErr != nil {
@@ -350,7 +363,7 @@ func (m *ArtefactManager) DownloadAllJobArtefactsWithTree(ctx context.Context, j
 			}
 
 		} else {
-			artefactManager, ok := item.(*client.ArtefactManagerItem)
+			artefactManager, ok := item.(M)
 			if ok {
 				subErr = m.DownloadJobArtefactWithTree(ctx, jobName, maintainTreeStructure, outputDirectory, artefactManager)
 				if subErr != nil {

@@ -156,12 +156,12 @@ func (t *testArtefact) testGetOutputArtefact(ctx context.Context, _, artefact st
 	return nil, &http.Response{StatusCode: http.StatusNotFound, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}, commonerrors.ErrNotFound
 }
 
-func newTestArtefactManager(t *testing.T, tmpDir, artefactContent string, linksOnly bool) (IArtefactManager, *testArtefact) {
+func newTestArtefactManager(t *testing.T, tmpDir, artefactContent string, linksOnly bool) (IArtefactManager[*client.ArtefactManagerItem, *client.HalLinkData], *testArtefact) {
 	testArtefact := newTestArtefact(t, tmpDir, artefactContent, !linksOnly)
 	return NewArtefactManager(testArtefact.testGetArtefactManagers, nil, testArtefact.testGetArtefactManager, testArtefact.testGetOutputArtefact), testArtefact
 }
 
-func newTestArtefactManagerWithEmbeddedResources(t *testing.T, tmpDir, artefactContent string) (IArtefactManager, *testArtefact) {
+func newTestArtefactManagerWithEmbeddedResources(t *testing.T, tmpDir, artefactContent string) (IArtefactManager[*client.ArtefactManagerItem, *client.HalLinkData], *testArtefact) {
 	return newTestArtefactManager(t, tmpDir, artefactContent, false)
 }
 
