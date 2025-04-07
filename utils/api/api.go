@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/errors"
+	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/parallelisation"
 	"github.com/ARM-software/golang-utils/utils/reflection"
 )
@@ -40,7 +41,7 @@ func CheckAPICallSuccess(ctx context.Context, errorContext string, resp *_http.R
 		if resp != nil {
 			statusCode = resp.StatusCode
 			errorDetails, subErr := errors.FetchAPIErrorDescriptionWithContext(ctx, resp)
-			if subErr != nil {
+			if commonerrors.Ignore(subErr, commonerrors.ErrMarshalling) != nil {
 				err = subErr
 				return
 			}
