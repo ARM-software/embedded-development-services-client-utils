@@ -14,8 +14,8 @@ import (
 //go:generate mockgen -destination=../mocks/mock_$GOPACKAGE.go -package=mocks github.com/ARM-software/embedded-development-services-client-utils/utils/$GOPACKAGE IArtefactManager
 
 type IArtefactManager[
-	M Manager,
-	D LinkData,
+	M IManager,
+	D ILinkData,
 ] interface {
 	// DownloadJobArtefactFromLink downloads a specific artefact into the output directory from a particular link. The artefact will be placed at the root of the output directory.
 	DownloadJobArtefactFromLink(ctx context.Context, jobName string, outputDirectory string, artefactManagerItemLink D) error
@@ -36,24 +36,24 @@ type IArtefactManager[
 	DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) error
 }
 
-type LinkData interface {
+type ILinkData interface {
 	comparable
 	GetName() string
 	GetHref() string
 }
 
-type Links[D LinkData] interface {
+type ILinks[D ILinkData] interface {
 	comparable
 	GetNextP() D
 	HasNext() bool
 }
-type Collection[D LinkData, L Links[D]] interface {
+type ICollection[D ILinkData, L ILinks[D]] interface {
 	comparable
 	pagination.IStaticPage
 	GetLinksOk() (L, bool)
 }
 
-type Manager interface {
+type IManager interface {
 	comparable
 	GetName() string
 	GetTitle() string

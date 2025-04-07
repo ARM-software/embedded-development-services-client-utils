@@ -28,16 +28,16 @@ const relativePathKey = "Relative Path"
 
 type (
 	// GetArtefactManagersFirstPageFunc defines the function which can retrieve the first page of artefact managers.
-	GetArtefactManagersFirstPageFunc[D LinkData, L Links[D], C Collection[D, L]] = func(ctx context.Context, job string) (C, *http.Response, error)
+	GetArtefactManagersFirstPageFunc[D ILinkData, L ILinks[D], C ICollection[D, L]] = func(ctx context.Context, job string) (C, *http.Response, error)
 	// FollowLinkToArtefactManagersPageFunc is a function able to follow a link to an artefact manager page.
-	FollowLinkToArtefactManagersPageFunc[D LinkData, L Links[D], C Collection[D, L]] = func(ctx context.Context, link D) (C, *http.Response, error)
+	FollowLinkToArtefactManagersPageFunc[D ILinkData, L ILinks[D], C ICollection[D, L]] = func(ctx context.Context, link D) (C, *http.Response, error)
 	// GetArtefactManagerFunc is a function which retrieves information about an artefact manager.
-	GetArtefactManagerFunc[M Manager] = func(ctx context.Context, job, artefact string) (M, *http.Response, error)
+	GetArtefactManagerFunc[M IManager] = func(ctx context.Context, job, artefact string) (M, *http.Response, error)
 	// GetArtefactContentFunc is a function able to return the content of any artefact managers.
 	GetArtefactContentFunc = func(ctx context.Context, job, artefactID string) (*os.File, *http.Response, error)
 )
 
-func determineArtefactDestination[M Manager](outputDir string, maintainTree bool, item M) (artefactFileName string, destinationDir string, err error) {
+func determineArtefactDestination[M IManager](outputDir string, maintainTree bool, item M) (artefactFileName string, destinationDir string, err error) {
 	if any(item) == nil {
 		err = fmt.Errorf("%w: missing artefact item", commonerrors.ErrUndefined)
 		return
@@ -76,10 +76,10 @@ func determineArtefactDestination[M Manager](outputDir string, maintainTree bool
 }
 
 type ArtefactManager[
-	M Manager,
-	D LinkData,
-	L Links[D],
-	C Collection[D, L],
+	M IManager,
+	D ILinkData,
+	L ILinks[D],
+	C ICollection[D, L],
 ] struct {
 	getArtefactManagerFunc            GetArtefactManagerFunc[M]
 	getArtefactContentFunc            GetArtefactContentFunc
@@ -89,10 +89,10 @@ type ArtefactManager[
 
 // NewArtefactManager returns an artefact manager.
 func NewArtefactManager[
-	M Manager,
-	D LinkData,
-	L Links[D],
-	C Collection[D, L],
+	M IManager,
+	D ILinkData,
+	L ILinks[D],
+	C ICollection[D, L],
 ](
 	getArtefactManagersFirstPage GetArtefactManagersFirstPageFunc[D, L, C],
 	getArtefactsManagersPage FollowLinkToArtefactManagersPageFunc[D, L, C],
