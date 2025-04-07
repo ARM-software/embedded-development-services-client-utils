@@ -2,6 +2,19 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.13.0" (2025-04-07)
+========================
+
+Features
+--------
+
+- :sparkles: `errors` Improve the error that is returned when a response cannot be unmarshalled as JSON (#20250407100502)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.12.2" (2025-03-28)
 ========================
 
