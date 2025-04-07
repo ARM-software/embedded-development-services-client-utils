@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/ARM-software/embedded-development-services-client/client"
+	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/parallelisation"
 	"github.com/ARM-software/golang-utils/utils/reflection"
 	"github.com/ARM-software/golang-utils/utils/safeio"
@@ -51,6 +52,7 @@ func FetchAPIErrorDescriptionWithContext(ctx context.Context, resp *_http.Respon
 	}
 	if err != nil {
 		message = string(bytes)
+		err = commonerrors.WrapError(commonerrors.ErrMarshalling, err, "error occurred when unmarshalling response")
 		return
 	}
 	apiErrorMessage := strings.Builder{}

@@ -45,6 +45,13 @@ func TestFetchAPIErrorDescription(t *testing.T) {
 		expectedMessage := ""
 		assert.Equal(t, expectedMessage, actualMessage)
 	})
+
+	t.Run("error response is not JSON", func(t *testing.T) {
+		resp := _http.Response{Body: io.NopCloser(bytes.NewReader([]byte("<html><head><title>403 Forbidden</title></head></html>")))}
+		actualMessage := FetchAPIErrorDescription(&resp)
+		expectedMessage := "<html><head><title>403 Forbidden</title></head></html>"
+		assert.Equal(t, expectedMessage, actualMessage)
+	})
 }
 
 func TestFetchAPIErrorDescriptionInterrupt(t *testing.T) {

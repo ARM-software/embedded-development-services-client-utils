@@ -58,6 +58,15 @@ func TestCheckAPICallSuccess(t *testing.T) {
 		assert.Equal(t, actualErr.Error(), expectedErr)
 	})
 
+	t.Run("api call not successful (no JSON response)", func(t *testing.T) {
+		errMessage := "response error"
+		parentCtx := context.Background()
+		resp := _http.Response{StatusCode: 403, Body: io.NopCloser(bytes.NewReader([]byte("<html><head><title>403 Forbidden</title></head></html>")))}
+		actualErr := CheckAPICallSuccess(parentCtx, errMessage, &resp, errors.New("403 Forbidden"))
+		expectedErr := "response error (403): <html><head><title>403 Forbidden</title></head></html>; 403 Forbidden"
+		assert.Equal(t, actualErr.Error(), expectedErr)
+	})
+
 	t.Run("no context error, api call successful", func(t *testing.T) {
 		errMessage := "no error"
 		parentCtx := context.Background()
