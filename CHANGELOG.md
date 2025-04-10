@@ -2,6 +2,20 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.14.1" (2025-04-10)
+========================
+
+Bugfixes
+--------
+
+- :camel: Bump dependencies (#202504101045)
+- Dependency upgrade: golang-1.24.2 (#20250402173302)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.14.0" (2025-04-07)
 ========================
 
