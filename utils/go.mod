@@ -3,8 +3,8 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.24
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.50.0
-	github.com/ARM-software/golang-utils/utils v1.89.0
+	github.com/ARM-software/embedded-development-services-client/client v1.53.1
+	github.com/ARM-software/golang-utils/utils v1.91.0
 	github.com/go-faker/faker/v4 v4.6.0
 	github.com/go-logr/logr v1.4.2
 	github.com/stretchr/testify v1.10.0
