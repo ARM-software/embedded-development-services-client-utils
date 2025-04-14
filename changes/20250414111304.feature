@@ -1,1 +1,1 @@
-:sparkles: Add an API utils function to wrap API calls and check success
+:sparkles: Add an API utility function `CallAndCheckSuccess`
