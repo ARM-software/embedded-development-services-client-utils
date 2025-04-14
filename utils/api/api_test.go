@@ -76,13 +76,13 @@ func TestCheckAPICallSuccess(t *testing.T) {
 	})
 }
 
-func TestFetchAndCheckSuccess(t *testing.T) {
+func TestCallAndCheckSuccess(t *testing.T) {
 	t.Run("context cancelled", func(t *testing.T) {
 		errMessage := "context cancelled"
 		parentCtx := context.Background()
 		ctx, cancelCtx := context.WithCancel(parentCtx)
 		cancelCtx()
-		_, actualErr := FetchAndCheckSuccess(ctx, errMessage,
+		_, actualErr := CallAndCheckSuccess(ctx, errMessage,
 			func(ctx context.Context) (*struct{}, *_http.Response, error) {
 				return nil, &_http.Response{Body: io.NopCloser(bytes.NewReader(nil))}, errors.New(errMessage)
 			})
@@ -92,7 +92,7 @@ func TestFetchAndCheckSuccess(t *testing.T) {
 	t.Run("api call not successful", func(t *testing.T) {
 		errMessage := "client error"
 		parentCtx := context.Background()
-		_, actualErr := FetchAndCheckSuccess(parentCtx, errMessage,
+		_, actualErr := CallAndCheckSuccess(parentCtx, errMessage,
 			func(ctx context.Context) (*struct{}, *_http.Response, error) {
 				resp := _http.Response{StatusCode: 400, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
 				return nil, &resp, errors.New(errMessage)
@@ -104,7 +104,7 @@ func TestFetchAndCheckSuccess(t *testing.T) {
 	t.Run("no context error, api call successful", func(t *testing.T) {
 		errMessage := "no error"
 		parentCtx := context.Background()
-		_, err := FetchAndCheckSuccess(parentCtx, errMessage,
+		_, err := CallAndCheckSuccess(parentCtx, errMessage,
 			func(ctx context.Context) (*struct{}, *_http.Response, error) {
 				return nil, &_http.Response{StatusCode: 200}, errors.New(errMessage)
 			})

@@ -59,10 +59,10 @@ func CheckAPICallSuccess(ctx context.Context, errorContext string, resp *_http.R
 	return
 }
 
-// FetchAndCheckSuccess is a wrapper for making an API call and then checking success with `CheckAPICallSuccess`
+// CallAndCheckSuccess is a wrapper for making an API call and then checking success with `CheckAPICallSuccess`
 // errorContext corresponds to the description of what led to the error if error there is e.g. `Failed adding a user`.
 // apiCallFunc corresponds to a generic function that will be called to make the API call
-func FetchAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCallFunc func(ctx context.Context) (T, *_http.Response, error)) (result T, err error) {
+func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCallFunc func(ctx context.Context) (T, *_http.Response, error)) (result T, err error) {
 	if err = parallelisation.DetermineContextError(ctx); err != nil {
 		return
 	}
