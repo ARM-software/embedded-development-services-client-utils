@@ -75,3 +75,39 @@ func TestCheckAPICallSuccess(t *testing.T) {
 		assert.NoError(t, err)
 	})
 }
+
+func TestFetchAndCheckSuccess(t *testing.T) {
+	t.Run("context cancelled", func(t *testing.T) {
+		errMessage := "context cancelled"
+		parentCtx := context.Background()
+		ctx, cancelCtx := context.WithCancel(parentCtx)
+		cancelCtx()
+		_, actualErr := FetchAndCheckSuccess(ctx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				return nil, &_http.Response{Body: io.NopCloser(bytes.NewReader(nil))}, errors.New(errMessage)
+			})
+		assert.True(t, commonerrors.Any(actualErr, commonerrors.ErrCancelled))
+	})
+
+	t.Run("api call not successful", func(t *testing.T) {
+		errMessage := "client error"
+		parentCtx := context.Background()
+		_, actualErr := FetchAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				resp := _http.Response{StatusCode: 400, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
+				return nil, &resp, errors.New(errMessage)
+			})
+		expectedErr := "client error (400): API call error [request-id: 761761721] client error; client error"
+		assert.Equal(t, actualErr.Error(), expectedErr)
+	})
+
+	t.Run("no context error, api call successful", func(t *testing.T) {
+		errMessage := "no error"
+		parentCtx := context.Background()
+		_, err := FetchAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				return nil, &_http.Response{StatusCode: 200}, errors.New(errMessage)
+			})
+		assert.NoError(t, err)
+	})
+}
