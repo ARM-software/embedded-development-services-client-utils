@@ -2,6 +2,19 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.15.0" (2025-04-14)
+========================
+
+Features
+--------
+
+- :sparkles: Add an API utility function `CallAndCheckSuccess` (#20250414111304)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.14.1" (2025-04-10)
 ========================
 
