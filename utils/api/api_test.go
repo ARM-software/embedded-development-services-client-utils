@@ -110,4 +110,14 @@ func TestCallAndCheckSuccess(t *testing.T) {
 			})
 		assert.NoError(t, err)
 	})
+
+	t.Run("api call successful, empty response", func(t *testing.T) {
+		errMessage := "response error"
+		parentCtx := context.Background()
+		_, err := CallAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				return &struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
+			})
+		assert.True(t, commonerrors.Any(err, commonerrors.ErrMarshalling))
+	})
 }
