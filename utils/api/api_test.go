@@ -16,6 +16,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
+	"github.com/ARM-software/golang-utils/utils/commonerrors/errortest"
 )
 
 func TestIsAPICallSuccessful(t *testing.T) {
@@ -46,7 +47,8 @@ func TestCheckAPICallSuccess(t *testing.T) {
 		cancelCtx()
 		respBody := _http.Response{Body: io.NopCloser(bytes.NewReader(nil))}
 		actualErr := CheckAPICallSuccess(ctx, errMessage, &respBody, errors.New(errMessage))
-		assert.True(t, commonerrors.Any(actualErr, commonerrors.ErrCancelled))
+		errortest.AssertError(t, actualErr, commonerrors.ErrCancelled)
+
 	})
 
 	t.Run("api call not successful", func(t *testing.T) {
@@ -86,7 +88,7 @@ func TestCallAndCheckSuccess(t *testing.T) {
 			func(ctx context.Context) (*struct{}, *_http.Response, error) {
 				return nil, &_http.Response{Body: io.NopCloser(bytes.NewReader(nil))}, errors.New(errMessage)
 			})
-		assert.True(t, commonerrors.Any(actualErr, commonerrors.ErrCancelled))
+		errortest.AssertError(t, actualErr, commonerrors.ErrCancelled)
 	})
 
 	t.Run("api call not successful", func(t *testing.T) {
@@ -118,6 +120,6 @@ func TestCallAndCheckSuccess(t *testing.T) {
 			func(ctx context.Context) (*struct{}, *_http.Response, error) {
 				return &struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
 			})
-		assert.True(t, commonerrors.Any(err, commonerrors.ErrMarshalling))
+		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
 	})
 }
