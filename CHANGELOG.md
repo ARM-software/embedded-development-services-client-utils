@@ -2,6 +2,19 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.15.1" (2025-04-28)
+========================
+
+Bugfixes
+--------
+
+- :gear: Add a check in CallAndCheckSuccess for response unmarshalling issues (#20250423114015)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.15.0" (2025-04-14)
 ========================
 
