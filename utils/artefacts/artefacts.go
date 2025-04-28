@@ -78,10 +78,10 @@ func determineArtefactDestination[M IManager](outputDir string, maintainTree boo
 }
 
 type ArtefactManager[
-M IManager,
-D ILinkData,
-L ILinks[D],
-C ICollection[D, L],
+	M IManager,
+	D ILinkData,
+	L ILinks[D],
+	C ICollection[D, L],
 ] struct {
 	getArtefactManagerFunc            GetArtefactManagerFunc[M]
 	getArtefactContentFunc            GetArtefactContentFunc
@@ -91,10 +91,10 @@ C ICollection[D, L],
 
 // NewArtefactManager returns an artefact manager.
 func NewArtefactManager[
-M IManager,
-D ILinkData,
-L ILinks[D],
-C ICollection[D, L],
+	M IManager,
+	D ILinkData,
+	L ILinks[D],
+	C ICollection[D, L],
 ](
 	getArtefactManagersFirstPage GetArtefactManagersFirstPageFunc[D, L, C],
 	getArtefactsManagersPage FollowLinkToArtefactManagersPageFunc[D, L, C],
