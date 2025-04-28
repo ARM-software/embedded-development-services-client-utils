@@ -15,12 +15,13 @@ import (
 
 	"github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
+	"github.com/ARM-software/golang-utils/utils/commonerrors/errortest"
 )
 
 func TestFormatMessage(t *testing.T) {
 	message, err := FormatMessage(nil)
 	require.Error(t, err)
-	assert.True(t, commonerrors.Any(err, commonerrors.ErrUndefined))
+	errortest.AssertError(t, err, commonerrors.ErrUndefined)
 	assert.Empty(t, message)
 	message, err = FormatMessage(client.NewMessageObject(faker.Sentence()))
 	require.NoError(t, err)

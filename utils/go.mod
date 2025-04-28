@@ -3,14 +3,14 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.24
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.53.1
-	github.com/ARM-software/golang-utils/utils v1.91.0
+	github.com/ARM-software/embedded-development-services-client/client v1.54.0
+	github.com/ARM-software/golang-utils/utils v1.93.0
 	github.com/go-faker/faker/v4 v4.6.0
 	github.com/go-logr/logr v1.4.2
 	github.com/stretchr/testify v1.10.0
 	go.uber.org/atomic v1.11.0
 	go.uber.org/goleak v1.3.0
-	go.uber.org/mock v0.5.0
+	go.uber.org/mock v0.5.2
 	golang.org/x/sync v0.13.0
 )
 
@@ -74,9 +74,13 @@ require (
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
+	golang.org/x/mod v0.24.0 // indirect
 	golang.org/x/oauth2 v0.29.0 // indirect
 	golang.org/x/sys v0.32.0 // indirect
 	golang.org/x/text v0.24.0 // indirect
+	golang.org/x/tools v0.30.0 // indirect
 	gopkg.in/toast.v1 v1.0.0-20180812000517-0a84660828b2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+tool go.uber.org/mock/mockgen

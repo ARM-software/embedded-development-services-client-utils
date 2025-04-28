@@ -20,6 +20,7 @@ import (
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/logs"
 	"github.com/ARM-software/golang-utils/utils/parallelisation"
+	"github.com/ARM-software/golang-utils/utils/reflection"
 	"github.com/ARM-software/golang-utils/utils/retry"
 )
 
@@ -37,22 +38,20 @@ func (m *Manager) FetchJobMessagesFirstPage(ctx context.Context, job IAsynchrono
 		return
 	}
 	if job == nil {
-		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
+		err = commonerrors.UndefinedVariable("job")
 		return
 	}
 	jobName, err := job.FetchName()
 	if err != nil {
 		return
 	}
-	jobType := job.FetchType()
-	page, resp, apierr := m.fetchJobFirstMessagePageFunc(ctx, jobName)
-	if resp != nil {
-		_ = resp.Body.Close()
-	}
-	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("could not fetch %v [%v]'s messages first page", jobType, jobName), resp, apierr)
-	if err != nil {
+	if reflection.IsEmpty(jobName) {
+		err = commonerrors.UndefinedVariable("job identifier")
 		return
 	}
+	page, err = api.GenericCallAndCheckSuccess[pagination.IStaticPageStream](ctx, fmt.Sprintf("could not fetch %v [%v]'s messages first page", job.FetchType(), jobName), func(fCtx context.Context) (pagination.IStaticPageStream, *http.Response, error) {
+		return m.fetchJobFirstMessagePageFunc(fCtx, jobName)
+	})
 	return
 }
 
@@ -71,7 +70,11 @@ func waitForJobState(ctx context.Context, logger logs.Loggers, job IAsynchronous
 	if err != nil {
 		return
 	}
-	notStartedError := fmt.Errorf("%w: job [%v] has not reached the expected state [%v]", commonerrors.ErrCondition, jobName, jobState)
+	if reflection.IsEmpty(jobName) {
+		err = commonerrors.UndefinedVariable("job identifier")
+		return
+	}
+	notStartedError := commonerrors.Newf(commonerrors.ErrCondition, "job [%v] has not reached the expected state [%v]", jobName, jobState)
 	err = retry.RetryOnError(subCtx, logs.NewPlainLogrLoggerFromLoggers(logger), retryCfg, func() error {
 		inState, subErr := checkStateFunc(subCtx, job)
 		if subErr != nil {
@@ -230,7 +233,7 @@ func (m *Manager) areThereMessages(ctx context.Context, job IAsynchronousJob) (h
 		return
 	}
 	if job == nil {
-		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
+		err = commonerrors.UndefinedVariable("job")
 		return
 	}
 	if job.HasMessages() {
@@ -242,12 +245,14 @@ func (m *Manager) areThereMessages(ctx context.Context, job IAsynchronousJob) (h
 	if err != nil {
 		return
 	}
-	jobType := job.FetchType()
-	jobStatus, resp, apierr := m.fetchJobStatusFunc(ctx, jobName)
-	if resp != nil {
-		_ = resp.Body.Close()
+	if reflection.IsEmpty(jobName) {
+		err = commonerrors.UndefinedVariable("job identifier")
+		return
 	}
-	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("could not fetch %v [%v]'s status", jobType, jobName), resp, apierr)
+	jobType := job.FetchType()
+	jobStatus, err := api.GenericCallAndCheckSuccess[IAsynchronousJob](ctx, fmt.Sprintf("could not fetch %v [%v]'s status", jobType, jobName), func(fCtx context.Context) (IAsynchronousJob, *http.Response, error) {
+		return m.fetchJobStatusFunc(fCtx, jobName)
+	})
 	if err != nil {
 		return
 	}
@@ -261,7 +266,7 @@ func (m *Manager) HasJobStarted(ctx context.Context, job IAsynchronousJob) (star
 		return
 	}
 	if job == nil {
-		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
+		err = commonerrors.UndefinedVariable("job")
 		return
 	}
 	if job.GetDone() {
@@ -277,12 +282,13 @@ func (m *Manager) HasJobStarted(ctx context.Context, job IAsynchronousJob) (star
 	if err != nil {
 		return
 	}
-	jobType := job.FetchType()
-	jobStatus, resp, apierr := m.fetchJobStatusFunc(ctx, jobName)
-	if resp != nil {
-		_ = resp.Body.Close()
+	if reflection.IsEmpty(jobName) {
+		err = commonerrors.UndefinedVariable("job identifier")
+		return
 	}
-	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("could not fetch %v [%v]'s status", jobType, jobName), resp, apierr)
+	jobStatus, err := api.GenericCallAndCheckSuccess[IAsynchronousJob](ctx, fmt.Sprintf("could not fetch %v [%v]'s status", job.FetchType(), jobName), func(fCtx context.Context) (IAsynchronousJob, *http.Response, error) {
+		return m.fetchJobStatusFunc(fCtx, jobName)
+	})
 	if err != nil {
 		return
 	}
@@ -300,19 +306,21 @@ func (m *Manager) HasJobCompleted(ctx context.Context, job IAsynchronousJob) (co
 		return
 	}
 	if job == nil {
-		err = fmt.Errorf("%w: missing job", commonerrors.ErrUndefined)
+		err = commonerrors.UndefinedVariable("job")
 		return
 	}
 	jobName, err := job.FetchName()
 	if err != nil {
 		return
 	}
-	jobType := job.FetchType()
-	jobStatus, resp, apierr := m.fetchJobStatusFunc(ctx, jobName)
-	if resp != nil {
-		_ = resp.Body.Close()
+	if reflection.IsEmpty(jobName) {
+		err = commonerrors.UndefinedVariable("job identifier")
+		return
 	}
-	err = api.CheckAPICallSuccess(ctx, fmt.Sprintf("could not fetch %v [%v]'s status", jobType, jobName), resp, apierr)
+	jobType := job.FetchType()
+	jobStatus, err := api.GenericCallAndCheckSuccess[IAsynchronousJob](ctx, fmt.Sprintf("could not fetch %v [%v]'s status", jobType, jobName), func(fCtx context.Context) (IAsynchronousJob, *http.Response, error) {
+		return m.fetchJobStatusFunc(fCtx, jobName)
+	})
 	if err != nil {
 		return
 	}
@@ -320,18 +328,18 @@ func (m *Manager) HasJobCompleted(ctx context.Context, job IAsynchronousJob) (co
 		completed = true
 	}
 	if jobStatus.GetError() {
-		err = fmt.Errorf("%w: %v [%v] errored: %v", commonerrors.ErrUnexpected, jobType, jobName, jobStatus.GetStatus())
+		err = commonerrors.Newf(commonerrors.ErrUnexpected, "%v [%v] errored: %v", jobType, jobName, jobStatus.GetStatus())
 		return
 	}
 	if jobStatus.GetFailure() {
-		err = fmt.Errorf("%w: %v [%v] failed: %v", commonerrors.ErrInvalid, jobType, jobName, jobStatus.GetStatus())
+		err = commonerrors.Newf(commonerrors.ErrInvalid, "%v [%v] failed: %v", jobType, jobName, jobStatus.GetStatus())
 		return
 	}
 	if jobStatus.GetSuccess() {
 		return
 	}
 	if completed {
-		err = fmt.Errorf("%w: %v [%v] completed but without success: %v", commonerrors.ErrUnexpected, jobType, jobName, jobStatus.GetStatus())
+		err = commonerrors.Newf(commonerrors.ErrUnexpected, "%v [%v] completed but without success: %v", jobType, jobName, jobStatus.GetStatus())
 		return
 	}
 	return
@@ -354,7 +362,7 @@ func newJobManagerFromMessageFactory(logger *messages.MessageLoggerFactory, back
 		return nil, commonerrors.ErrNoLogger
 	}
 	if messagePaginator == nil {
-		return nil, fmt.Errorf("%w: missing paginator factory", commonerrors.ErrUndefined)
+		return nil, commonerrors.UndefinedVariable("paginator factory")
 	}
 	return &Manager{
 		messageLoggerFactory:         *logger,

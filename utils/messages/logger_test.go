@@ -11,13 +11,13 @@ import (
 	"time"
 
 	"github.com/go-faker/faker/v4"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/goleak"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/logging"
 	"github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
+	"github.com/ARM-software/golang-utils/utils/commonerrors/errortest"
 	"github.com/ARM-software/golang-utils/utils/field"
 )
 
@@ -118,7 +118,7 @@ func TestLogMessageCollectionCancel(t *testing.T) {
 			cancel()
 			err = logger.LogMessagesCollection(gtx, messages)
 			require.Error(t, err)
-			assert.True(t, commonerrors.Any(err, commonerrors.ErrCancelled))
+			errortest.AssertError(t, err, commonerrors.ErrCancelled)
 			require.NoError(t, logger.Close())
 		})
 	}
