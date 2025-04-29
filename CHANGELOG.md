@@ -2,6 +2,26 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.16.0" (2025-04-29)
+========================
+
+Features
+--------
+
+- :sparkles: [api] Add a robust call method to deal with interfaces (#20250429004302)
+
+
+Bugfixes
+--------
+
+- :camel: Upgrade dependencies (#20250429002423)
+- :recycle: Make all the calls more robust to marshaling errors (#20250429004339)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.15.1" (2025-04-28)
 ========================
 
