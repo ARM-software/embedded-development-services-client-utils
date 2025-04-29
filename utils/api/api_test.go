@@ -13,6 +13,7 @@ import (
 	_http "net/http"
 	"testing"
 
+	"github.com/go-faker/faker/v4"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
@@ -121,5 +122,66 @@ func TestCallAndCheckSuccess(t *testing.T) {
 				return &struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
 			})
 		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
+	})
+}
+
+func TestGenericCallAndCheckSuccess(t *testing.T) {
+	t.Run("context cancelled", func(t *testing.T) {
+		errMessage := "context cancelled"
+		parentCtx := context.Background()
+		ctx, cancelCtx := context.WithCancel(parentCtx)
+		cancelCtx()
+		_, actualErr := GenericCallAndCheckSuccess(ctx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				return nil, &_http.Response{Body: io.NopCloser(bytes.NewReader(nil))}, errors.New(errMessage)
+			})
+		errortest.AssertError(t, actualErr, commonerrors.ErrCancelled)
+	})
+
+	t.Run("api call not successful", func(t *testing.T) {
+		errMessage := "client error"
+		parentCtx := context.Background()
+		_, actualErr := GenericCallAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				resp := _http.Response{StatusCode: 400, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
+				return nil, &resp, errors.New(errMessage)
+			})
+		expectedErr := "client error (400): API call error [request-id: 761761721] client error; client error"
+		assert.Equal(t, actualErr.Error(), expectedErr)
+	})
+
+	t.Run("no context error, api call successful", func(t *testing.T) {
+		errMessage := "no error"
+		parentCtx := context.Background()
+		_, err := GenericCallAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (any, *_http.Response, error) {
+				tmp := struct {
+					test string
+				}{
+					test: faker.Word(),
+				}
+				return &tmp, &_http.Response{StatusCode: 200}, errors.New(errMessage)
+			})
+		assert.NoError(t, err)
+	})
+
+	t.Run("api call successful, empty response", func(t *testing.T) {
+		errMessage := "response error"
+		parentCtx := context.Background()
+		_, err := GenericCallAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				return &struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
+			})
+		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
+	})
+
+	t.Run("api call successful, incorrect response", func(t *testing.T) {
+		errMessage := "response error"
+		parentCtx := context.Background()
+		_, err := GenericCallAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (struct{}, *_http.Response, error) {
+				return struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
+			})
+		errortest.AssertError(t, err, commonerrors.ErrConflict)
 	})
 }

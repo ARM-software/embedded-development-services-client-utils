@@ -10,6 +10,7 @@ import (
 	"context"
 	"fmt"
 	_http "net/http"
+	"reflect"
 	"strings"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/errors"
@@ -81,6 +82,37 @@ func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCal
 			err = commonerrors.New(commonerrors.ErrMarshalling, "unmarshalled response is empty")
 			return
 		}
+	}
+
+	return
+}
+
+// GenericCallAndCheckSuccess is similar to CallAndCheckSuccess but for function returning interfaces rather than concrete types.
+// T must be an interface.
+// errorContext corresponds to the description of what led to the error if error there is e.g. `Failed adding a user`.
+// apiCallFunc corresponds to a generic function that will be called to make the API call
+func GenericCallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCallFunc func(ctx context.Context) (T, *_http.Response, error)) (result T, err error) {
+	if err = parallelisation.DetermineContextError(ctx); err != nil {
+		return
+	}
+
+	result, resp, apiErr := apiCallFunc(ctx)
+	if resp != nil && resp.Body != nil {
+		_ = resp.Body.Close()
+	}
+
+	if err = CheckAPICallSuccess(ctx, errorContext, resp, apiErr); err != nil {
+		return
+	}
+
+	if reflect.ValueOf(result).Kind() != reflect.Ptr {
+		err = commonerrors.Newf(commonerrors.ErrConflict, "result of the call is of type [%T] and so, not a pointer as expected", result)
+		return
+	}
+
+	if reflection.IsEmpty(result) {
+		err = commonerrors.New(commonerrors.ErrMarshalling, "unmarshalled response is empty")
+		return
 	}
 
 	return

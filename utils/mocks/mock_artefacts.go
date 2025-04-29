@@ -18,37 +18,37 @@ import (
 	context "context"
 	reflect "reflect"
 
-	client "github.com/ARM-software/embedded-development-services-client/client"
+	artefacts "github.com/ARM-software/embedded-development-services-client-utils/utils/artefacts"
 	pagination "github.com/ARM-software/golang-utils/utils/collection/pagination"
 	gomock "go.uber.org/mock/gomock"
 )
 
 // MockIArtefactManager is a mock of IArtefactManager interface.
-type MockIArtefactManager struct {
+type MockIArtefactManager[M artefacts.IManager, D artefacts.ILinkData] struct {
 	ctrl     *gomock.Controller
-	recorder *MockIArtefactManagerMockRecorder
+	recorder *MockIArtefactManagerMockRecorder[M, D]
 	isgomock struct{}
 }
 
 // MockIArtefactManagerMockRecorder is the mock recorder for MockIArtefactManager.
-type MockIArtefactManagerMockRecorder struct {
-	mock *MockIArtefactManager
+type MockIArtefactManagerMockRecorder[M artefacts.IManager, D artefacts.ILinkData] struct {
+	mock *MockIArtefactManager[M, D]
 }
 
 // NewMockIArtefactManager creates a new mock instance.
-func NewMockIArtefactManager(ctrl *gomock.Controller) *MockIArtefactManager {
-	mock := &MockIArtefactManager{ctrl: ctrl}
-	mock.recorder = &MockIArtefactManagerMockRecorder{mock}
+func NewMockIArtefactManager[M artefacts.IManager, D artefacts.ILinkData](ctrl *gomock.Controller) *MockIArtefactManager[M, D] {
+	mock := &MockIArtefactManager[M, D]{ctrl: ctrl}
+	mock.recorder = &MockIArtefactManagerMockRecorder[M, D]{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockIArtefactManager) EXPECT() *MockIArtefactManagerMockRecorder {
+func (m *MockIArtefactManager[M, D]) EXPECT() *MockIArtefactManagerMockRecorder[M, D] {
 	return m.recorder
 }
 
 // DownloadAllJobArtefacts mocks base method.
-func (m *MockIArtefactManager) DownloadAllJobArtefacts(ctx context.Context, jobName, outputDirectory string) error {
+func (m *MockIArtefactManager[M, D]) DownloadAllJobArtefacts(ctx context.Context, jobName, outputDirectory string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DownloadAllJobArtefacts", ctx, jobName, outputDirectory)
 	ret0, _ := ret[0].(error)
@@ -56,13 +56,13 @@ func (m *MockIArtefactManager) DownloadAllJobArtefacts(ctx context.Context, jobN
 }
 
 // DownloadAllJobArtefacts indicates an expected call of DownloadAllJobArtefacts.
-func (mr *MockIArtefactManagerMockRecorder) DownloadAllJobArtefacts(ctx, jobName, outputDirectory any) *gomock.Call {
+func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefacts(ctx, jobName, outputDirectory any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefacts", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadAllJobArtefacts), ctx, jobName, outputDirectory)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefacts", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadAllJobArtefacts), ctx, jobName, outputDirectory)
 }
 
 // DownloadAllJobArtefactsWithTree mocks base method.
-func (m *MockIArtefactManager) DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) error {
+func (m *MockIArtefactManager[M, D]) DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DownloadAllJobArtefactsWithTree", ctx, jobName, maintainTreeStructure, outputDirectory)
 	ret0, _ := ret[0].(error)
@@ -70,13 +70,13 @@ func (m *MockIArtefactManager) DownloadAllJobArtefactsWithTree(ctx context.Conte
 }
 
 // DownloadAllJobArtefactsWithTree indicates an expected call of DownloadAllJobArtefactsWithTree.
-func (mr *MockIArtefactManagerMockRecorder) DownloadAllJobArtefactsWithTree(ctx, jobName, maintainTreeStructure, outputDirectory any) *gomock.Call {
+func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefactsWithTree(ctx, jobName, maintainTreeStructure, outputDirectory any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefactsWithTree", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadAllJobArtefactsWithTree), ctx, jobName, maintainTreeStructure, outputDirectory)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefactsWithTree", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadAllJobArtefactsWithTree), ctx, jobName, maintainTreeStructure, outputDirectory)
 }
 
 // DownloadJobArtefact mocks base method.
-func (m *MockIArtefactManager) DownloadJobArtefact(ctx context.Context, jobName, outputDirectory string, artefactManager *client.ArtefactManagerItem) error {
+func (m *MockIArtefactManager[M, D]) DownloadJobArtefact(ctx context.Context, jobName, outputDirectory string, artefactManager M) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DownloadJobArtefact", ctx, jobName, outputDirectory, artefactManager)
 	ret0, _ := ret[0].(error)
@@ -84,13 +84,13 @@ func (m *MockIArtefactManager) DownloadJobArtefact(ctx context.Context, jobName,
 }
 
 // DownloadJobArtefact indicates an expected call of DownloadJobArtefact.
-func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefact(ctx, jobName, outputDirectory, artefactManager any) *gomock.Call {
+func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefact(ctx, jobName, outputDirectory, artefactManager any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefact", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefact), ctx, jobName, outputDirectory, artefactManager)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefact", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadJobArtefact), ctx, jobName, outputDirectory, artefactManager)
 }
 
 // DownloadJobArtefactFromLink mocks base method.
-func (m *MockIArtefactManager) DownloadJobArtefactFromLink(ctx context.Context, jobName, outputDirectory string, artefactManagerItemLink *client.HalLinkData) error {
+func (m *MockIArtefactManager[M, D]) DownloadJobArtefactFromLink(ctx context.Context, jobName, outputDirectory string, artefactManagerItemLink D) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DownloadJobArtefactFromLink", ctx, jobName, outputDirectory, artefactManagerItemLink)
 	ret0, _ := ret[0].(error)
@@ -98,13 +98,13 @@ func (m *MockIArtefactManager) DownloadJobArtefactFromLink(ctx context.Context, 
 }
 
 // DownloadJobArtefactFromLink indicates an expected call of DownloadJobArtefactFromLink.
-func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefactFromLink(ctx, jobName, outputDirectory, artefactManagerItemLink any) *gomock.Call {
+func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactFromLink(ctx, jobName, outputDirectory, artefactManagerItemLink any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactFromLink", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefactFromLink), ctx, jobName, outputDirectory, artefactManagerItemLink)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactFromLink", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadJobArtefactFromLink), ctx, jobName, outputDirectory, artefactManagerItemLink)
 }
 
 // DownloadJobArtefactFromLinkWithTree mocks base method.
-func (m *MockIArtefactManager) DownloadJobArtefactFromLinkWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManagerItemLink *client.HalLinkData) error {
+func (m *MockIArtefactManager[M, D]) DownloadJobArtefactFromLinkWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManagerItemLink D) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DownloadJobArtefactFromLinkWithTree", ctx, jobName, maintainTreeLocation, outputDirectory, artefactManagerItemLink)
 	ret0, _ := ret[0].(error)
@@ -112,13 +112,13 @@ func (m *MockIArtefactManager) DownloadJobArtefactFromLinkWithTree(ctx context.C
 }
 
 // DownloadJobArtefactFromLinkWithTree indicates an expected call of DownloadJobArtefactFromLinkWithTree.
-func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefactFromLinkWithTree(ctx, jobName, maintainTreeLocation, outputDirectory, artefactManagerItemLink any) *gomock.Call {
+func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactFromLinkWithTree(ctx, jobName, maintainTreeLocation, outputDirectory, artefactManagerItemLink any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactFromLinkWithTree", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefactFromLinkWithTree), ctx, jobName, maintainTreeLocation, outputDirectory, artefactManagerItemLink)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactFromLinkWithTree", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadJobArtefactFromLinkWithTree), ctx, jobName, maintainTreeLocation, outputDirectory, artefactManagerItemLink)
 }
 
 // DownloadJobArtefactWithTree mocks base method.
-func (m *MockIArtefactManager) DownloadJobArtefactWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManager *client.ArtefactManagerItem) error {
+func (m *MockIArtefactManager[M, D]) DownloadJobArtefactWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, outputDirectory string, artefactManager M) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DownloadJobArtefactWithTree", ctx, jobName, maintainTreeLocation, outputDirectory, artefactManager)
 	ret0, _ := ret[0].(error)
@@ -126,13 +126,13 @@ func (m *MockIArtefactManager) DownloadJobArtefactWithTree(ctx context.Context, 
 }
 
 // DownloadJobArtefactWithTree indicates an expected call of DownloadJobArtefactWithTree.
-func (mr *MockIArtefactManagerMockRecorder) DownloadJobArtefactWithTree(ctx, jobName, maintainTreeLocation, outputDirectory, artefactManager any) *gomock.Call {
+func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactWithTree(ctx, jobName, maintainTreeLocation, outputDirectory, artefactManager any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactWithTree", reflect.TypeOf((*MockIArtefactManager)(nil).DownloadJobArtefactWithTree), ctx, jobName, maintainTreeLocation, outputDirectory, artefactManager)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadJobArtefactWithTree", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadJobArtefactWithTree), ctx, jobName, maintainTreeLocation, outputDirectory, artefactManager)
 }
 
 // ListJobArtefacts mocks base method.
-func (m *MockIArtefactManager) ListJobArtefacts(ctx context.Context, jobName string) (pagination.IPaginatorAndPageFetcher, error) {
+func (m *MockIArtefactManager[M, D]) ListJobArtefacts(ctx context.Context, jobName string) (pagination.IPaginatorAndPageFetcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListJobArtefacts", ctx, jobName)
 	ret0, _ := ret[0].(pagination.IPaginatorAndPageFetcher)
@@ -141,7 +141,7 @@ func (m *MockIArtefactManager) ListJobArtefacts(ctx context.Context, jobName str
 }
 
 // ListJobArtefacts indicates an expected call of ListJobArtefacts.
-func (mr *MockIArtefactManagerMockRecorder) ListJobArtefacts(ctx, jobName any) *gomock.Call {
+func (mr *MockIArtefactManagerMockRecorder[M, D]) ListJobArtefacts(ctx, jobName any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListJobArtefacts", reflect.TypeOf((*MockIArtefactManager)(nil).ListJobArtefacts), ctx, jobName)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListJobArtefacts", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).ListJobArtefacts), ctx, jobName)
 }
