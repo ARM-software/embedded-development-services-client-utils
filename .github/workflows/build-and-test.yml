@@ -77,21 +77,6 @@ jobs:
           version: latest
           working-directory: ${{ matrix.go-module }}
           args: "--verbose --print-issued-lines --print-linter-name --out-${NO_FUTURE}format colored-line-number --timeout 300s --max-issues-per-linter 0 --max-same-issues 0"
-# FIXME Send coverage to code climate
-#
-#      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
-#        name: Test [${{ matrix.go-module }} on ${{ matrix.os }}] & Publish Code Coverage
-#        uses: paambaati/codeclimate-action@v2.7.5
-#        env:
-#          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-#        with:
-#          debug: true
-#          workingDirectory: ${{ matrix.go-module }}
-#          coverageCommand: go test -race -cover -v -coverprofile ${{ matrix.go-module }}_coverage.out ./...
-#          prefix: github.com/ARM-software/${{ github.event.repository.name }}/${{ matrix.go-module }}
-#          coverageLocations:
-#            "${{github.workspace}}/${{ matrix.go-module }}/${{ matrix.go-module }}_coverage.out:gocov"
-#      - if: ${{ startsWith(matrix.os, 'windows') || startsWith(matrix.os, 'macOS') }}
       - name: Test ${{ matrix.go-module }} on ${{ matrix.os }}
         run: go test -race -cover -v ./...
         working-directory: ${{ matrix.go-module }}
