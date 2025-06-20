@@ -1,0 +1,1 @@
+:bug: `api` If the API response is successful but an error occured during marshalling, make sure to return the marshalling error

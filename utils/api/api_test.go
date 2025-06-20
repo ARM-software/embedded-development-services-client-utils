@@ -87,7 +87,7 @@ func TestCallAndCheckSuccess(t *testing.T) {
 		cancelCtx()
 		_, actualErr := CallAndCheckSuccess(ctx, errMessage,
 			func(ctx context.Context) (*struct{}, *_http.Response, error) {
-				return nil, &_http.Response{Body: io.NopCloser(bytes.NewReader(nil))}, errors.New(errMessage)
+				return nil, &_http.Response{Body: io.NopCloser(bytes.NewReader(nil))}, nil
 			})
 		errortest.AssertError(t, actualErr, commonerrors.ErrCancelled)
 	})
@@ -104,24 +104,26 @@ func TestCallAndCheckSuccess(t *testing.T) {
 		assert.Equal(t, actualErr.Error(), expectedErr)
 	})
 
-	t.Run("no context error, api call successful", func(t *testing.T) {
-		errMessage := "no error"
-		parentCtx := context.Background()
-		_, err := CallAndCheckSuccess(parentCtx, errMessage,
-			func(ctx context.Context) (*struct{}, *_http.Response, error) {
-				return nil, &_http.Response{StatusCode: 200}, errors.New(errMessage)
-			})
-		assert.NoError(t, err)
-	})
-
 	t.Run("api call successful, empty response", func(t *testing.T) {
-		errMessage := "response error"
+		errMessage := "no error"
 		parentCtx := context.Background()
 		_, err := CallAndCheckSuccess(parentCtx, errMessage,
 			func(ctx context.Context) (*struct{}, *_http.Response, error) {
 				return &struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
 			})
 		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
+		errortest.AssertErrorDescription(t, err, "API call was successful but an error occurred during response marshalling")
+	})
+
+	t.Run("api call successful, broken response decode", func(t *testing.T) {
+		errMessage := "no error"
+		parentCtx := context.Background()
+		_, err := CallAndCheckSuccess(parentCtx, errMessage,
+			func(ctx context.Context) (*struct{}, *_http.Response, error) {
+				return &struct{}{}, &_http.Response{StatusCode: 200}, nil
+			})
+		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
+		errortest.AssertErrorDescription(t, err, "unmarshalled response is empty")
 	})
 }
 
