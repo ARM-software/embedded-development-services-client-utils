@@ -78,7 +78,7 @@ func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCal
 	}
 
 	if apiErr != nil {
-		err = commonerrors.WrapError(commonerrors.ErrMarshalling, apiErr, "API call was successful but an error occured during response marshalling")
+		err = commonerrors.WrapError(commonerrors.ErrMarshalling, apiErr, "API call was successful but an error occurred during response marshalling")
 		return
 	}
 
