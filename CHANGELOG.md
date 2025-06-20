@@ -2,6 +2,29 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.16.1" (2025-06-20)
+========================
+
+Bugfixes
+--------
+
+- Dependency upgrade: golang-1.24.3 (#20250507174741)
+- Dependency upgrade: fetch-metadata-2.4.0 (#20250512175234)
+- Dependency upgrade: scorecard-action-2.4.2 (#20250530170837)
+- Dependency upgrade: golang-1.24.4 (#20250606175536)
+- :bug: `api` If the API response is successful but an error occured during marshalling, make sure to return the marshalling error (#20250620134750)
+
+
+Misc
+----
+
+- #20250612122250
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.16.0" (2025-04-29)
 ========================
 
