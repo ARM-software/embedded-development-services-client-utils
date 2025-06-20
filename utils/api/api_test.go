@@ -112,7 +112,7 @@ func TestCallAndCheckSuccess(t *testing.T) {
 				return &struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
 			})
 		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
-		errortest.AssertErrorDescription(t, err, "API call was sucessful but an error occured during response marshalling")
+		errortest.AssertErrorDescription(t, err, "API call was successful but an error occured during response marshalling")
 	})
 
 	t.Run("api call successful, broken response decode", func(t *testing.T) {
