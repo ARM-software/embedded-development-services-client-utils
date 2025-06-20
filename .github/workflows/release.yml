@@ -1,7 +1,7 @@
 name: GitHub Release
 
 env:
-  go_version: "1.24.3"
+  go_version: "1.24.4"
   python_version: "3.10"
 
 on:
