@@ -77,11 +77,14 @@ func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCal
 		return
 	}
 
-	if result != nil {
-		if reflection.IsEmpty(result) {
-			err = commonerrors.New(commonerrors.ErrMarshalling, "unmarshalled response is empty")
-			return
-		}
+	if apiErr != nil {
+		err = commonerrors.WrapError(commonerrors.ErrMarshalling, apiErr, "API call was sucessful but an error occured during response marshalling")
+		return
+	}
+
+	if result != nil && reflection.IsEmpty(result) {
+		err = commonerrors.New(commonerrors.ErrMarshalling, "unmarshalled response is empty")
+		return
 	}
 
 	return
