@@ -17,7 +17,11 @@ import (
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/parallelisation"
 	"github.com/ARM-software/golang-utils/utils/reflection"
+	"github.com/ARM-software/golang-utils/utils/safeio"
+	"github.com/perimeterx/marshmallow"
 )
+
+const requiredFieldError = "no value given for required property"
 
 // IsCallSuccessful determines whether an API response is successful or not
 func IsCallSuccessful(r *_http.Response) bool {
@@ -70,15 +74,20 @@ func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCal
 
 	result, resp, apiErr := apiCallFunc(ctx)
 	if resp != nil && resp.Body != nil {
-		_ = resp.Body.Close()
+		defer func() {
+			if resp != nil && resp.Body != nil {
+				_ = resp.Body.Close()
+			}
+		}()
 	}
 
-	if err = CheckAPICallSuccess(ctx, errorContext, resp, apiErr); err != nil {
+	err = CheckAPICallSuccess(ctx, errorContext, resp, apiErr)
+	if err != nil {
 		return
 	}
 
-	if apiErr != nil {
-		err = commonerrors.WrapError(commonerrors.ErrMarshalling, apiErr, "API call was successful but an error occurred during response marshalling")
+	err = checkResponseMarshalling(ctx, apiErr, resp, result)
+	if err != nil {
 		return
 	}
 
@@ -87,6 +96,31 @@ func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCal
 		return
 	}
 
+	return
+}
+
+func checkResponseMarshalling(ctx context.Context, apiErr error, resp *_http.Response, result any) (err error) {
+	if apiErr != nil {
+		err = commonerrors.WrapError(commonerrors.ErrMarshalling, apiErr, "API call was successful but an error occurred during response marshalling")
+		if commonerrors.CorrespondTo(apiErr, requiredFieldError) {
+			return
+		}
+		if resp == nil || resp.Body == nil {
+			return
+		}
+		// At this point, the marshalling problem may be due to the present of unknown fields in the response due to an API extension.
+		// See https://github.com/OpenAPITools/openapi-generator/issues/21446
+		var respB []byte
+		respB, err = safeio.ReadAll(ctx, resp.Body)
+		if err != nil {
+			return
+		}
+		_, err = marshmallow.Unmarshal(respB, result, marshmallow.WithSkipPopulateStruct(false), marshmallow.WithExcludeKnownFieldsFromMap(true))
+		if err != nil {
+			err = commonerrors.WrapError(commonerrors.ErrMarshalling, err, "API call was successful but an error occurred during response marshalling")
+			return
+		}
+	}
 	return
 }
 
@@ -104,7 +138,13 @@ func GenericCallAndCheckSuccess[T any](ctx context.Context, errorContext string,
 		_ = resp.Body.Close()
 	}
 
-	if err = CheckAPICallSuccess(ctx, errorContext, resp, apiErr); err != nil {
+	err = CheckAPICallSuccess(ctx, errorContext, resp, apiErr)
+	if err != nil {
+		return
+	}
+
+	err = checkResponseMarshalling(ctx, apiErr, resp, result)
+	if err != nil {
 		return
 	}
 

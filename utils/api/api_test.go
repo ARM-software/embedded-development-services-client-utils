@@ -8,6 +8,7 @@ package api
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"io"
 	_http "net/http"
@@ -15,9 +16,12 @@ import (
 
 	"github.com/go-faker/faker/v4"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
+	"github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/commonerrors/errortest"
+	"github.com/ARM-software/golang-utils/utils/field"
 )
 
 func TestIsAPICallSuccessful(t *testing.T) {
@@ -104,6 +108,66 @@ func TestCallAndCheckSuccess(t *testing.T) {
 		assert.Equal(t, actualErr.Error(), expectedErr)
 	})
 
+	t.Run("api call successful, marshalling failed due to missing required field in response", func(t *testing.T) {
+		expectedErrorMessage := client.ErrorResponse{
+			Fields: []client.FieldObject{{
+				FieldName: faker.Name(),
+				FieldPath: field.ToOptionalString(faker.Name()),
+				Message:   faker.Sentence(),
+			}},
+			HttpStatusCode: 200,
+			Message:        faker.Sentence(),
+			RequestId:      faker.UUIDDigit(),
+		}
+		response, err := expectedErrorMessage.ToMap()
+		require.NoError(t, err)
+		delete(response, "message")
+
+		reducedResponse, err := json.Marshal(response)
+		require.NoError(t, err)
+
+		errorResponse := client.ErrorResponse{}
+		errM := errorResponse.UnmarshalJSON(reducedResponse)
+		require.Error(t, errM)
+
+		parentCtx := context.Background()
+		_, err = CallAndCheckSuccess[client.ErrorResponse](parentCtx, "test",
+			func(ctx context.Context) (*client.ErrorResponse, *_http.Response, error) {
+				return &errorResponse, &_http.Response{StatusCode: 200, Body: io.NopCloser(bytes.NewReader(reducedResponse))}, errM
+			})
+		require.Error(t, err)
+		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
+	})
+
+	t.Run("api call successful, strict marshalling failed but recovery", func(t *testing.T) {
+		expectedErrorMessage := client.ErrorResponse{
+			Fields: []client.FieldObject{{
+				FieldName: faker.Name(),
+				FieldPath: field.ToOptionalString(faker.Name()),
+				Message:   faker.Sentence(),
+			}},
+			HttpStatusCode: 200,
+			Message:        faker.Sentence(),
+			RequestId:      faker.UUIDDigit(),
+		}
+		response, err := expectedErrorMessage.ToMap()
+		require.NoError(t, err)
+		response[faker.Word()] = faker.Name()
+		response[faker.Word()] = faker.Sentence()
+		response[faker.Word()] = faker.Paragraph()
+		response[faker.Word()] = faker.UUIDDigit()
+		extendedResponse, err := json.Marshal(response)
+		require.NoError(t, err)
+		errMessage := "no error"
+		parentCtx := context.Background()
+		result, err := CallAndCheckSuccess[client.ErrorResponse](parentCtx, errMessage,
+			func(ctx context.Context) (*client.ErrorResponse, *_http.Response, error) {
+				return &client.ErrorResponse{}, &_http.Response{StatusCode: 200, Body: io.NopCloser(bytes.NewReader(extendedResponse))}, errors.New(errMessage)
+			})
+		require.NoError(t, err)
+		assert.Equal(t, expectedErrorMessage, *result)
+	})
+
 	t.Run("api call successful, empty response", func(t *testing.T) {
 		errMessage := "no error"
 		parentCtx := context.Background()
@@ -152,7 +216,7 @@ func TestGenericCallAndCheckSuccess(t *testing.T) {
 		assert.Equal(t, actualErr.Error(), expectedErr)
 	})
 
-	t.Run("no context error, api call successful", func(t *testing.T) {
+	t.Run("api call successful but error marshalling", func(t *testing.T) {
 		errMessage := "no error"
 		parentCtx := context.Background()
 		_, err := GenericCallAndCheckSuccess(parentCtx, errMessage,
@@ -164,7 +228,8 @@ func TestGenericCallAndCheckSuccess(t *testing.T) {
 				}
 				return &tmp, &_http.Response{StatusCode: 200}, errors.New(errMessage)
 			})
-		assert.NoError(t, err)
+		require.Error(t, err)
+		errortest.AssertError(t, err, commonerrors.ErrMarshalling)
 	})
 
 	t.Run("api call successful, empty response", func(t *testing.T) {
@@ -178,11 +243,10 @@ func TestGenericCallAndCheckSuccess(t *testing.T) {
 	})
 
 	t.Run("api call successful, incorrect response", func(t *testing.T) {
-		errMessage := "response error"
 		parentCtx := context.Background()
-		_, err := GenericCallAndCheckSuccess(parentCtx, errMessage,
+		_, err := GenericCallAndCheckSuccess(parentCtx, "response error",
 			func(ctx context.Context) (struct{}, *_http.Response, error) {
-				return struct{}{}, &_http.Response{StatusCode: 200}, errors.New(errMessage)
+				return struct{}{}, &_http.Response{StatusCode: 200}, nil
 			})
 		errortest.AssertError(t, err, commonerrors.ErrConflict)
 	})
