@@ -245,8 +245,8 @@ func TestGenericCallAndCheckSuccess(t *testing.T) {
 	t.Run("api call successful, incorrect response", func(t *testing.T) {
 		parentCtx := context.Background()
 		_, err := GenericCallAndCheckSuccess(parentCtx, "response error",
-			func(ctx context.Context) (struct{}, *_http.Response, error) {
-				return struct{}{}, &_http.Response{StatusCode: 200}, nil
+			func(ctx context.Context) (struct{ Blah string }, *_http.Response, error) {
+				return struct{ Blah string }{Blah: "fsadsfs"}, &_http.Response{StatusCode: 200}, nil
 			})
 		errortest.AssertError(t, err, commonerrors.ErrConflict)
 	})

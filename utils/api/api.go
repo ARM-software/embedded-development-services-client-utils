@@ -82,25 +82,16 @@ func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCal
 		}()
 	}
 
+	err = checkResponse(ctx, apiErr, resp, result, errorContext)
+	return
+}
+
+func checkResponse(ctx context.Context, apiErr error, resp *http.Response, result any, errorContext string) (err error) {
 	err = CheckAPICallSuccess(ctx, errorContext, resp, apiErr)
 	if err != nil {
 		return
 	}
 
-	err = checkResponseMarshalling(ctx, apiErr, resp, result)
-	if err != nil {
-		return
-	}
-
-	if result != nil && reflection.IsEmpty(result) {
-		err = commonerrors.New(commonerrors.ErrMarshalling, "unmarshalled response is empty")
-		return
-	}
-
-	return
-}
-
-func checkResponseMarshalling(ctx context.Context, apiErr error, resp *http.Response, result any) (err error) {
 	if apiErr != nil {
 		err = commonerrors.WrapError(commonerrors.ErrMarshalling, apiErr, "API call was successful but an error occurred during response marshalling")
 		if commonerrors.CorrespondTo(apiErr, requiredFieldError) {
@@ -122,6 +113,10 @@ func checkResponseMarshalling(ctx context.Context, apiErr error, resp *http.Resp
 			return
 		}
 	}
+	if reflection.IsEmpty(result) {
+		err = commonerrors.New(commonerrors.ErrMarshalling, "unmarshalled response is empty")
+		return
+	}
 	return
 }
 
@@ -139,23 +134,13 @@ func GenericCallAndCheckSuccess[T any](ctx context.Context, errorContext string,
 		_ = resp.Body.Close()
 	}
 
-	err = CheckAPICallSuccess(ctx, errorContext, resp, apiErr)
-	if err != nil {
-		return
-	}
-
-	err = checkResponseMarshalling(ctx, apiErr, resp, result)
+	err = checkResponse(ctx, apiErr, resp, result, errorContext)
 	if err != nil {
 		return
 	}
 
 	if reflect.ValueOf(result).Kind() != reflect.Ptr {
 		err = commonerrors.Newf(commonerrors.ErrConflict, "result of the call is of type [%T] and so, not a pointer as expected", result)
-		return
-	}
-
-	if reflection.IsEmpty(result) {
-		err = commonerrors.New(commonerrors.ErrMarshalling, "unmarshalled response is empty")
 		return
 	}
 
