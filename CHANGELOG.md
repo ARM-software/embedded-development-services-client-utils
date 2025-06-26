@@ -2,6 +2,19 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.16.3" (2025-06-26)
+========================
+
+Bugfixes
+--------
+
+- :bug: Fix response unmarshalling issue when API has unknown fields (#20250625181408)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.16.2" (2025-06-25)
 ========================
 
