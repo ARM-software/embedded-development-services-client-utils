@@ -47,4 +47,25 @@ func TestFormatMessage(t *testing.T) {
 	require.NoError(t, err)
 	assert.NotEmpty(t, message)
 	fmt.Println(message)
+
+	t.Run("without options", func(t *testing.T) {
+		message1 := client.NewNotificationMessageObject(faker.Sentence())
+		message1.SetSource(faker.Name())
+		message1.SetCtime(time.Now())
+		message1.SetSeverity("Minor")
+		message, err = FormatMessageWithOptions(message1)
+		require.NoError(t, err)
+		assert.NotEmpty(t, message)
+		fmt.Println(message)
+	})
+	t.Run("with severity", func(t *testing.T) {
+		message1 := client.NewNotificationMessageObject(faker.Sentence())
+		message1.SetSource(faker.Name())
+		message1.SetCtime(time.Now())
+		message1.SetSeverity("Minor")
+		message, err = FormatMessageWithOptions(message1, WithSeverity)
+		require.NoError(t, err)
+		assert.NotEmpty(t, message)
+		fmt.Println(message)
+	})
 }

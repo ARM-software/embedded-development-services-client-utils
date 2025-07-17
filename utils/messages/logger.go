@@ -22,41 +22,56 @@ const (
 	messageBufferSize = 1000
 )
 
-type Logger struct {
-	rawLogger logging.ILogger
-	printer   logs.WriterWithSource
+type logger struct {
+	rawLogger    logging.ILogger
+	printer      logs.WriterWithSource
+	msgFormatter MessageFormatter
 }
 
-func (l *Logger) Check() error {
+func newLogger(rawLogger logging.ILogger, printer logs.WriterWithSource, msgFormatter *MessageFormatter) (IMessageLogger, error) {
+	if rawLogger == nil {
+		return nil, commonerrors.ErrNoLogger
+	}
+	if msgFormatter == nil {
+		return nil, commonerrors.UndefinedVariable("message formatter")
+	}
+	return &logger{
+		rawLogger:    rawLogger,
+		printer:      printer,
+		msgFormatter: *msgFormatter,
+	}, nil
+}
+
+func (l *logger) Check() error {
 	return l.rawLogger.Check()
 }
 
-func (l *Logger) SetLogSource(source string) error {
+func (l *logger) SetLogSource(source string) error {
 	return l.rawLogger.SetLogSource(source)
 }
 
-func (l *Logger) SetLoggerSource(source string) error {
+func (l *logger) SetLoggerSource(source string) error {
 	return l.rawLogger.SetLoggerSource(source)
 }
 
-func (l *Logger) Log(output ...interface{}) {
+func (l *logger) Log(output ...interface{}) {
 	l.rawLogger.Log(output...)
 }
 
-func (l *Logger) LogError(err ...interface{}) {
+func (l *logger) LogError(err ...interface{}) {
 	l.rawLogger.LogError(err...)
 }
 
-func (l *Logger) Close() error {
+func (l *logger) Close() error {
 	return l.printer.Close()
 }
 
-func (l *Logger) SetSource(source string) error {
+func (l *logger) SetSource(source string) error {
 	return l.printer.SetSource(source)
 }
 
-func (l *Logger) LogMessage(msg IMessage) {
-	m, err := FormatMessage(msg)
+func (l *logger) LogMessage(msg IMessage) {
+	m, err := l.msgFormatter.FormatMessage(msg)
 	if err != nil {
 		l.rawLogger.LogErrorAndMessage(err, "failed logging message")
 		return
@@ -68,11 +83,11 @@ func (l *Logger) LogMessage(msg IMessage) {
 	}
 }
 
-func (l *Logger) LogEmptyMessageError() {
+func (l *logger) LogEmptyMessageError() {
 	l.rawLogger.LogErrorAndMessage(commonerrors.ErrEmpty, "empty message")
 }
 
-func (l *Logger) LogMarshallingError(rawMessage *any) {
+func (l *logger) LogMarshallingError(rawMessage *any) {
 	if reflection.IsEmpty(rawMessage) {
 		l.LogEmptyMessageError()
 	} else {
@@ -80,7 +95,7 @@ func (l *Logger) LogMarshallingError(rawMessage *any) {
 	}
 }
 
-func (l *Logger) LogMessagesCollection(ctx context.Context, messagePaginator pagination.IGenericPaginator) error {
+func (l *logger) LogMessagesCollection(ctx context.Context, messagePaginator pagination.IGenericPaginator) error {
 	for {
 		err := parallelisation.DetermineContextError(ctx)
 		if err != nil {
@@ -105,48 +120,59 @@ func (l *Logger) LogMessagesCollection(ctx context.Context, messagePaginator pag
 	}
 }
 
-// NewBasicAsynchronousMessageLogger creates an asynchronous logger for messages which prints them as they come.
+// NewBasicAsynchronousMessageLogger creates an asynchronous logger for messages which prints them as they come. It uses the default message formatter.
 func NewBasicAsynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger) (IMessageLogger, error) {
+	return NewBasicAsynchronousMessageLoggerWithFormatter(ctx, rawLogger, DefaultMessageFormatter())
+}
+
+// NewBasicAsynchronousMessageLoggerWithFormatter creates an asynchronous logger for messages which prints them as they come.
+func NewBasicAsynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, msgFormatter *MessageFormatter) (IMessageLogger, error) {
 	if rawLogger == nil {
 		return nil, commonerrors.ErrNoLogger
 	}
-	return &Logger{
-		rawLogger: rawLogger,
-		printer:   newBasicAsynchronousMessagePrinter(ctx, rawLogger),
-	}, nil
+	return newLogger(rawLogger, newBasicAsynchronousMessagePrinter(ctx, rawLogger), msgFormatter)
 }
 
-// NewPeriodicAsynchronousMessageLogger creates an asynchronous logger for messages which prints them at regular intervals.
+// NewPeriodicAsynchronousMessageLogger creates an asynchronous logger for messages which prints them at regular intervals. It uses the default message formatter.
 func NewPeriodicAsynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration) (IMessageLogger, error) {
+	return NewPeriodicAsynchronousMessageLoggerWithFormatter(ctx, rawLogger, printPeriod, DefaultMessageFormatter())
+}
+
+// NewPeriodicAsynchronousMessageLoggerWithFormatter creates an asynchronous logger for messages which prints them at regular intervals.
+func NewPeriodicAsynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration, msgFormatter *MessageFormatter) (IMessageLogger, error) {
 	if rawLogger == nil {
 		return nil, commonerrors.ErrNoLogger
 	}
-	return &Logger{
-		rawLogger: rawLogger,
-		printer:   newPeriodicAsynchronousMessagePrinter(ctx, rawLogger, printPeriod),
-	}, nil
+	return newLogger(rawLogger, newPeriodicAsynchronousMessagePrinter(ctx, rawLogger, printPeriod), msgFormatter)
 }
 
-// NewBasicSynchronousMessageLogger creates a synchronous logger for messages which prints them as they come.
+// NewBasicSynchronousMessageLogger creates a synchronous logger for messages which prints them as they come. It uses the default message formatter.
 func NewBasicSynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger) (IMessageLogger, error) {
+	return NewBasicSynchronousMessageLoggerWithFormatter(ctx, rawLogger, DefaultMessageFormatter())
+}
+
+// NewBasicSynchronousMessageLoggerWithFormatter creates a synchronous logger for messages which prints them as they come.
+func NewBasicSynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, msgFormatter *MessageFormatter) (IMessageLogger, error) {
 	if rawLogger == nil {
 		return nil, commonerrors.ErrNoLogger
 	}
-	return &Logger{
-		rawLogger: rawLogger,
-		printer:   newBasicSynchronousMessagePrinter(ctx, rawLogger),
-	}, nil
+	return newLogger(rawLogger, newBasicSynchronousMessagePrinter(ctx, rawLogger), msgFormatter)
 }
 
-// NewPeriodicSynchronousMessageLogger creates a synchronous logger for messages which prints them at regular intervals.
+// NewPeriodicSynchronousMessageLogger creates a synchronous logger for messages which prints them at regular intervals. It uses the default message formatter.
 func NewPeriodicSynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration) (IMessageLogger, error) {
 	if rawLogger == nil {
 		return nil, commonerrors.ErrNoLogger
 	}
-	return &Logger{
-		rawLogger: rawLogger,
-		printer:   newPeriodicSynchronousMessagePrinter(ctx, rawLogger, printPeriod),
-	}, nil
+	return newLogger(rawLogger, newPeriodicSynchronousMessagePrinter(ctx, rawLogger, printPeriod), DefaultMessageFormatter())
+}
+
+// NewPeriodicSynchronousMessageLoggerWithFormatter creates a synchronous logger for messages which prints them at regular intervals.
+func NewPeriodicSynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration, msgFormatter *MessageFormatter) (IMessageLogger, error) {
+	if rawLogger == nil {
+		return nil, commonerrors.ErrNoLogger
+	}
+	return newLogger(rawLogger, newPeriodicSynchronousMessagePrinter(ctx, rawLogger, printPeriod), msgFormatter)
 }
 
 // MessageLoggerFactory defines a message logger factory
@@ -154,6 +180,7 @@ type MessageLoggerFactory struct {
 	asynchronous bool
 	period       time.Duration
 	rawLogger    logging.ILogger
+	msgFormatter *MessageFormatter
 }
 
 // Create returns a message logger.
@@ -163,23 +190,34 @@ func (f *MessageLoggerFactory) Create(ctx context.Context) (IMessageLogger, erro
 	}
 	if f.asynchronous {
 		if f.period > 0 {
-			return NewPeriodicAsynchronousMessageLogger(ctx, f.rawLogger, f.period)
+			return NewPeriodicAsynchronousMessageLoggerWithFormatter(ctx, f.rawLogger, f.period, f.msgFormatter)
 		}
-		return NewBasicAsynchronousMessageLogger(ctx, f.rawLogger)
+		return NewBasicAsynchronousMessageLoggerWithFormatter(ctx, f.rawLogger, f.msgFormatter)
 	}
 	if f.period > 0 {
-		return NewPeriodicSynchronousMessageLogger(ctx, f.rawLogger, f.period)
+		return NewPeriodicSynchronousMessageLoggerWithFormatter(ctx, f.rawLogger, f.period, f.msgFormatter)
 	}
-	return NewBasicSynchronousMessageLogger(ctx, f.rawLogger)
+	return NewBasicSynchronousMessageLoggerWithFormatter(ctx, f.rawLogger, f.msgFormatter)
 }
 
 // NewMessageLoggerFactory returns a message logger factory.
 func NewMessageLoggerFactory(logger logging.ILogger, asynchronous bool, printingPeriod time.Duration) *MessageLoggerFactory {
+	return NewMessageLoggerFactoryWithFormatter(logger, asynchronous, printingPeriod, DefaultMessageFormatter())
+}
+
+// NewMessageLoggerFactoryWithFormatter returns a message logger factory.
+func NewMessageLoggerFactoryWithFormatter(logger logging.ILogger, asynchronous bool, printingPeriod time.Duration, formatter *MessageFormatter) *MessageLoggerFactory {
 	return &MessageLoggerFactory{
 		asynchronous: asynchronous,
 		period:       printingPeriod,
 		rawLogger:    logger,
+		msgFormatter: formatter,
 	}
+}
+
+// NewMessageLoggerFactoryWithFormattingOptions returns a message logger factory.
+func NewMessageLoggerFactoryWithFormattingOptions(logger logging.ILogger, asynchronous bool, printingPeriod time.Duration, option ...FormatterOption) *MessageLoggerFactory {
+	return NewMessageLoggerFactoryWithFormatter(logger, asynchronous, printingPeriod, NewMessageFormatter(option...))
 }
 
 // basicMessagePrinter will print messages as they come.
