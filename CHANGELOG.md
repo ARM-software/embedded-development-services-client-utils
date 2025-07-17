@@ -2,6 +2,25 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.17.0" (2025-07-17)
+========================
+
+Features
+--------
+
+- :sparkles: Make the formatting of messages optional (#20250716161425)
+
+
+Bugfixes
+--------
+
+- Dependency upgrade: golang-1.24.5 (#20250709170905)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.16.3" (2025-06-26)
 ========================
 
