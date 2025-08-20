@@ -6,8 +6,8 @@ import (
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 )
 
-// MapErrorToHttpResponseCode maps a response status code to a common error.
-func MapErrorToHttpResponseCode(statusCode int) error {
+// MapErrorToHTTPResponseCode maps a response status code to a common error.
+func MapErrorToHTTPResponseCode(statusCode int) error {
 	if statusCode < http.StatusBadRequest {
 		return nil
 	}

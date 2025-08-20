@@ -47,7 +47,7 @@ func CheckAPICallSuccess(ctx context.Context, errorContext string, resp *http.Re
 		respErr := commonerrors.ErrUnexpected
 		if resp != nil {
 			statusCode = resp.StatusCode
-			respErr = errors.MapErrorToHttpResponseCode(statusCode)
+			respErr = errors.MapErrorToHTTPResponseCode(statusCode)
 			if respErr == nil {
 				respErr = commonerrors.ErrUnexpected
 			}
