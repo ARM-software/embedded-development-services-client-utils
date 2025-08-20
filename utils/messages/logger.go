@@ -7,7 +7,6 @@ package messages
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/ARM-software/embedded-development-services-client-utils/utils/logging"
@@ -102,7 +101,7 @@ func (l *logger) LogMessagesCollection(ctx context.Context, messagePaginator pag
 			return err
 		}
 		if messagePaginator == nil {
-			return fmt.Errorf("%w: missing paginator", commonerrors.ErrUndefined)
+			return commonerrors.UndefinedVariable("paginator")
 		}
 		if !messagePaginator.HasNext() {
 			return nil

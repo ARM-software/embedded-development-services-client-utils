@@ -59,19 +59,41 @@ func TestCheckAPICallSuccess(t *testing.T) {
 	t.Run("api call not successful", func(t *testing.T) {
 		errMessage := "client error"
 		parentCtx := context.Background()
-		resp := _http.Response{StatusCode: 400, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
+		resp := _http.Response{StatusCode: _http.StatusBadRequest, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
 		actualErr := CheckAPICallSuccess(parentCtx, errMessage, &resp, errors.New(errMessage))
 		expectedErr := "client error (400): API call error [request-id: 761761721] client error; client error"
-		assert.Equal(t, actualErr.Error(), expectedErr)
+		assert.Contains(t, actualErr.Error(), expectedErr)
+		errortest.AssertError(t, actualErr, commonerrors.ErrInvalid)
+	})
+
+	t.Run("api call not successful", func(t *testing.T) {
+		errMessage := "client error"
+		parentCtx := context.Background()
+		resp := _http.Response{StatusCode: _http.StatusServiceUnavailable, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
+		actualErr := CheckAPICallSuccess(parentCtx, errMessage, &resp, errors.New(errMessage))
+		expectedErr := "client error (503): API call error [request-id: 761761721] client error; client error"
+		assert.Contains(t, actualErr.Error(), expectedErr)
+		errortest.AssertError(t, actualErr, commonerrors.ErrUnavailable)
+	})
+
+	t.Run("api call not successful", func(t *testing.T) {
+		errMessage := "client error"
+		parentCtx := context.Background()
+		resp := _http.Response{StatusCode: _http.StatusUnauthorized, Body: io.NopCloser(bytes.NewReader([]byte("{\"message\": \"client error\",\"requestId\": \"761761721\"}")))}
+		actualErr := CheckAPICallSuccess(parentCtx, errMessage, &resp, errors.New(errMessage))
+		expectedErr := "client error (401): API call error [request-id: 761761721] client error; client error"
+		assert.Contains(t, actualErr.Error(), expectedErr)
+		errortest.AssertError(t, actualErr, commonerrors.ErrUnauthorised)
 	})
 
 	t.Run("api call not successful (no JSON response)", func(t *testing.T) {
 		errMessage := "response error"
 		parentCtx := context.Background()
-		resp := _http.Response{StatusCode: 403, Body: io.NopCloser(bytes.NewReader([]byte("<html><head><title>403 Forbidden</title></head></html>")))}
+		resp := _http.Response{StatusCode: _http.StatusForbidden, Body: io.NopCloser(bytes.NewReader([]byte("<html><head><title>403 Forbidden</title></head></html>")))}
 		actualErr := CheckAPICallSuccess(parentCtx, errMessage, &resp, errors.New("403 Forbidden"))
 		expectedErr := "response error (403): <html><head><title>403 Forbidden</title></head></html>; 403 Forbidden"
-		assert.Equal(t, actualErr.Error(), expectedErr)
+		assert.Contains(t, actualErr.Error(), expectedErr)
+		errortest.AssertError(t, actualErr, commonerrors.ErrForbidden)
 	})
 
 	t.Run("no context error, api call successful", func(t *testing.T) {
@@ -105,7 +127,8 @@ func TestCallAndCheckSuccess(t *testing.T) {
 				return nil, &resp, errors.New(errMessage)
 			})
 		expectedErr := "client error (400): API call error [request-id: 761761721] client error; client error"
-		assert.Equal(t, actualErr.Error(), expectedErr)
+		assert.Contains(t, actualErr.Error(), expectedErr)
+		errortest.AssertError(t, actualErr, commonerrors.ErrInvalid)
 	})
 
 	t.Run("api call successful, marshalling failed due to missing required field in response", func(t *testing.T) {
@@ -213,7 +236,8 @@ func TestGenericCallAndCheckSuccess(t *testing.T) {
 				return nil, &resp, errors.New(errMessage)
 			})
 		expectedErr := "client error (400): API call error [request-id: 761761721] client error; client error"
-		assert.Equal(t, actualErr.Error(), expectedErr)
+		assert.Contains(t, actualErr.Error(), expectedErr)
+		errortest.AssertError(t, actualErr, commonerrors.ErrInvalid)
 	})
 
 	t.Run("api call successful but error marshalling", func(t *testing.T) {

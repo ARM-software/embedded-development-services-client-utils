@@ -44,11 +44,16 @@ func CheckAPICallSuccess(ctx context.Context, errorContext string, resp *http.Re
 	if !IsCallSuccessful(resp) {
 		statusCode := 0
 		errorMessage := strings.Builder{}
+		respErr := commonerrors.ErrUnexpected
 		if resp != nil {
 			statusCode = resp.StatusCode
+			respErr = errors.MapErrorToHttpResponseCode(statusCode)
+			if respErr == nil {
+				respErr = commonerrors.ErrUnexpected
+			}
 			errorDetails, subErr := errors.FetchAPIErrorDescriptionWithContext(ctx, resp)
 			if commonerrors.Ignore(subErr, commonerrors.ErrMarshalling) != nil {
-				err = subErr
+				err = commonerrors.Join(commonerrors.New(respErr, errorContext), subErr)
 				return
 			}
 			if !reflection.IsEmpty(errorDetails) {
@@ -60,7 +65,7 @@ func CheckAPICallSuccess(ctx context.Context, errorContext string, resp *http.Re
 		if apiErr != nil {
 			extra = fmt.Sprintf("; %v", apiErr.Error())
 		}
-		err = fmt.Errorf("%v (%d): %v%v", errorContext, statusCode, errorMessage.String(), extra)
+		err = commonerrors.Newf(respErr, "%v (%d): %v%v", errorContext, statusCode, errorMessage.String(), extra)
 	}
 	return
 }
