@@ -7,7 +7,6 @@ package messages
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/go-faker/faker/v4"
@@ -31,7 +30,7 @@ func newMockHalLink() (link *client.HalLinkData, err error) {
 	lP := *linkP
 	l, ok := lP.(client.HalLinkData)
 	if !ok {
-		err = fmt.Errorf("%w: invalid link type [%T]", commonerrors.ErrInvalid, lP)
+		err = commonerrors.Newf(commonerrors.ErrInvalid, "invalid link type [%T]", lP)
 		return
 	}
 	link = &l
@@ -48,7 +47,7 @@ func newMockHalFeedLinks(ctx context.Context, hasNext, hasFuture bool) (links *c
 	}
 	self, ok := (*selfP).(client.HalLinkData)
 	if !ok {
-		err = fmt.Errorf("%w: invalid link type [%T]", commonerrors.ErrInvalid, *selfP)
+		err = commonerrors.Newf(commonerrors.ErrInvalid, "invalid link type [%T]", *selfP)
 		return
 	}
 	links = client.NewHalFeedLinks(self)
