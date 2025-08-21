@@ -2,6 +2,22 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.17.1" (2025-08-21)
+========================
+
+Bugfixes
+--------
+
+- Dependency upgrade: golang-1.24.6 (#20250807175138)
+- Dependency upgrade: checkout-5 (#20250812005446)
+- :gear: Map response errors to common errors (#20250820184330)
+- :camel: Upgrade dependencies (#20250820191610)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.17.0" (2025-07-17)
 ========================
 
