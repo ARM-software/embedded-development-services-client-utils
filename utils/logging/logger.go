@@ -135,7 +135,7 @@ func NewClientLogger(loggerSource string, defaultLoggers ...logs.Loggers) (l ILo
 	}
 	multipleLogger, ok := multipleL.(*logs.MultipleLoggerWithLoggerSource)
 	if !ok && multipleLogger == nil {
-		err = fmt.Errorf("%w: multiple logger is not of the expected type", commonerrors.ErrUnexpected)
+		err = commonerrors.New(commonerrors.ErrUnexpected, "multiple logger is not of the expected type")
 		return
 	}
 	l = &ClientLogger{
