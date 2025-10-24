@@ -25,7 +25,7 @@ jobs:
         token: ${{ secrets.GIT_SECRET }}
         ref: ${{ inputs.branch || github.head_ref || github.ref }}
     - name: Setup python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ env.python_version }}
     - name: Install continuous-delivery-scripts
