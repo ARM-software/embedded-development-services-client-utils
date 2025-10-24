@@ -26,6 +26,7 @@ import (
 	"github.com/ARM-software/golang-utils/utils/field"
 	"github.com/ARM-software/golang-utils/utils/filesystem"
 	"github.com/ARM-software/golang-utils/utils/hashing"
+	"github.com/ARM-software/golang-utils/utils/safecast"
 	"github.com/ARM-software/golang-utils/utils/safeio"
 )
 
@@ -156,7 +157,7 @@ func testGetArtefactManagers(t *testing.T, artefacts []*testArtefact, embeddedRe
 	}
 
 	return func(ctx context.Context, _ string) (a *client.ArtefactManagerCollection, resp *http.Response, err error) {
-		count := int32(len(artefacts))
+		count := safecast.ToInt32(len(artefacts))
 		if embeddedResource {
 			items, mapErr := collection.MapWithError(artefacts, func(artefact *testArtefact) (client.ArtefactManagerItem, error) {
 				item, err := artefact.fetchTestArtefact(ctx)
