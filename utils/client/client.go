@@ -42,8 +42,8 @@ func NewClient(cfg *http.RequestConfiguration, logger logr.Logger, underlyingHTT
 
 func newClientConfiguration(cfg *http.RequestConfiguration) (clientCfg *_client.Configuration) {
 	clientCfg = _client.NewConfiguration()
-	if !reflection.IsEmpty(cfg.Target.Host) {
-		basePathURL, err := url.Parse(cfg.Target.Host)
+	if !reflection.IsEmpty(cfg.Host) {
+		basePathURL, err := url.Parse(cfg.Host)
 		if err == nil {
 			clientCfg.Host = basePathURL.Host
 			clientCfg.Scheme = basePathURL.Scheme
