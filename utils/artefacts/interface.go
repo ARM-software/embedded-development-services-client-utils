@@ -34,6 +34,8 @@ type IArtefactManager[
 	// DownloadAllJobArtefactsWithTree downloads all the artefacts produced for a particular job and puts them in an output directory.
 	// maintainTreeStructure specifies whether to keep the tree structure of the artefacts or not in the output directory.
 	DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) error
+	// DownloadAllJobArtefactsWithOptions downloads all the artefacts produced for a particular job and puts them in an output directory, specify some download option.
+	DownloadAllJobArtefactsWithOptions(ctx context.Context, jobName string, outputDirectory string, opts ...DownloadOption) (err error)
 }
 
 type ILinkData interface {

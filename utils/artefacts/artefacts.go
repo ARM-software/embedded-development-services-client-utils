@@ -332,10 +332,16 @@ func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefacts(ctx context.Contex
 }
 
 func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) (err error) {
+	return m.DownloadAllJobArtefactsWithOptions(ctx, jobName, outputDirectory, WithMaintainStructure(maintainTreeStructure))
+}
+
+func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefactsWithOptions(ctx context.Context, jobName string, outputDirectory string, opts ...DownloadOption) (err error) {
 	err = parallelisation.DetermineContextError(ctx)
 	if err != nil {
 		return
 	}
+
+	dlOpts := NewDownloadOptions(opts...)
 	err = filesystem.MkDir(outputDirectory)
 	if err != nil {
 		err = commonerrors.WrapErrorf(commonerrors.ErrUnexpected, err, "failed creating the output directory [%v] for job artefacts", outputDirectory)
@@ -347,8 +353,12 @@ func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefactsWithTree(ctx contex
 	}
 	stop := paginator.Stop()
 	defer stop()
+	var collatedDownloadErrors []error
 	for {
 		if !paginator.HasNext() {
+			if len(collatedDownloadErrors) > 0 {
+				err = commonerrors.Join(collatedDownloadErrors...)
+			}
 			return
 		}
 		item, subErr := paginator.GetNext()
@@ -356,28 +366,35 @@ func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefactsWithTree(ctx contex
 			err = commonerrors.WrapError(commonerrors.ErrUnexpected, subErr, "failed getting information about job artefacts")
 			return
 		}
+		var artefactName string
+		var downloadErr error
 		artefactLink, ok := item.(D)
 		if ok {
-			subErr = m.DownloadJobArtefactFromLinkWithTree(ctx, jobName, maintainTreeStructure, outputDirectory, artefactLink)
-			if subErr != nil {
-				err = subErr
-				return
-			}
-
+			artefactName = artefactLink.GetName()
+			downloadErr = m.DownloadJobArtefactFromLinkWithTree(ctx, jobName, dlOpts.MaintainTreeStructure, outputDirectory, artefactLink)
 		} else {
-			artefactManager, ok := item.(M)
-			if ok {
-				subErr = m.DownloadJobArtefactWithTree(ctx, jobName, maintainTreeStructure, outputDirectory, artefactManager)
-				if subErr != nil {
-					err = subErr
-					return
-				}
+			artefactManager, isManager := item.(M)
+			if isManager {
+				artefactName = artefactManager.GetName()
+				downloadErr = m.DownloadJobArtefactWithTree(ctx, jobName, dlOpts.MaintainTreeStructure, outputDirectory, artefactManager)
 			} else {
-				err = commonerrors.New(commonerrors.ErrMarshalling, "the type of the response from service cannot be interpreted")
-				return
+				downloadErr = commonerrors.New(commonerrors.ErrMarshalling, "the type of the response from service cannot be interpreted")
 			}
-
 		}
 
+		if downloadErr != nil {
+			if dlOpts.StopOnFirstError {
+				err = downloadErr
+				return
+			}
+			collatedDownloadErrors = append(collatedDownloadErrors, downloadErr)
+			if dlOpts.Logger != nil {
+				dlOpts.Logger.Log(fmt.Sprintf("could not download %s", artefactName))
+			}
+		} else if !reflection.IsEmpty(artefactName) {
+			if dlOpts.Logger != nil {
+				dlOpts.Logger.Log(fmt.Sprintf("downloading %s", artefactName))
+			}
+		}
 	}
 }
