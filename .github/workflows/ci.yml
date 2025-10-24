@@ -15,7 +15,7 @@ concurrency:
 
 # Set environment variables available in all jobs and steps
 env:
-  go_version: "1.24.6"
+  go_version: "1.25.0"
   python_version: "3.9"
 
 jobs:
