@@ -25,7 +25,7 @@ func Test_NewMockNotificationFeedPage(t *testing.T) {
 		it, err := page.GetItemIterator()
 		require.NoError(t, err)
 		for {
-			if !it.HasNext() {
+			if !it.HasNext() { //nolint:staticcheck
 				break
 			}
 			next, err := it.GetNext()
