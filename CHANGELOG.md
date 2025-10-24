@@ -2,6 +2,38 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.18.0" (2025-10-24)
+========================
+
+Features
+--------
+
+- :sparkles: Improve artefact manager download methods by adding download options (#20251024142639)
+
+
+Bugfixes
+--------
+
+- Dependency upgrade: setup-go-6 (#20250904170525)
+- Dependency upgrade: setup-python-6 (#20250904170532)
+- Dependency upgrade: scorecard-action-2.4.3 (#20251001170630)
+- Dependency upgrade: codeql-action-4 (#20251007170613)
+- Dependency upgrade: golang-1.25.0 (#20251024135110)
+- :bug: Update goreleaser yaml to work with version 2 (#20251024143330)
+- :camel: Upgrade dependencies (#20251024152328)
+- Dependency upgrade: codeql-action-4.30.9 (#20251024170558)
+
+
+Misc
+----
+
+- #202510241630
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.17.1" (2025-08-21)
 ========================
 
