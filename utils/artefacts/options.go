@@ -31,18 +31,21 @@ func NewDownloadOptions(opts ...DownloadOption) (options *DownloadOptions) {
 	return
 }
 
+// WithStopOnFirstError specifies whether the Arteftact manager will stop downloading artefacts if it encounters an error from one of the artefacts.
 func WithStopOnFirstError(stop bool) DownloadOption {
 	return func(o *DownloadOptions) {
 		o.StopOnFirstError = stop
 	}
 }
 
+// WithMaintainStructure specifies whether to keep the tree structure of the artefacts or not in the output directory.
 func WithMaintainStructure(maintain bool) DownloadOption {
 	return func(o *DownloadOptions) {
 		o.MaintainTreeStructure = maintain
 	}
 }
 
+// WithLogger specifies an optional logger that is used to log downloading artefacts or errors encountered while downloading.
 func WithLogger(l logs.Loggers) DownloadOption {
 	return func(o *DownloadOptions) {
 		o.Logger = l

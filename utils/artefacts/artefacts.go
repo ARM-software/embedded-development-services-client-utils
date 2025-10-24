@@ -389,7 +389,7 @@ func (m *ArtefactManager[M, D, L, C]) DownloadAllJobArtefactsWithOptions(ctx con
 			}
 			collatedDownloadErrors = append(collatedDownloadErrors, downloadErr)
 			if dlOpts.Logger != nil {
-				dlOpts.Logger.Log(fmt.Sprintf("could not download %s", artefactName))
+				dlOpts.Logger.LogError(downloadErr)
 			}
 		} else if !reflection.IsEmpty(artefactName) {
 			if dlOpts.Logger != nil {
