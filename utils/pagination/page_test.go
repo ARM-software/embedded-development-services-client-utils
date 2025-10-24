@@ -105,7 +105,7 @@ func TestToPage(t *testing.T) {
 				itback, err := mappedBack.GetItemIterator()
 				require.NoError(t, err)
 				for {
-					if !it.HasNext() {
+					if !it.HasNext() { //nolint:staticcheck
 						break
 					}
 					assert.True(t, itback.HasNext())

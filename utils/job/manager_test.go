@@ -199,7 +199,7 @@ func TestManager_BrowseMessages(t *testing.T) {
 				assert.NotNil(t, messagePaginator)
 				count := 0
 				for {
-					if !messagePaginator.HasNext() {
+					if !messagePaginator.HasNext() { //nolint:staticcheck
 						break
 					}
 					message, subErr := messagePaginator.GetNext()

@@ -101,7 +101,7 @@ func TestToStream(t *testing.T) {
 				itBack, err := mappedBack.GetItemIterator()
 				require.NoError(t, err)
 				for {
-					if !it.HasNext() {
+					if !it.HasNext() { //nolint:staticcheck
 						break
 					}
 					assert.True(t, itBack.HasNext())
