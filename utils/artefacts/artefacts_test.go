@@ -20,22 +20,31 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/ARM-software/embedded-development-services-client/client"
+	"github.com/ARM-software/golang-utils/utils/collection"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
 	"github.com/ARM-software/golang-utils/utils/commonerrors/errortest"
 	"github.com/ARM-software/golang-utils/utils/field"
 	"github.com/ARM-software/golang-utils/utils/filesystem"
 	"github.com/ARM-software/golang-utils/utils/hashing"
+	"github.com/ARM-software/golang-utils/utils/safecast"
 	"github.com/ARM-software/golang-utils/utils/safeio"
+)
+
+type (
+	testGetArtefactManagersFirstPageFunc = func(ctx context.Context, _ string) (a *client.ArtefactManagerCollection, resp *http.Response, err error)
+	testGetArtefactManagerFunc           = func(ctx context.Context, job, artefact string) (*client.ArtefactManagerItem, *http.Response, error)
+	testGetArtefactContentFunc           = func(ctx context.Context, job, artefactID string) (*os.File, *http.Response, error)
 )
 
 type testArtefact struct {
 	name             string
 	path             string
 	embeddedResource bool
+	shouldFail       bool
 }
 
-func newTestArtefact(t *testing.T, tmpDir, artefactContent string, embeddedResource bool) *testArtefact {
-	path, err := filesystem.TouchTempFile(tmpDir, "artefact")
+func newTestArtefact(t *testing.T, tmpDir, artefactContent string, embeddedResource bool, shouldFail bool) *testArtefact {
+	path, err := filesystem.TouchTempFile(tmpDir, fmt.Sprintf("artefact-%s", faker.Word()))
 	require.NoError(t, err)
 	if len(artefactContent) > 0 {
 		err = filesystem.WriteFile(path, []byte(artefactContent), 0777)
@@ -48,65 +57,8 @@ func newTestArtefact(t *testing.T, tmpDir, artefactContent string, embeddedResou
 		name:             filepath.Base(path),
 		path:             path,
 		embeddedResource: embeddedResource,
+		shouldFail:       shouldFail,
 	}
-}
-
-func (t *testArtefact) testGetArtefactManagers(ctx context.Context, _ string) (a *client.ArtefactManagerCollection, resp *http.Response, err error) {
-	item, err := t.fetchTestArtefact(ctx)
-	if err != nil {
-		return
-	}
-	if t.embeddedResource {
-		a = &client.ArtefactManagerCollection{
-			Embedded: &client.EmbeddedArtefactManagerItems{Item: []client.ArtefactManagerItem{*item}},
-			Links:    *client.NewNullableHalCollectionLinks(client.NewHalCollectionLinksWithDefaults()),
-			Metadata: *client.NewNullablePagingMetadata(&client.PagingMetadata{
-				Count:  1,
-				Ctime:  time.Now(),
-				Etime:  client.NullableTime{},
-				Limit:  6,
-				Mtime:  time.Now(),
-				Offset: 0,
-				Total:  1,
-			}),
-			Name:  "list of artefacts",
-			Title: faker.Name(),
-		}
-	} else {
-		links := client.NewHalCollectionLinksWithDefaults()
-		links.Item = []client.HalLinkData{client.HalLinkData{
-			Href:  fmt.Sprintf("/test/%v", item.Name),
-			Name:  field.ToOptionalString(item.Name),
-			Title: field.ToOptionalString(faker.Name()),
-		}}
-		a = &client.ArtefactManagerCollection{
-			Embedded: nil,
-			Links:    *client.NewNullableHalCollectionLinks(links),
-			Metadata: *client.NewNullablePagingMetadata(&client.PagingMetadata{
-				Count:  1,
-				Ctime:  time.Now(),
-				Etime:  client.NullableTime{},
-				Limit:  6,
-				Mtime:  time.Now(),
-				Offset: 0,
-				Total:  1,
-			}),
-			Name:  "list of artefacts",
-			Title: faker.Name(),
-		}
-	}
-	resp = &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}
-	return
-}
-
-func (t *testArtefact) testGetArtefactManager(ctx context.Context, _, artefact string) (a *client.ArtefactManagerItem, resp *http.Response, err error) {
-	if artefact == t.name {
-		a, err = t.fetchTestArtefact(ctx)
-		resp = &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}
-	} else {
-		err = commonerrors.ErrNotFound
-	}
-	return
 }
 
 func (t *testArtefact) fetchTestArtefact(ctx context.Context) (a *client.ArtefactManagerItem, err error) {
@@ -143,8 +95,52 @@ func (t *testArtefact) fetchTestArtefact(ctx context.Context) (a *client.Artefac
 	return
 }
 
-func (t *testArtefact) testGetOutputArtefact(ctx context.Context, _, artefact string) (f *os.File, resp *http.Response, err error) {
-	if artefact == t.name {
+func testGetArtefactManager(t *testing.T, artefacts []*testArtefact) testGetArtefactManagerFunc {
+	t.Helper()
+	if len(artefacts) == 0 {
+		return nil
+	}
+
+	names := collection.Map(artefacts, func(a *testArtefact) string {
+		return a.name
+	})
+
+	return func(ctx context.Context, _, artefact string) (a *client.ArtefactManagerItem, resp *http.Response, err error) {
+		artefactIdx, found := collection.Find(&names, artefact)
+		if !found {
+			err = commonerrors.ErrNotFound
+			return
+		}
+		t := artefacts[artefactIdx]
+		a, err = t.fetchTestArtefact(ctx)
+		resp = &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}
+		return
+
+	}
+}
+
+func testGetOutputArtefact(t *testing.T, artefacts []*testArtefact) testGetArtefactContentFunc {
+	t.Helper()
+	if len(artefacts) == 0 {
+		return nil
+	}
+
+	names := collection.Map(artefacts, func(a *testArtefact) string {
+		return a.name
+	})
+
+	return func(ctx context.Context, _, artefact string) (f *os.File, resp *http.Response, err error) {
+		artefactIdx, found := collection.Find(&names, artefact)
+		if !found {
+			return nil, &http.Response{StatusCode: http.StatusNotFound, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}, commonerrors.ErrNotFound
+		}
+
+		t := artefacts[artefactIdx]
+
+		if t.shouldFail {
+			return nil, &http.Response{StatusCode: http.StatusInternalServerError, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}, commonerrors.ErrUnexpected
+		}
+
 		f, err = os.Open(t.path)
 		if err != nil {
 			return
@@ -152,17 +148,100 @@ func (t *testArtefact) testGetOutputArtefact(ctx context.Context, _, artefact st
 
 		return f, &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}, nil
 	}
-
-	return nil, &http.Response{StatusCode: http.StatusNotFound, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}, commonerrors.ErrNotFound
 }
 
-func newTestArtefactManager(t *testing.T, tmpDir, artefactContent string, linksOnly bool) (IArtefactManager[*client.ArtefactManagerItem, *client.HalLinkData], *testArtefact) {
-	testArtefact := newTestArtefact(t, tmpDir, artefactContent, !linksOnly)
-	return NewArtefactManager(testArtefact.testGetArtefactManagers, nil, testArtefact.testGetArtefactManager, testArtefact.testGetOutputArtefact), testArtefact
+func testGetArtefactManagers(t *testing.T, artefacts []*testArtefact, embeddedResource bool) testGetArtefactManagersFirstPageFunc {
+	t.Helper()
+	if len(artefacts) == 0 {
+		return nil
+	}
+
+	return func(ctx context.Context, _ string) (a *client.ArtefactManagerCollection, resp *http.Response, err error) {
+		count := safecast.ToInt32(len(artefacts))
+		if embeddedResource {
+			items, mapErr := collection.MapWithError(artefacts, func(artefact *testArtefact) (client.ArtefactManagerItem, error) {
+				item, err := artefact.fetchTestArtefact(ctx)
+				if err != nil {
+					return client.ArtefactManagerItem{}, err
+				}
+
+				return *item, nil
+			})
+
+			if mapErr != nil {
+				err = mapErr
+				return
+			}
+
+			a = &client.ArtefactManagerCollection{
+				Embedded: &client.EmbeddedArtefactManagerItems{Item: items},
+				Links:    *client.NewNullableHalCollectionLinks(client.NewHalCollectionLinksWithDefaults()),
+				Metadata: *client.NewNullablePagingMetadata(&client.PagingMetadata{
+					Count:  count,
+					Ctime:  time.Now(),
+					Etime:  client.NullableTime{},
+					Limit:  6,
+					Mtime:  time.Now(),
+					Offset: 0,
+					Total:  count,
+				}),
+				Name:  "list of artefacts",
+				Title: faker.Name(),
+			}
+		} else {
+			items, mapErr := collection.MapWithError(artefacts, func(artefact *testArtefact) (client.HalLinkData, error) {
+				item, err := artefact.fetchTestArtefact(ctx)
+				if err != nil {
+					return client.HalLinkData{}, err
+				}
+
+				return client.HalLinkData{
+					Href:  fmt.Sprintf("/test/%v", item.Name),
+					Name:  field.ToOptionalString(item.Name),
+					Title: field.ToOptionalString(faker.Name()),
+				}, nil
+			})
+
+			if mapErr != nil {
+				err = mapErr
+				return
+			}
+
+			links := client.NewHalCollectionLinksWithDefaults()
+			links.Item = items
+			a = &client.ArtefactManagerCollection{
+				Embedded: nil,
+				Links:    *client.NewNullableHalCollectionLinks(links),
+				Metadata: *client.NewNullablePagingMetadata(&client.PagingMetadata{
+					Count:  count,
+					Ctime:  time.Now(),
+					Etime:  client.NullableTime{},
+					Limit:  6,
+					Mtime:  time.Now(),
+					Offset: 0,
+					Total:  count,
+				}),
+				Name:  "list of artefacts",
+				Title: faker.Name(),
+			}
+		}
+		resp = &http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(safeio.NewByteReader(ctx, []byte("hello")))}
+		return
+	}
 }
 
 func newTestArtefactManagerWithEmbeddedResources(t *testing.T, tmpDir, artefactContent string) (IArtefactManager[*client.ArtefactManagerItem, *client.HalLinkData], *testArtefact) {
 	return newTestArtefactManager(t, tmpDir, artefactContent, false)
+}
+
+func newTestArtefactManager(t *testing.T, tmpDir, artefactContent string, linksOnly bool) (IArtefactManager[*client.ArtefactManagerItem, *client.HalLinkData], *testArtefact) {
+	artefact := newTestArtefact(t, tmpDir, artefactContent, !linksOnly, false)
+	artefacts := []*testArtefact{artefact}
+	return newTestArtefactsManager(t, artefacts, linksOnly), artefact
+}
+
+func newTestArtefactsManager(t *testing.T, artefacts []*testArtefact, linksOnly bool) IArtefactManager[*client.ArtefactManagerItem, *client.HalLinkData] {
+	return NewArtefactManager(testGetArtefactManagers(t, artefacts, !linksOnly), nil, testGetArtefactManager(t, artefacts), testGetOutputArtefact(t, artefacts))
 }
 
 func TestDetermineDestination(t *testing.T) {
@@ -291,6 +370,48 @@ func TestArtefactDownload(t *testing.T) {
 		actualContents, err := filesystem.ReadFile(filepath.Join(out, a.name))
 		require.NoError(t, err)
 		assert.Equal(t, expectedContents, actualContents)
+	})
+	t.Run("Stop on first download error", func(t *testing.T) {
+		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-")
+		require.NoError(t, err)
+		defer func() { _ = filesystem.Rm(tmpDir) }()
+		artefacts := []*testArtefact{
+			newTestArtefact(t, tmpDir, faker.Sentence(), true, false),
+			newTestArtefact(t, tmpDir, faker.Sentence(), true, true),
+			newTestArtefact(t, tmpDir, faker.Sentence(), true, false),
+		}
+		manager := newTestArtefactsManager(t, artefacts, false)
+
+		out := t.TempDir()
+		err = manager.DownloadAllJobArtefactsWithOptions(context.Background(), faker.Word(), out, WithStopOnFirstError(true))
+		require.Error(t, err)
+		assert.ErrorIs(t, err, commonerrors.ErrUnexpected)
+
+		require.FileExists(t, filepath.Join(out, artefacts[0].name))
+		assert.NoFileExists(t, filepath.Join(out, artefacts[1].name))
+		assert.NoFileExists(t, filepath.Join(out, artefacts[2].name))
+	})
+
+	t.Run("Continue on download error", func(t *testing.T) {
+		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-")
+		require.NoError(t, err)
+		defer func() { _ = filesystem.Rm(tmpDir) }()
+		artefacts := []*testArtefact{
+			newTestArtefact(t, tmpDir, faker.Sentence(), true, false),
+			newTestArtefact(t, tmpDir, faker.Sentence(), true, true),
+			newTestArtefact(t, tmpDir, faker.Sentence(), true, false),
+		}
+		manager := newTestArtefactsManager(t, artefacts, false)
+
+		out := t.TempDir()
+		err = manager.DownloadAllJobArtefactsWithOptions(context.Background(), faker.Word(), out, WithStopOnFirstError(false))
+		require.Error(t, err)
+		assert.ErrorIs(t, err, commonerrors.ErrUnexpected)
+
+		require.FileExists(t, filepath.Join(out, artefacts[0].name))
+		assert.NoFileExists(t, filepath.Join(out, artefacts[1].name))
+		assert.FileExists(t, filepath.Join(out, artefacts[2].name))
+
 	})
 	t.Run("Happy download artefact and keep tree", func(t *testing.T) {
 		tmpDir, err := filesystem.TempDirInTempDir("test-artefact-with-tree-")

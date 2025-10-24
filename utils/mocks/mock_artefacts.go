@@ -61,6 +61,25 @@ func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefacts(ctx, j
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefacts", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadAllJobArtefacts), ctx, jobName, outputDirectory)
 }
 
+// DownloadAllJobArtefactsWithOptions mocks base method.
+func (m *MockIArtefactManager[M, D]) DownloadAllJobArtefactsWithOptions(ctx context.Context, jobName, outputDirectory string, opts ...artefacts.DownloadOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, jobName, outputDirectory}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DownloadAllJobArtefactsWithOptions", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DownloadAllJobArtefactsWithOptions indicates an expected call of DownloadAllJobArtefactsWithOptions.
+func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefactsWithOptions(ctx, jobName, outputDirectory any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, jobName, outputDirectory}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadAllJobArtefactsWithOptions", reflect.TypeOf((*MockIArtefactManager[M, D])(nil).DownloadAllJobArtefactsWithOptions), varargs...)
+}
+
 // DownloadAllJobArtefactsWithTree mocks base method.
 func (m *MockIArtefactManager[M, D]) DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, outputDirectory string) error {
 	m.ctrl.T.Helper()
