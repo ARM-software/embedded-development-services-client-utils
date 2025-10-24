@@ -40,7 +40,7 @@ jobs:
           NEW_GO_VERSION=$(cat .github/workflows/build-and-test.yml | grep '^  go_version:' | awk '{ print $2 }' | tr -d '"')
           echo "go_version=$NEW_GO_VERSION" >> $GITHUB_ENV
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ env.go_version }}
 
@@ -71,12 +71,12 @@ jobs:
         working-directory: ${{ matrix.go-module }}
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
         name: Linting
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v8
         with:
           # Required: the version of golangci-lint is required and must be specified without patch version.
           version: latest
           working-directory: ${{ matrix.go-module }}
-          args: "--verbose --print-issued-lines --print-linter-name --out-${NO_FUTURE}format colored-line-number --timeout 300s --max-issues-per-linter 0 --max-same-issues 0"
+          args: "--verbose --output.text.print-issued-lines --output.text.print-linter-name --output.tab.colors --max-issues-per-linter 0 --max-same-issues 0"
       - name: Test ${{ matrix.go-module }} on ${{ matrix.os }}
         run: go test -race -cover -v ./...
         working-directory: ${{ matrix.go-module }}
