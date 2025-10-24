@@ -76,7 +76,7 @@ jobs:
           # Required: the version of golangci-lint is required and must be specified without patch version.
           version: latest
           working-directory: ${{ matrix.go-module }}
-          args: "--verbose --print-issued-lines --print-linter-name --out-${NO_FUTURE}format colored-line-number --timeout 300s --max-issues-per-linter 0 --max-same-issues 0"
+          args: "--path-mode=abs --verbose --output.text.print-issued-lines --output.text.print-linter-name --output.tab.colors --max-issues-per-linter 0 --max-same-issues 0"
       - name: Test ${{ matrix.go-module }} on ${{ matrix.os }}
         run: go test -race -cover -v ./...
         working-directory: ${{ matrix.go-module }}
