@@ -4,7 +4,7 @@ go 1.25
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.82.0
-	github.com/ARM-software/golang-utils/utils v1.129.0
+	github.com/ARM-software/golang-utils/utils v1.130.0
 	github.com/go-faker/faker/v4 v4.7.0
 	github.com/go-logr/logr v1.4.3
 	github.com/perimeterx/marshmallow v1.1.5
@@ -17,7 +17,7 @@ require (
 
 require (
 	al.essio.dev/pkg/shellescape v1.5.1 // indirect
-	github.com/DeRuina/timberjack v1.3.8 // indirect
+	github.com/DeRuina/timberjack v1.3.9 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496 // indirect
 	github.com/avast/retry-go/v4 v4.7.0 // indirect

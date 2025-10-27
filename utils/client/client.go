@@ -12,12 +12,25 @@ import (
 
 	_client "github.com/ARM-software/embedded-development-services-client/client"
 	"github.com/ARM-software/golang-utils/utils/commonerrors"
+	"github.com/ARM-software/golang-utils/utils/field"
 	"github.com/ARM-software/golang-utils/utils/http"
 	"github.com/ARM-software/golang-utils/utils/reflection"
 )
 
 // NewClient returns a new API client based on request configuration
 func NewClient(cfg *http.RequestConfiguration, logger logr.Logger, underlyingHTTPClient *_http.Client) (c *_client.APIClient, err error) {
+	httpClient, err := NewHTTPClient(cfg, http.DefaultBasicRetryPolicyConfiguration(), logger, underlyingHTTPClient)
+	if err != nil {
+		return
+	}
+	clientCfg := newClientConfiguration(cfg)
+	clientCfg.HTTPClient = httpClient.StandardClient()
+	c = _client.NewAPIClient(clientCfg)
+	return
+}
+
+// NewHTTPClient returns an HTTP retryable client based on request configuration
+func NewHTTPClient(cfg *http.RequestConfiguration, retryCfg *http.RetryPolicyConfiguration, logger logr.Logger, underlyingHTTPClient *_http.Client) (httpClient http.IRetryableClient, err error) {
 	if logger.IsZero() {
 		err = commonerrors.ErrNoLogger
 		return
@@ -32,11 +45,9 @@ func NewClient(cfg *http.RequestConfiguration, logger logr.Logger, underlyingHTT
 		return
 	}
 
-	httpClientCfg := http.DefaultRobustHTTPClientConfiguration()
-	httpClient := http.NewConfigurableRetryableClientWithLoggerAndCustomClient(httpClientCfg, cfg, logger, underlyingHTTPClient)
-	clientCfg := newClientConfiguration(cfg)
-	clientCfg.HTTPClient = httpClient.StandardClient()
-	c = _client.NewAPIClient(clientCfg)
+	httpClientCfg := http.DefaultHTTPClientConfiguration()
+	httpClientCfg.RetryPolicy = field.Optional[http.RetryPolicyConfiguration](retryCfg, *http.DefaultBasicRetryPolicyConfiguration())
+	httpClient = http.NewConfigurableRetryableClientWithLoggerAndCustomClient(httpClientCfg, cfg, logger, underlyingHTTPClient)
 	return
 }
 
