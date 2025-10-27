@@ -2,6 +2,19 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.19.0" (2025-10-27)
+========================
+
+Features
+--------
+
+- :sparkles: [client] Add ways to get HTTP clients (#20251027104429)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.18.0" (2025-10-24)
 ========================
 
