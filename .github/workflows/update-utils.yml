@@ -19,7 +19,7 @@ jobs:
     name: Update Go
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v6.0.0
       with:
         # So that we have correct GIT_TOKEN to push back to branch as we need workflow permissions
         token: ${{ secrets.GIT_SECRET }}
@@ -35,7 +35,7 @@ jobs:
       run: |
         cd-license-files
     - name: Checkout Update Go action
-      uses: actions/checkout@v6
+      uses: actions/checkout@v6.0.0
       with:
         repository: Arm-Debug/update-go-action
         ref: refs/tags/latest
