@@ -14,8 +14,8 @@ import (
 	"github.com/ARM-software/golang-utils/utils/http/api"
 )
 
-// IsCallSuccessful determines whether an API response is successful or not
 // Deprecated: Use github.com/ARM-software/golang-utils/utils/http/api instead
+// IsCallSuccessful determines whether an API response is successful or not
 func IsCallSuccessful(r *http.Response) bool {
 	return api.IsCallSuccessful(r)
 }
