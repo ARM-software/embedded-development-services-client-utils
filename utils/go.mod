@@ -3,8 +3,8 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.25
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.82.0
-	github.com/ARM-software/golang-utils/utils v1.130.0
+	github.com/ARM-software/embedded-development-services-client/client v1.99.0
+	github.com/ARM-software/golang-utils/utils v1.136.0
 	github.com/go-faker/faker/v4 v4.7.0
 	github.com/go-logr/logr v1.4.3
 	github.com/perimeterx/marshmallow v1.1.5
@@ -12,7 +12,7 @@ require (
 	go.uber.org/atomic v1.11.0
 	go.uber.org/goleak v1.3.0
 	go.uber.org/mock v0.6.0
-	golang.org/x/sync v0.17.0
+	golang.org/x/sync v0.18.0
 )
 
 require (
@@ -79,7 +79,7 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	github.com/zalando/go-keyring v0.2.6 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
-	go.uber.org/zap v1.27.0 // indirect
+	go.uber.org/zap v1.27.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.41.0 // indirect
 	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792 // indirect

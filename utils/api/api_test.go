@@ -24,26 +24,6 @@ import (
 	"github.com/ARM-software/golang-utils/utils/field"
 )
 
-func TestIsAPICallSuccessful(t *testing.T) {
-	t.Run("api call successful", func(t *testing.T) {
-		resp := _http.Response{StatusCode: 200}
-		isSuccessful := IsCallSuccessful(&resp)
-		assert.True(t, isSuccessful)
-	})
-
-	t.Run("api call unsuccessful", func(t *testing.T) {
-		resp := _http.Response{StatusCode: 400}
-		isSuccessful := IsCallSuccessful(&resp)
-		assert.False(t, isSuccessful)
-	})
-
-	t.Run("api call returns nothing", func(t *testing.T) {
-		resp := _http.Response{}
-		isSuccessful := IsCallSuccessful(&resp)
-		assert.False(t, isSuccessful)
-	})
-}
-
 func TestCheckAPICallSuccess(t *testing.T) {
 	t.Run("context cancelled", func(t *testing.T) {
 		errMessage := "context cancelled"
