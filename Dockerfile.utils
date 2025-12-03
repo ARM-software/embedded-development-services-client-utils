@@ -1,4 +1,4 @@
-FROM golang:1.25.4 as utils
+FROM golang:1.25.5 as utils
 
 WORKDIR /utils
 
