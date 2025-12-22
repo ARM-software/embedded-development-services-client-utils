@@ -3,15 +3,15 @@ module github.com/ARM-software/embedded-development-services-client-utils/utils
 go 1.25
 
 require (
-	github.com/ARM-software/embedded-development-services-client/client v1.99.0
-	github.com/ARM-software/golang-utils/utils v1.136.0
+	github.com/ARM-software/embedded-development-services-client/client v1.103.0
+	github.com/ARM-software/golang-utils/utils v1.142.0
 	github.com/go-faker/faker/v4 v4.7.0
 	github.com/go-logr/logr v1.4.3
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/atomic v1.11.0
 	go.uber.org/goleak v1.3.0
 	go.uber.org/mock v0.6.0
-	golang.org/x/sync v0.18.0
+	golang.org/x/sync v0.19.0
 )
 
 require (

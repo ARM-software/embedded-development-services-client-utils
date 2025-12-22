@@ -1,10 +1,10 @@
 al.essio.dev/pkg/shellescape v1.5.1 h1:86HrALUujYS/h+GtqoB26SBEdkWfmMI6FubjXlsXyho=
 al.essio.dev/pkg/shellescape v1.5.1/go.mod h1:6sIqp7X2P6mThCQ7twERpZTuigpr6KbZWtls1U8I890=
 bitbucket.org/creachadair/stringset v0.0.9/go.mod h1:t+4WcQ4+PXTa8aQdNKe40ZP6iwesoMFWAxPGd3UGjyY=
-github.com/ARM-software/embedded-development-services-client/client v1.99.0 h1:to7sVrB6mkXmu+hIs3sa06FEB6bqhkv8zlKNL31fzNU=
-github.com/ARM-software/embedded-development-services-client/client v1.99.0/go.mod h1:TPvvUCQkSffqCuP/eCN5ANpsyRKphbSwxaDqP7c5RBk=
-github.com/ARM-software/golang-utils/utils v1.136.0 h1:/zYpzcXCG8Q/ycLVRwNMauzr0PFHqT/AK9K+DQOCFv0=
-github.com/ARM-software/golang-utils/utils v1.136.0/go.mod h1:253UeNJdOTDnvpEDfJwki4MfgqAR8CaB1FzXFDzjseo=
+github.com/ARM-software/embedded-development-services-client/client v1.103.0 h1:DU0hgEkdv0/rKSSfEu161lhjqQqUc960uCxKYPsw7h4=
+github.com/ARM-software/embedded-development-services-client/client v1.103.0/go.mod h1:26G1A9rxajZ8Dhhdr80kugUw64w5hIgu9cZLgpnJEsE=
+github.com/ARM-software/golang-utils/utils v1.142.0 h1:cbncCZaVo+60DMtt9Unk504l+QNgx51mLkKeMwtChOM=
+github.com/ARM-software/golang-utils/utils v1.142.0/go.mod h1:253UeNJdOTDnvpEDfJwki4MfgqAR8CaB1FzXFDzjseo=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/DeRuina/timberjack v1.3.9 h1:6UXZ1I7ExPGTX/1UNYawR58LlOJUHKBPiYC7WQ91eBo=
 github.com/DeRuina/timberjack v1.3.9/go.mod h1:RLoeQrwrCGIEF8gO5nV5b/gMD0QIy7bzQhBUgpp1EqE=
@@ -244,8 +244,8 @@ golang.org/x/net v0.0.0-20210614182718-04defd469f4e/go.mod h1:9nx3DQGgdP8bBQD5qx
 golang.org/x/oauth2 v0.30.0 h1:dnDm7JmhM45NNpd8FDDeLhK6FwqbOf4MLCM9zb1BOHI=
 golang.org/x/oauth2 v0.30.0/go.mod h1:B++QgG3ZKulg6sRPGD/mqlHQs5rB3Ml9erfeDY7xKlU=
 golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
-golang.org/x/sync v0.18.0 h1:kr88TuHDroi+UVf+0hZnirlk8o8T+4MrK6mr60WkH/I=
-golang.org/x/sync v0.18.0/go.mod h1:9KTHXmSnoGruLpwFjVSX0lNNA75CykiMECbovNTZqGI=
+golang.org/x/sync v0.19.0 h1:vV+1eWNmZ5geRlYjzm2adRgW2/mcpevXNg50YZtPCE4=
+golang.org/x/sync v0.19.0/go.mod h1:9KTHXmSnoGruLpwFjVSX0lNNA75CykiMECbovNTZqGI=
 golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
