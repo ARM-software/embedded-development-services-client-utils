@@ -35,10 +35,22 @@ func CallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCal
 	return api.CallAndCheckSuccess[T](ctx, errorContext, errors.FetchAPIErrorDescriptionWithContext, apiCallFunc)
 }
 
+// CallAndCheckSuccessAndReturnRawResponse is similar to CallAndCheckSuccess but also returns the raw http.Response.
+// It is the responsibility of the caller to close the body of such response.
+func CallAndCheckSuccessAndReturnRawResponse[T any](ctx context.Context, errorContext string, apiCallFunc func(ctx context.Context) (*T, *http.Response, error)) (*T, *http.Response, error) {
+	return api.CallAndCheckSuccessAndReturnRawResponse[T](ctx, errorContext, errors.FetchAPIErrorDescriptionWithContext, apiCallFunc)
+}
+
 // GenericCallAndCheckSuccess is similar to CallAndCheckSuccess but for function returning interfaces rather than concrete types.
 // T must be an interface.
 // errorContext corresponds to the description of what led to the error if error there is e.g. `Failed adding a user`.
 // apiCallFunc corresponds to a generic function that will be called to make the API call
 func GenericCallAndCheckSuccess[T any](ctx context.Context, errorContext string, apiCallFunc func(ctx context.Context) (T, *http.Response, error)) (T, error) {
 	return api.GenericCallAndCheckSuccess[T](ctx, errorContext, errors.FetchAPIErrorDescriptionWithContext, apiCallFunc)
+}
+
+// GenericCallAndCheckSuccessAndReturnRawResponse is similar to GenericCallAndCheckSuccess but also returns the raw http.Response.
+// It is the responsibility of the caller to close the body of such response.
+func GenericCallAndCheckSuccessAndReturnRawResponse[T any](ctx context.Context, errorContext string, apiCallFunc func(ctx context.Context) (T, *http.Response, error)) (T, *http.Response, error) {
+	return api.GenericCallAndCheckSuccessAndReturnRawResponse[T](ctx, errorContext, errors.FetchAPIErrorDescriptionWithContext, apiCallFunc)
 }

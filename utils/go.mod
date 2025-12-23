@@ -4,7 +4,7 @@ go 1.25
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.103.0
-	github.com/ARM-software/golang-utils/utils v1.142.0
+	github.com/ARM-software/golang-utils/utils v1.143.0
 	github.com/go-faker/faker/v4 v4.7.0
 	github.com/go-logr/logr v1.4.3
 	github.com/stretchr/testify v1.11.1

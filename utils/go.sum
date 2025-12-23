@@ -3,8 +3,8 @@ al.essio.dev/pkg/shellescape v1.5.1/go.mod h1:6sIqp7X2P6mThCQ7twERpZTuigpr6KbZWt
 bitbucket.org/creachadair/stringset v0.0.9/go.mod h1:t+4WcQ4+PXTa8aQdNKe40ZP6iwesoMFWAxPGd3UGjyY=
 github.com/ARM-software/embedded-development-services-client/client v1.103.0 h1:DU0hgEkdv0/rKSSfEu161lhjqQqUc960uCxKYPsw7h4=
 github.com/ARM-software/embedded-development-services-client/client v1.103.0/go.mod h1:26G1A9rxajZ8Dhhdr80kugUw64w5hIgu9cZLgpnJEsE=
-github.com/ARM-software/golang-utils/utils v1.142.0 h1:cbncCZaVo+60DMtt9Unk504l+QNgx51mLkKeMwtChOM=
-github.com/ARM-software/golang-utils/utils v1.142.0/go.mod h1:253UeNJdOTDnvpEDfJwki4MfgqAR8CaB1FzXFDzjseo=
+github.com/ARM-software/golang-utils/utils v1.143.0 h1:RwygcMMK/vGtFekjNzurED5y8o1452rq6Hl4vcqwkBU=
+github.com/ARM-software/golang-utils/utils v1.143.0/go.mod h1:253UeNJdOTDnvpEDfJwki4MfgqAR8CaB1FzXFDzjseo=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/DeRuina/timberjack v1.3.9 h1:6UXZ1I7ExPGTX/1UNYawR58LlOJUHKBPiYC7WQ91eBo=
 github.com/DeRuina/timberjack v1.3.9/go.mod h1:RLoeQrwrCGIEF8gO5nV5b/gMD0QIy7bzQhBUgpp1EqE=
