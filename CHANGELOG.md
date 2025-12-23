@@ -2,6 +2,31 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.20.0" (2025-12-23)
+========================
+
+Features
+--------
+
+- :sparkles: [api] added some helpers for more robust API calls (#20251223161900)
+
+
+Bugfixes
+--------
+
+- Dependency upgrade: checkout-6.0.1 (#20251202180555)
+- Dependency upgrade: golang-1.25.5 (#20251203180957)
+- Dependency upgrade: codeql-action-4.31.7 (#20251205180626)
+- Dependency upgrade: cache-5 (#20251212180535)
+- Dependency upgrade: upload-artifact-6.0.0 (#20251215180904)
+- :camel: Upgrade dependencies (#20251222175015)
+- Dependency upgrade: codeql-action-4.31.9 (#20251222180736)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.19.1" (2025-12-02)
 ========================
 
