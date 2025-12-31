@@ -2,6 +2,19 @@
 Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+"" "1.20.1" (2025-12-31)
+========================
+
+Bugfixes
+--------
+
+- :camel: Upgrade dependencies (#20251231174209)
+
+
+<!--
+Copyright (C) 2020-2025 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.20.0" (2025-12-23)
 ========================
 
