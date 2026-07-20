@@ -1,11 +1,11 @@
 module github.com/ARM-software/embedded-development-services-client-utils/utils
 
-go 1.25
+go 1.26.0
 
 require (
 	github.com/ARM-software/embedded-development-services-client/client v1.104.2
 	github.com/ARM-software/golang-utils/utils v1.145.1
-	github.com/go-faker/faker/v4 v4.7.0
+	github.com/go-faker/faker/v4 v4.10.0
 	github.com/go-logr/logr v1.4.3
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/atomic v1.11.0
