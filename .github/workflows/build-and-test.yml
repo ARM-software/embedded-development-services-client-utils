@@ -2,8 +2,8 @@ name: Build and Test
 
 # Set environment variables available in all jobs and steps
 env:
-  go_version: "1.25.5"
-  python_version: "3.10"
+  go_version: "1.27.3"
+  python_version: "3.11"
 
 on:
   workflow_call:
@@ -14,6 +14,10 @@ on:
 
 jobs:
   build-and-test:
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     strategy:
       matrix:
 #FIXME        os: [ubuntu-latest, macOS-latest, windows-latest]
@@ -31,7 +35,7 @@ jobs:
     steps:
       # we want the head of the branch that triggered this, not the reference of the commit, this is so we get updated go versions etc.
       - name: Check out [${{ inputs.branch || github.ref }}]
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ inputs.branch || github.ref }}
       - name: Update Go env version
@@ -40,9 +44,11 @@ jobs:
           NEW_GO_VERSION=$(cat .github/workflows/build-and-test.yml | grep '^  go_version:' | awk '{ print $2 }' | tr -d '"')
           echo "go_version=$NEW_GO_VERSION" >> $GITHUB_ENV
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: ${{ env.go_version }}
+      - name: Sync workspace
+        uses: ARM-software/golang-utils/actions/sync-go-workspace@v1.172.0
 
       - if: ${{ startsWith(matrix.os, 'macOS') }}
         run: echo "CACHE_PATH=${{ env.go_cache_macOS_path }}" >> $GITHUB_ENV
@@ -51,7 +57,7 @@ jobs:
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
         run: echo "CACHE_PATH=${{ env.go_cache_ubuntu_path }}" >> $GITHUB_ENV
       - name: Load Go Dependency Cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ${{ env.CACHE_PATH }}
@@ -64,11 +70,11 @@ jobs:
         env:
           GIT_TOKEN: ${{ secrets.GIT_SECRET }}
       - name: Build ${{ matrix.go-module }} on ${{ matrix.os }}
-        run: |
-          cat go.mod
-          go mod download
-          go build -v ./...
-        working-directory: ${{ matrix.go-module }}
+        uses: ARM-software/golang-utils/actions/run-go-modules@v1.172.0
+        with:
+          task: build
+          modules: ./${{ matrix.go-module }}
+          build-tags: ""
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
         name: Linting
         uses: golangci/golangci-lint-action@v9
@@ -77,6 +83,12 @@ jobs:
           version: latest
           working-directory: ${{ matrix.go-module }}
           args: "--verbose --output.text.print-issued-lines --output.text.print-linter-name --output.tab.colors --max-issues-per-linter 0 --max-same-issues 0"
+      - name: Set up gotestsum
+        uses: ARM-software/golang-utils/actions/setup-gotestsum@v1.172.0
       - name: Test ${{ matrix.go-module }} on ${{ matrix.os }}
-        run: go test -race -cover -v ./...
-        working-directory: ${{ matrix.go-module }}
+        uses: ARM-software/golang-utils/actions/test-go-modules@v1.172.0
+        with:
+          modules: ./${{ matrix.go-module }}
+          build-tags: ""
+          artifact-prefix: "${{ matrix.go-module }}-${{ matrix.os }}-"
+          report-name: "${{ matrix.go-module }} tests on ${{ matrix.os }}"
