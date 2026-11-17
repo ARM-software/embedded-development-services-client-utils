@@ -47,6 +47,8 @@ jobs:
         uses: actions/setup-go@v7
         with:
           go-version: ${{ env.go_version }}
+      - name: Sync workspace
+        uses: ARM-software/golang-utils/actions/sync-go-workspace@v1.172.0
 
       - if: ${{ startsWith(matrix.os, 'macOS') }}
         run: echo "CACHE_PATH=${{ env.go_cache_macOS_path }}" >> $GITHUB_ENV
@@ -81,6 +83,12 @@ jobs:
           version: latest
           working-directory: ${{ matrix.go-module }}
           args: "--verbose --output.text.print-issued-lines --output.text.print-linter-name --output.tab.colors --max-issues-per-linter 0 --max-same-issues 0"
+      - name: Set up gotestsum
+        uses: ARM-software/golang-utils/actions/setup-gotestsum@v1.172.0
       - name: Test ${{ matrix.go-module }} on ${{ matrix.os }}
-        run: go test -race -cover -v ./...
-        working-directory: ${{ matrix.go-module }}
+        uses: ARM-software/golang-utils/actions/test-go-modules@v1.172.0
+        with:
+          modules: ./${{ matrix.go-module }}
+          build-tags: ""
+          artifact-prefix: "${{ matrix.go-module }}-${{ matrix.os }}-"
+          report-name: "${{ matrix.go-module }} tests on ${{ matrix.os }}"
