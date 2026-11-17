@@ -61,7 +61,7 @@ func (f *MessageFormatter) FormatMessage(msg IMessage) (s string, err error) {
 	var b strings.Builder
 	if f.options.source {
 		if source, ok := msg.GetSourceOk(); ok {
-			_, err = b.WriteString(fmt.Sprintf("[%s] ", field.OptionalString(source, "")))
+			_, err = fmt.Fprintf(&b, "[%s] ", field.OptionalString(source, ""))
 			if err != nil {
 				err = commonerrors.WrapError(commonerrors.ErrUnexpected, err, "")
 				return
@@ -70,7 +70,7 @@ func (f *MessageFormatter) FormatMessage(msg IMessage) (s string, err error) {
 	}
 	if f.options.timestamp {
 		if ctime, ok := msg.GetCtimeOk(); ok {
-			_, err = b.WriteString(fmt.Sprintf("(%s) ", *ctime))
+			_, err = fmt.Fprintf(&b, "(%s) ", *ctime)
 			if err != nil {
 				err = commonerrors.WrapError(commonerrors.ErrUnexpected, err, "")
 				return
@@ -79,7 +79,7 @@ func (f *MessageFormatter) FormatMessage(msg IMessage) (s string, err error) {
 	}
 	if f.options.severity {
 		if severity, ok := msg.GetSeverityOk(); ok {
-			_, err = b.WriteString(fmt.Sprintf("%s ", field.OptionalString(severity, "")))
+			_, err = fmt.Fprintf(&b, "%s ", field.OptionalString(severity, ""))
 			if err != nil {
 				err = commonerrors.WrapError(commonerrors.ErrUnexpected, err, "")
 				return
@@ -89,7 +89,7 @@ func (f *MessageFormatter) FormatMessage(msg IMessage) (s string, err error) {
 
 	if message, ok := msg.GetMessageOk(); ok {
 		if b.Len() > 0 {
-			_, err = b.WriteString(fmt.Sprintf(": %s", field.OptionalString(message, "")))
+			_, err = fmt.Fprintf(&b, ": %s", field.OptionalString(message, ""))
 			if err != nil {
 				err = commonerrors.WrapError(commonerrors.ErrUnexpected, err, "")
 				return

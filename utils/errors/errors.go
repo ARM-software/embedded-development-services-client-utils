@@ -58,9 +58,9 @@ func FetchAPIErrorDescriptionWithContext(ctx context.Context, resp *_http.Respon
 	apiErrorMessage := strings.Builder{}
 	apiErrorMessage.WriteString("API call error")
 	if code, _ := errorResponse.GetHttpStatusCodeOk(); !reflection.IsEmpty(code) {
-		apiErrorMessage.WriteString(fmt.Sprintf(" (%v)", *code))
+		_, _ = fmt.Fprintf(&apiErrorMessage, " (%v)", *code)
 	}
-	apiErrorMessage.WriteString(fmt.Sprintf(" [request-id: %v] ", errorResponse.GetRequestId()))
+	_, _ = fmt.Fprintf(&apiErrorMessage, " [request-id: %v] ", errorResponse.GetRequestId())
 	apiErrorMessage.WriteString(errorResponse.GetMessage())
 	if fields, has := errorResponse.GetFieldsOk(); has {
 		apiErrorMessage.WriteString(" [")
@@ -75,7 +75,7 @@ func FetchAPIErrorDescriptionWithContext(ctx context.Context, resp *_http.Respon
 				apiErrorMessage.WriteString(",")
 			}
 			field := fields[i]
-			apiErrorMessage.WriteString(fmt.Sprintf("%v: %v (%v)", field.GetFieldName(), field.GetMessage(), field.GetFieldPath()))
+			_, _ = fmt.Fprintf(&apiErrorMessage, "%v: %v (%v)", field.GetFieldName(), field.GetMessage(), field.GetFieldPath())
 			start = false
 		}
 		apiErrorMessage.WriteString("]")
