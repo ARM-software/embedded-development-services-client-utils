@@ -1,1 +1,1 @@
-:gear: Update CI workflows to reuse golang-utils Go-module actions for build, test, analysis, and dependency download steps.
+:gear: Update CI workflows to align the assert-news and release flows with golang-utils and reuse shared Go-module actions for build, test, analysis, and dependency download steps.
