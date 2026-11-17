@@ -1,0 +1,1 @@
+:camel: Upgrade `github.com/ARM-software/embedded-development-services-client/client` from 1.104.2 to 1.108.0 and pick up the compatible `golang-utils` 1.146.0 transitively.

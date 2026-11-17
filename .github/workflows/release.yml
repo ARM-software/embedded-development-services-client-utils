@@ -1,7 +1,7 @@
 name: GitHub Release
 
 env:
-  go_version: "1.25.5"
+  go_version: "1.27.3"
   python_version: "3.10"
 
 on:
@@ -19,7 +19,7 @@ jobs:
     outputs:
       changes: ${{ steps.check.outputs.changes }}
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.1
       - name: Check if changes directory contains files
         id: check
         run: |
@@ -33,18 +33,22 @@ jobs:
     needs: [ check-for-changes ]
     if: needs.check-for-changes.outputs.changes
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.1
         with:
           # Get the full history as this is required by goreleaser
           fetch-depth: 0
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: ${{ env.go_version }}
       - name: Setup python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ env.python_version }}
+      - name: Download Go dependencies for every module
+        uses: ARM-software/golang-utils/actions/go-multimodules@v1.172.0
+        with:
+          task: download
       - uses: FranzDiebold/github-env-vars-action@v2
       - name: Install CI/CD tools
         run: pip install continuous-delivery-scripts>=2.7 && pip list

@@ -15,7 +15,7 @@ concurrency:
 
 # Set environment variables available in all jobs and steps
 env:
-  go_version: "1.25.5"
+  go_version: "1.27.3"
   python_version: "3.9"
 
 jobs:
@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout with full history for to allow compare with base branch
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.python_version }}
       - name: Install CI/CD tools
@@ -47,10 +47,10 @@ jobs:
     name: Check for secrets
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
     - name: Install tools
       run: pip install detect-secrets==1.0.3 && pip list
-    - uses: actions/checkout@v6.0.2
+    - uses: actions/checkout@v7.0.1
       with:
         fetch-depth: 0
     # FIXME: GitLeaks requires a licence now
