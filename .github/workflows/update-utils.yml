@@ -2,7 +2,7 @@ name: Update Library
 
 # Set environment variables available in all jobs and steps
 env:
-  python_version: "3.9"
+  python_version: "3.11"
   go_module: "utils"
 
 on:
