@@ -43,6 +43,7 @@ jobs:
         persist-credentials: false
         path: ./.github/workflows/update-go-action
     - name: Update Go
+      continue-on-error: true
       uses: ./.github/workflows/update-go-action
       with:
         dockerfile: Dockerfile.utils
