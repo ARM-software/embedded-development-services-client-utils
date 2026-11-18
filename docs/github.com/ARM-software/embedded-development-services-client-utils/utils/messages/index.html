@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../_/icons/favicon.ico"><title>messages</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../..">github.com</a>/<a href="../../..">ARM-software</a>/<a href="../..">embedded-development-services-client-utils</a>/<a href="..">utils</a>/messages<span class="navbar-right">
+          <a href="../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package messages</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/messages&#34;</span></pre>
+<p>Package messages provides utilities to log messages
+<p>Package messages provides utilities to handle messages
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li><a href="#pkg-constants">Constants</a></li><li><a href="#FormatMessage">func FormatMessage(msg IMessage) (s string, err error)</a></li>
+  <li><a href="#FormatMessageWithOptions">func FormatMessageWithOptions(msg IMessage, option ...FormatterOption) (s string, err error)</a></li>
+  <li><a href="#NewMockNotificationFeedPage">func NewMockNotificationFeedPage(ctx context.Context, hasNext, hasFuture bool) (f *client.NotificationFeed, err error)</a></li>
+  <li><a href="#NewMockNotificationFeedPaginator">func NewMockNotificationFeedPaginator(ctx context.Context) (pagination.IPaginatorAndPageFetcher, error)</a></li>
+  <li><a href="#NewMockNotificationFeedStreamPaginator">func NewMockNotificationFeedStreamPaginator(ctx context.Context) (pagination.IStreamPaginatorAndPageFetcher, error)</a></li>
+  <li>
+      <a href="#FormatterOption">type FormatterOption</a>
+      </li>
+  <li>
+      <a href="#FormatterOptions">type FormatterOptions</a>
+      </li>
+  <li>
+      <a href="#IMessage">type IMessage</a>
+      </li>
+  <li>
+      <a href="#IMessageLogger">type IMessageLogger</a>
+      <ul>
+          <li><a href="#NewBasicAsynchronousMessageLogger">func NewBasicAsynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger) (IMessageLogger, error)</a></li>
+          <li><a href="#NewBasicAsynchronousMessageLoggerWithFormatter">func NewBasicAsynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, msgFormatter *MessageFormatter) (IMessageLogger, error)</a></li>
+          <li><a href="#NewBasicSynchronousMessageLogger">func NewBasicSynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger) (IMessageLogger, error)</a></li>
+          <li><a href="#NewBasicSynchronousMessageLoggerWithFormatter">func NewBasicSynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, msgFormatter *MessageFormatter) (IMessageLogger, error)</a></li>
+          <li><a href="#NewPeriodicAsynchronousMessageLogger">func NewPeriodicAsynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration) (IMessageLogger, error)</a></li>
+          <li><a href="#NewPeriodicAsynchronousMessageLoggerWithFormatter">func NewPeriodicAsynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration, ...) (IMessageLogger, error)</a></li>
+          <li><a href="#NewPeriodicSynchronousMessageLogger">func NewPeriodicSynchronousMessageLogger(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration) (IMessageLogger, error)</a></li>
+          <li><a href="#NewPeriodicSynchronousMessageLoggerWithFormatter">func NewPeriodicSynchronousMessageLoggerWithFormatter(ctx context.Context, rawLogger logging.ILogger, printPeriod time.Duration, ...) (IMessageLogger, error)</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MessageFormatter">type MessageFormatter</a>
+      <ul>
+          <li><a href="#DefaultMessageFormatter">func DefaultMessageFormatter() *MessageFormatter</a></li>
+          <li><a href="#NewMessageFormatter">func NewMessageFormatter(option ...FormatterOption) *MessageFormatter</a></li>
+          <li><a href="#MessageFormatter.FormatMessage">func (f *MessageFormatter) FormatMessage(msg IMessage) (s string, err error)</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MessageLoggerFactory">type MessageLoggerFactory</a>
+      <ul>
+          <li><a href="#NewMessageLoggerFactory">func NewMessageLoggerFactory(logger logging.ILogger, asynchronous bool, printingPeriod time.Duration) *MessageLoggerFactory</a></li>
+          <li><a href="#NewMessageLoggerFactoryWithFormatter">func NewMessageLoggerFactoryWithFormatter(logger logging.ILogger, asynchronous bool, printingPeriod time.Duration, ...) *MessageLoggerFactory</a></li>
+          <li><a href="#NewMessageLoggerFactoryWithFormattingOptions">func NewMessageLoggerFactoryWithFormattingOptions(logger logging.ILogger, asynchronous bool, printingPeriod time.Duration, ...) *MessageLoggerFactory</a></li>
+          <li><a href="#MessageLoggerFactory.Create">func (f *MessageLoggerFactory) Create(ctx context.Context) (IMessageLogger, error)</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#PaginatorFactory">type PaginatorFactory</a>
+      <ul>
+          <li><a href="#NewMockMessagePaginatorFactory">func NewMockMessagePaginatorFactory(pageNumber int) *PaginatorFactory</a></li>
+          <li><a href="#NewPaginatorFactory">func NewPaginatorFactory(runOutTimeOut, backoff time.Duration, ...) *PaginatorFactory</a></li>
+          <li><a href="#PaginatorFactory.Create">func (f *PaginatorFactory) Create(ctx context.Context, ...) (paginator pagination.IStreamPaginatorAndPageFetcher, err error)</a></li>
+          <li><a href="#PaginatorFactory.UpdateBackOffPeriod">func (f *PaginatorFactory) UpdateBackOffPeriod(backoff time.Duration) *PaginatorFactory</a></li>
+          <li><a href="#PaginatorFactory.UpdateRunOutTimeout">func (f *PaginatorFactory) UpdateRunOutTimeout(runOutTimeOut time.Duration) *PaginatorFactory</a></li>
+          </ul>
+      </li>
+  </ul><h3 id="pkg-constants">Constants</h3>
+  
+  
+  
+  <pre class="chroma"><span class="kd">const</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span><span class="w">	</span><span class="c1">// DefaultMessagesPrintingFrequency describes the default frequency at which messages are printed</span><span class="w">
+</span><span class="w">	</span><span id="DefaultMessagesPrintingFrequency"><span class="nx">DefaultMessagesPrintingFrequency</span></span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Millisecond"><span class="nx">Millisecond</span></a><span class="w">
+</span><span class="w">
+</span><span class="w">	</span><span class="c1">// DefaultMessageFetchingBackoff describes the fixed backoff duration before more messages are fetched.</span><span class="w">
+</span><span class="w">	</span><span id="DefaultMessageFetchingBackoff"><span class="nx">DefaultMessageFetchingBackoff</span></span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Millisecond"><span class="nx">Millisecond</span></a><span class="w">
+</span><span class="w">
+</span><span class="w">	</span><span class="c1">// DefaultStreamExhaustionGracePeriod describes the grace period which should happen when expecting message stream exhaustion.</span><span class="w">
+</span><span class="w">	</span><span id="DefaultStreamExhaustionGracePeriod"><span class="nx">DefaultStreamExhaustionGracePeriod</span></span><span class="w"> </span><span class="p">=</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Second"><span class="nx">Second</span></a><span class="w">
+</span><span class="p">)</span></pre>
+  <h3 id="pkg-functions">Functions</h3>
+  
+  <h4 id="FormatMessage">func FormatMessage</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">FormatMessage</span><span class="p">(</span><span class="nx">msg</span><span class="w"> </span><a href="#IMessage"><span class="nx">IMessage</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FormatMessage formats a job message.
+<h4 id="FormatMessageWithOptions">func FormatMessageWithOptions</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">FormatMessageWithOptions</span><span class="p">(</span><span class="nx">msg</span><span class="w"> </span><a href="#IMessage"><span class="nx">IMessage</span></a><span class="p">,</span><span class="w"> </span><span class="nx">option</span><span class="w"> </span><span class="o">...</span><a href="#FormatterOption"><span class="nx">FormatterOption</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FormatMessageWithOptions formats a job message with formatting options.
+<h4 id="NewMockNotificationFeedPage">func NewMockNotificationFeedPage</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockNotificationFeedPage</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">hasNext</span><span class="p">,</span><span class="w"> </span><span class="nx">hasFuture</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1"><span class="nx">client</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1#NotificationFeed"><span class="nx">NotificationFeed</span></a><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewMockNotificationFeedPage generates a mock message page for testing
+<h4 id="NewMockNotificationFeedPaginator">func NewMockNotificationFeedPaginator</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockNotificationFeedPaginator</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IPaginatorAndPageFetcher"><span class="nx">IPaginatorAndPageFetcher</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewMockNotificationFeedPaginator generates a mock message paginator for testing
+<h4 id="NewMockNotificationFeedStreamPaginator">func NewMockNotificationFeedStreamPaginator</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockNotificationFeedStreamPaginator</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStreamPaginatorAndPageFetcher"><span class="nx">IStreamPaginatorAndPageFetcher</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewMockNotificationFeedStreamPaginator generates a mock message stream paginator for testing
+<h3 id="pkg-types">Types</h3>
+  
+  <h4 id="FormatterOption">type FormatterOption</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">FormatterOption</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a></pre>
+    
+  
+  <pre class="chroma"><span class="kd">var</span><span class="w"> </span><span id="WithSeverity"><span class="nx">WithSeverity</span></span><span class="w"> </span><a href="#FormatterOption"><span class="nx">FormatterOption</span></a><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">o</span><span class="w"> </span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">o</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#nil"><span class="kc">nil</span></a><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="nx">o</span><span class="w">
+</span><span class="w">	</span><span class="p">}</span><span class="w">
+</span><span class="w">	</span><span class="nx">o</span><span class="p">.</span><span class="nx">severity</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#true"><span class="kc">true</span></a><span class="w">
+</span><span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="nx">o</span><span class="w">
+</span><span class="p">}</span></pre>
+  <p>WithSeverity includes the severity of the message.
+
+  
+  <pre class="chroma"><span class="kd">var</span><span class="w"> </span><span id="WithSource"><span class="nx">WithSource</span></span><span class="w"> </span><a href="#FormatterOption"><span class="nx">FormatterOption</span></a><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">o</span><span class="w"> </span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">o</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#nil"><span class="kc">nil</span></a><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="nx">o</span><span class="w">
+</span><span class="w">	</span><span class="p">}</span><span class="w">
+</span><span class="w">	</span><span class="nx">o</span><span class="p">.</span><span class="nx">source</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#true"><span class="kc">true</span></a><span class="w">
+</span><span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="nx">o</span><span class="w">
+</span><span class="p">}</span></pre>
+  <p>WithSource includes information about the source of the message.
+
+  
+  <pre class="chroma"><span class="kd">var</span><span class="w"> </span><span id="WithTimeStamp"><span class="nx">WithTimeStamp</span></span><span class="w"> </span><a href="#FormatterOption"><span class="nx">FormatterOption</span></a><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">o</span><span class="w"> </span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#FormatterOptions"><span class="nx">FormatterOptions</span></a><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">o</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#nil"><span class="kc">nil</span></a><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="nx">o</span><span class="w">
+</span><span class="w">	</span><span class="p">}</span><span class="w">
+</span><span class="w">	</span><span class="nx">o</span><span class="p">.</span><span class="nx">timestamp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#true"><span class="kc">true</span></a><span class="w">
+</span><span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="nx">o</span><span class="w">
+</span><span class="p">}</span></pre>
+  <p>WithTimeStamp includes the timestamp of the message.
+<h4 id="FormatterOptions">type FormatterOptions</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">FormatterOptions</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h4 id="IMessage">type IMessage</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">IMessage</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// GetCtimeOk returns the creation time</span><span class="w">
+</span><span class="w">	</span><span id="IMessage.GetCtimeOk"><span class="nf">GetCtimeOk</span></span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Time"><span class="nx">Time</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span><span class="w">
+</span><span class="w">	</span><span class="c1">// GetMessageOk returns the message string</span><span class="w">
+</span><span class="w">	</span><span id="IMessage.GetMessageOk"><span class="nf">GetMessageOk</span></span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span><span class="w">
+</span><span class="w">	</span><span class="c1">// GetSeverityOk returns the message severity</span><span class="w">
+</span><span class="w">	</span><span id="IMessage.GetSeverityOk"><span class="nf">GetSeverityOk</span></span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span><span class="w">
+</span><span class="w">	</span><span class="c1">// GetSourceOk returns the message source.</span><span class="w">
+</span><span class="w">	</span><span id="IMessage.GetSourceOk"><span class="nf">GetSourceOk</span></span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>IMessage defines a generic service message.
+<h4 id="IMessageLogger">type IMessageLogger</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">IMessageLogger</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0"><span class="nx">logs</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0#Loggers"><span class="nx">Loggers</span></a><span class="w">
+</span><span class="w">	</span><span id="IMessageLogger.LogMessage"><span class="nf">LogMessage</span></span><span class="p">(</span><span class="nx">msg</span><span class="w"> </span><a href="#IMessage"><span class="nx">IMessage</span></a><span class="p">)</span><span class="w">
+</span><span class="w">	</span><span id="IMessageLogger.LogEmptyMessageError"><span class="nf">LogEmptyMessageError</span></span><span class="p">()</span><span class="w">
+</span><span class="w">	</span><span id="IMessageLogger.LogMarshallingError"><span class="nf">LogMarshallingError</span></span><span class="p">(</span><span class="nx">rawMessage</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w">
+</span><span class="w">	</span><span id="IMessageLogger.LogMessagesCollection"><span class="nf">LogMessagesCollection</span></span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">messagePaginator</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IGenericPaginator"><span class="nx">IGenericPaginator</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="w">
+</span><span class="p">}</span></pre>
+    <p>IMessageLogger defines a logger dedicated to printing service messages.
+<h5 id="NewBasicAsynchronousMessageLogger">func NewBasicAsynchronousMessageLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewBasicAsynchronousMessageLogger</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewBasicAsynchronousMessageLogger creates an asynchronous logger for messages which prints them as they come. It uses the default message formatter.
+<h5 id="NewBasicAsynchronousMessageLoggerWithFormatter">func NewBasicAsynchronousMessageLoggerWithFormatter</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewBasicAsynchronousMessageLoggerWithFormatter</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">msgFormatter</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewBasicAsynchronousMessageLoggerWithFormatter creates an asynchronous logger for messages which prints them as they come.
+<h5 id="NewBasicSynchronousMessageLogger">func NewBasicSynchronousMessageLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewBasicSynchronousMessageLogger</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewBasicSynchronousMessageLogger creates a synchronous logger for messages which prints them as they come. It uses the default message formatter.
+<h5 id="NewBasicSynchronousMessageLoggerWithFormatter">func NewBasicSynchronousMessageLoggerWithFormatter</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewBasicSynchronousMessageLoggerWithFormatter</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">msgFormatter</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewBasicSynchronousMessageLoggerWithFormatter creates a synchronous logger for messages which prints them as they come.
+<h5 id="NewPeriodicAsynchronousMessageLogger">func NewPeriodicAsynchronousMessageLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewPeriodicAsynchronousMessageLogger</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">printPeriod</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewPeriodicAsynchronousMessageLogger creates an asynchronous logger for messages which prints them at regular intervals. It uses the default message formatter.
+<h5 id="NewPeriodicAsynchronousMessageLoggerWithFormatter">func NewPeriodicAsynchronousMessageLoggerWithFormatter</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewPeriodicAsynchronousMessageLoggerWithFormatter</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">printPeriod</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">,</span><span class="w"> </span><span class="nx">msgFormatter</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewPeriodicAsynchronousMessageLoggerWithFormatter creates an asynchronous logger for messages which prints them at regular intervals.
+<h5 id="NewPeriodicSynchronousMessageLogger">func NewPeriodicSynchronousMessageLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewPeriodicSynchronousMessageLogger</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">printPeriod</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewPeriodicSynchronousMessageLogger creates a synchronous logger for messages which prints them at regular intervals. It uses the default message formatter.
+<h5 id="NewPeriodicSynchronousMessageLoggerWithFormatter">func NewPeriodicSynchronousMessageLoggerWithFormatter</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewPeriodicSynchronousMessageLoggerWithFormatter</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">rawLogger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">printPeriod</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">,</span><span class="w"> </span><span class="nx">msgFormatter</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewPeriodicSynchronousMessageLoggerWithFormatter creates a synchronous logger for messages which prints them at regular intervals.
+<h4 id="MessageFormatter">type MessageFormatter</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MessageFormatter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="DefaultMessageFormatter">func DefaultMessageFormatter</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">DefaultMessageFormatter</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a></pre>
+  <p>DefaultMessageFormatter returns a default message formatter.
+<h5 id="NewMessageFormatter">func NewMessageFormatter</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMessageFormatter</span><span class="p">(</span><span class="nx">option</span><span class="w"> </span><span class="o">...</span><a href="#FormatterOption"><span class="nx">FormatterOption</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a></pre>
+  <p>NewMessageFormatter creates a formatter for messages
+<h5 id="MessageFormatter.FormatMessage">func (*MessageFormatter) FormatMessage</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FormatMessage</span><span class="p">(</span><span class="nx">msg</span><span class="w"> </span><a href="#IMessage"><span class="nx">IMessage</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h4 id="MessageLoggerFactory">type MessageLoggerFactory</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MessageLoggerFactory</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MessageLoggerFactory defines a message logger factory
+<h5 id="NewMessageLoggerFactory">func NewMessageLoggerFactory</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMessageLoggerFactory</span><span class="p">(</span><span class="nx">logger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">asynchronous</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><span class="nx">printingPeriod</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MessageLoggerFactory"><span class="nx">MessageLoggerFactory</span></a></pre>
+  <p>NewMessageLoggerFactory returns a message logger factory.
+<h5 id="NewMessageLoggerFactoryWithFormatter">func NewMessageLoggerFactoryWithFormatter</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMessageLoggerFactoryWithFormatter</span><span class="p">(</span><span class="nx">logger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">asynchronous</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><span class="nx">printingPeriod</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">,</span><span class="w"> </span><span class="nx">formatter</span><span class="w"> </span><span class="o">*</span><a href="#MessageFormatter"><span class="nx">MessageFormatter</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MessageLoggerFactory"><span class="nx">MessageLoggerFactory</span></a></pre>
+  <p>NewMessageLoggerFactoryWithFormatter returns a message logger factory.
+<h5 id="NewMessageLoggerFactoryWithFormattingOptions">func NewMessageLoggerFactoryWithFormattingOptions</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMessageLoggerFactoryWithFormattingOptions</span><span class="p">(</span><span class="nx">logger</span><span class="w"> </span><a href="../logging"><span class="nx">logging</span></a><span class="p">.</span><a href="../logging#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">asynchronous</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><span class="nx">printingPeriod</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">,</span><span class="w"> </span><span class="nx">option</span><span class="w"> </span><span class="o">...</span><a href="#FormatterOption"><span class="nx">FormatterOption</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MessageLoggerFactory"><span class="nx">MessageLoggerFactory</span></a></pre>
+  <p>NewMessageLoggerFactoryWithFormattingOptions returns a message logger factory.
+<h5 id="MessageLoggerFactory.Create">func (*MessageLoggerFactory) Create</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><a href="#MessageLoggerFactory"><span class="nx">MessageLoggerFactory</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="#IMessageLogger"><span class="nx">IMessageLogger</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>Create returns a message logger.
+<h4 id="PaginatorFactory">type PaginatorFactory</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">PaginatorFactory</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="NewMockMessagePaginatorFactory">func NewMockMessagePaginatorFactory</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockMessagePaginatorFactory</span><span class="p">(</span><span class="nx">pageNumber</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#int"><span class="kt">int</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#PaginatorFactory"><span class="nx">PaginatorFactory</span></a></pre>
+  <p>NewMockMessagePaginatorFactory generates a mock message paginator factory
+<h5 id="NewPaginatorFactory">func NewPaginatorFactory</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewPaginatorFactory</span><span class="p">(</span><span class="nx">runOutTimeOut</span><span class="p">,</span><span class="w"> </span><span class="nx">backoff</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">,</span><span class="w"> </span><span class="nx">fetchNextPageFunc</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPage"><span class="nx">IStaticPage</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPage"><span class="nx">IStaticPage</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">),</span><span class="w"> </span><span class="nx">fetchFutureFunc</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPageStream"><span class="nx">IStaticPageStream</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPageStream"><span class="nx">IStaticPageStream</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">))</span><span class="w"> </span><span class="o">*</span><a href="#PaginatorFactory"><span class="nx">PaginatorFactory</span></a></pre>
+  <p>NewPaginatorFactory returns a message paginator factory.
+<h5 id="PaginatorFactory.Create">func (*PaginatorFactory) Create</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><a href="#PaginatorFactory"><span class="nx">PaginatorFactory</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">fetchFirstPageFunc</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPageStream"><span class="nx">IStaticPageStream</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">))</span><span class="w"> </span><span class="p">(</span><span class="nx">paginator</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStreamPaginatorAndPageFetcher"><span class="nx">IStreamPaginatorAndPageFetcher</span></a><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="PaginatorFactory.UpdateBackOffPeriod">func (*PaginatorFactory) UpdateBackOffPeriod</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><a href="#PaginatorFactory"><span class="nx">PaginatorFactory</span></a><span class="p">)</span><span class="w"> </span><span class="nf">UpdateBackOffPeriod</span><span class="p">(</span><span class="nx">backoff</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#PaginatorFactory"><span class="nx">PaginatorFactory</span></a></pre>
+  <h5 id="PaginatorFactory.UpdateRunOutTimeout">func (*PaginatorFactory) UpdateRunOutTimeout</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><a href="#PaginatorFactory"><span class="nx">PaginatorFactory</span></a><span class="p">)</span><span class="w"> </span><span class="nf">UpdateRunOutTimeout</span><span class="p">(</span><span class="nx">runOutTimeOut</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#PaginatorFactory"><span class="nx">PaginatorFactory</span></a></pre>
+  </main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../_/js/permalink.js"></script></body>
+</html>

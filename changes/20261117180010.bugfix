@@ -1,1 +1,0 @@
-:camel: Upgrade `golang` in `Dockerfile.utils` and workflow tooling from 1.25.5 to 1.27.3.

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../_/icons/favicon.ico"><title>pagination</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../..">github.com</a>/<a href="../../..">ARM-software</a>/<a href="../..">embedded-development-services-client-utils</a>/<a href="..">utils</a>/pagination<span class="navbar-right">
+          <a href="../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package pagination</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/pagination&#34;</span></pre>
+<p>Package pagination extends the functionality defined in the `pagination` module present golang-utils
+<h3 id="hdr-Package_pagination_extends_the_functionality_defined_in_the__pagination__module_present_golang_utils">Package pagination extends the functionality defined in the `pagination` module present golang-utils</h3>
+<p>Package pagination extends the functionality defined in the `pagination` module present golang-utils
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li><a href="#ToClientIterator">func ToClientIterator(iterator pagination.IIterator) client.IIterator</a></li>
+  <li><a href="#ToClientPage">func ToClientPage(page pagination.IStaticPage) client.IStaticPage</a></li>
+  <li><a href="#ToClientStream">func ToClientStream(stream pagination.IStaticPageStream) client.IMessageStream</a></li>
+  <li><a href="#ToIterator">func ToIterator(iterator client.IIterator) pagination.IIterator</a></li>
+  <li><a href="#ToPage">func ToPage(page client.IStaticPage) pagination.IStaticPage</a></li>
+  <li><a href="#ToStream">func ToStream(stream client.IMessageStream) pagination.IStaticPageStream</a></li>
+  <li><a href="#UnwrapIterator">func UnwrapIterator(iterator any) any</a></li>
+  <li><a href="#UnwrapPage">func UnwrapPage(page any) any</a></li>
+  <li><a href="#UnwrapStream">func UnwrapStream(stream any) any</a></li>
+  </ul><h3 id="pkg-functions">Functions</h3>
+  
+  <h4 id="ToClientIterator">func ToClientIterator</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">ToClientIterator</span><span class="p">(</span><span class="nx">iterator</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IIterator"><span class="nx">IIterator</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1"><span class="nx">client</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1#IIterator"><span class="nx">IIterator</span></a></pre>
+  <p>ToClientIterator converts an iterator into another
+<h4 id="ToClientPage">func ToClientPage</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">ToClientPage</span><span class="p">(</span><span class="nx">page</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPage"><span class="nx">IStaticPage</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1"><span class="nx">client</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1#IStaticPage"><span class="nx">IStaticPage</span></a></pre>
+  <p>ToClientPage converts a page into another
+<h4 id="ToClientStream">func ToClientStream</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">ToClientStream</span><span class="p">(</span><span class="nx">stream</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPageStream"><span class="nx">IStaticPageStream</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1"><span class="nx">client</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1#IMessageStream"><span class="nx">IMessageStream</span></a></pre>
+  <p>ToClientStream converts a message stream into another
+<h4 id="ToIterator">func ToIterator</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">ToIterator</span><span class="p">(</span><span class="nx">iterator</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1"><span class="nx">client</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1#IIterator"><span class="nx">IIterator</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IIterator"><span class="nx">IIterator</span></a></pre>
+  <p>ToIterator converts an iterator into another
+<h4 id="ToPage">func ToPage</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">ToPage</span><span class="p">(</span><span class="nx">page</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1"><span class="nx">client</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1#IStaticPage"><span class="nx">IStaticPage</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPage"><span class="nx">IStaticPage</span></a></pre>
+  <p>ToPage converts a page into another
+<h4 id="ToStream">func ToStream</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">ToStream</span><span class="p">(</span><span class="nx">stream</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1"><span class="nx">client</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client/client@v1.109.1#IMessageStream"><span class="nx">IMessageStream</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStaticPageStream"><span class="nx">IStaticPageStream</span></a></pre>
+  <p>ToStream converts a message stream into another
+<h4 id="UnwrapIterator">func UnwrapIterator</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">UnwrapIterator</span><span class="p">(</span><span class="nx">iterator</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a></pre>
+  <p>UnwrapIterator tends to unwraps the iterator mappers to retrieve the raw iterator.
+<h4 id="UnwrapPage">func UnwrapPage</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">UnwrapPage</span><span class="p">(</span><span class="nx">page</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a></pre>
+  <p>UnwrapPage tends to unwrap the page mappers to retrieve the raw page object.
+<h4 id="UnwrapStream">func UnwrapStream</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">UnwrapStream</span><span class="p">(</span><span class="nx">stream</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a></pre>
+  <p>UnwrapStream tends to unwraps the stream mappers to retrieve the raw stream.
+</main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../_/js/permalink.js"></script></body>
+</html>

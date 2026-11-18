@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../_/icons/favicon.ico"><title>logging</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../..">github.com</a>/<a href="../../..">ARM-software</a>/<a href="../..">embedded-development-services-client-utils</a>/<a href="..">utils</a>/logging<span class="navbar-right">
+          <a href="../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package logging</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/logging&#34;</span></pre>
+<p>Package logging provides helpers regarding logging.
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li>
+      <a href="#ClientLogger">type ClientLogger</a>
+      <ul>
+          <li><a href="#ClientLogger.Append">func (c *ClientLogger) Append(l ...logs.Loggers) error</a></li>
+          <li><a href="#ClientLogger.AppendLogger">func (c *ClientLogger) AppendLogger(l ...logr.Logger) error</a></li>
+          <li><a href="#ClientLogger.Check">func (c *ClientLogger) Check() error</a></li>
+          <li><a href="#ClientLogger.Close">func (c *ClientLogger) Close() error</a></li>
+          <li><a href="#ClientLogger.Log">func (c *ClientLogger) Log(output ...interface{})</a></li>
+          <li><a href="#ClientLogger.LogError">func (c *ClientLogger) LogError(err ...interface{})</a></li>
+          <li><a href="#ClientLogger.LogErrorAndMessage">func (c *ClientLogger) LogErrorAndMessage(err error, format string, args ...interface{})</a></li>
+          <li><a href="#ClientLogger.LogErrorMessage">func (c *ClientLogger) LogErrorMessage(format string, args ...interface{})</a></li>
+          <li><a href="#ClientLogger.LogInfo">func (c *ClientLogger) LogInfo(format string, args ...interface{})</a></li>
+          <li><a href="#ClientLogger.LogRawError">func (c *ClientLogger) LogRawError(err error)</a></li>
+          <li><a href="#ClientLogger.LogResource">func (c *ClientLogger) LogResource(r resource.IResource)</a></li>
+          <li><a href="#ClientLogger.SetLogSource">func (c *ClientLogger) SetLogSource(source string) error</a></li>
+          <li><a href="#ClientLogger.SetLoggerSource">func (c *ClientLogger) SetLoggerSource(source string) error</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#ILogger">type ILogger</a>
+      <ul>
+          <li><a href="#NewClientLogger">func NewClientLogger(loggerSource string, defaultLoggers ...logs.Loggers) (l ILogger, err error)</a></li>
+          <li><a href="#NewStandardClientLogger">func NewStandardClientLogger(loggerSource string, logFilePath *string) (l ILogger, err error)</a></li>
+          </ul>
+      </li>
+  </ul><h3 id="pkg-types">Types</h3>
+  
+  <h4 id="ClientLogger">type ClientLogger</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">ClientLogger</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="ClientLogger.Append">func (*ClientLogger) Append</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Append</span><span class="p">(</span><span class="nx">l</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0"><span class="nx">logs</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0#Loggers"><span class="nx">Loggers</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="ClientLogger.AppendLogger">func (*ClientLogger) AppendLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">AppendLogger</span><span class="p">(</span><span class="nx">l</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/github.com/go-logr/logr@v1.4.4"><span class="nx">logr</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/go-logr/logr@v1.4.4#Logger"><span class="nx">Logger</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="ClientLogger.Check">func (*ClientLogger) Check</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Check</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="ClientLogger.Close">func (*ClientLogger) Close</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="ClientLogger.Log">func (*ClientLogger) Log</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="nx">output</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span></pre>
+  <h5 id="ClientLogger.LogError">func (*ClientLogger) LogError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogError</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span></pre>
+  <h5 id="ClientLogger.LogErrorAndMessage">func (*ClientLogger) LogErrorAndMessage</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogErrorAndMessage</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">,</span><span class="w"> </span><span class="nx">format</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span></pre>
+  <h5 id="ClientLogger.LogErrorMessage">func (*ClientLogger) LogErrorMessage</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogErrorMessage</span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span></pre>
+  <h5 id="ClientLogger.LogInfo">func (*ClientLogger) LogInfo</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogInfo</span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span></pre>
+  <h5 id="ClientLogger.LogRawError">func (*ClientLogger) LogRawError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogRawError</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="ClientLogger.LogResource">func (*ClientLogger) LogResource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogResource</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><a href="../resource"><span class="nx">resource</span></a><span class="p">.</span><a href="../resource#IResource"><span class="nx">IResource</span></a><span class="p">)</span></pre>
+  <h5 id="ClientLogger.SetLogSource">func (*ClientLogger) SetLogSource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetLogSource</span><span class="p">(</span><span class="nx">source</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="ClientLogger.SetLoggerSource">func (*ClientLogger) SetLoggerSource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ClientLogger"><span class="nx">ClientLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetLoggerSource</span><span class="p">(</span><span class="nx">source</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h4 id="ILogger">type ILogger</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">ILogger</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0"><span class="nx">logs</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0#IMultipleLoggers"><span class="nx">IMultipleLoggers</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// LogRawError logs an error.</span><span class="w">
+</span><span class="w">	</span><span id="ILogger.LogRawError"><span class="nf">LogRawError</span></span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span><span class="w">
+</span><span class="w">	</span><span id="ILogger.LogErrorAndMessage"><span class="nf">LogErrorAndMessage</span></span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">,</span><span class="w"> </span><span class="nx">format</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="w">
+</span><span class="w">	</span><span id="ILogger.LogErrorMessage"><span class="nf">LogErrorMessage</span></span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="w">
+</span><span class="w">	</span><span id="ILogger.LogInfo"><span class="nf">LogInfo</span></span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="w">
+</span><span class="w">	</span><span class="c1">// LogResource logs the description of an API resource</span><span class="w">
+</span><span class="w">	</span><span id="ILogger.LogResource"><span class="nf">LogResource</span></span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><a href="../resource"><span class="nx">resource</span></a><span class="p">.</span><a href="../resource#IResource"><span class="nx">IResource</span></a><span class="p">)</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>ILogger defines a generic Client logger.
+<h5 id="NewClientLogger">func NewClientLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewClientLogger</span><span class="p">(</span><span class="nx">loggerSource</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">defaultLoggers</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0"><span class="nx">logs</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0#Loggers"><span class="nx">Loggers</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">l</span><span class="w"> </span><a href="#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewClientLogger returns a logger for use in clients.
+if no default loggers are provided, the logger will be set to print to the standard output.
+<h5 id="NewStandardClientLogger">func NewStandardClientLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewStandardClientLogger</span><span class="p">(</span><span class="nx">loggerSource</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">logFilePath</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">l</span><span class="w"> </span><a href="#ILogger"><span class="nx">ILogger</span></a><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewStandardClientLogger returns a typical client logger with logs written to a file if the logFilePath is set.
+</main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../_/js/permalink.js"></script></body>
+</html>

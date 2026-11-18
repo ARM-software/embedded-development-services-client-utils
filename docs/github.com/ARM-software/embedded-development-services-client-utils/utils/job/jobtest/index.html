@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../../_/icons/favicon.ico"><title>jobtest</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../../..">github.com</a>/<a href="../../../..">ARM-software</a>/<a href="../../..">embedded-development-services-client-utils</a>/<a href="../..">utils</a>/<a href="..">job</a>/jobtest<span class="navbar-right">
+          <a href="../../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package jobtest</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/job/jobtest&#34;</span></pre>
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li>
+      <a href="#MockAsynchronousJob">type MockAsynchronousJob</a>
+      <ul>
+          <li><a href="#NewMockFailedAsynchronousJob">func NewMockFailedAsynchronousJob() (*MockAsynchronousJob, error)</a></li>
+          <li><a href="#NewMockQueuedAsynchronousJob">func NewMockQueuedAsynchronousJob() (*MockAsynchronousJob, error)</a></li>
+          <li><a href="#NewMockSuccessfulAsynchronousJob">func NewMockSuccessfulAsynchronousJob() (*MockAsynchronousJob, error)</a></li>
+          <li><a href="#NewMockUndoneAsynchronousJob">func NewMockUndoneAsynchronousJob() (*MockAsynchronousJob, error)</a></li>
+          <li><a href="#MockAsynchronousJob.FetchType">func (m *MockAsynchronousJob) FetchType() string</a></li>
+          <li><a href="#MockAsynchronousJob.GetDone">func (m *MockAsynchronousJob) GetDone() bool</a></li>
+          <li><a href="#MockAsynchronousJob.GetError">func (m *MockAsynchronousJob) GetError() bool</a></li>
+          <li><a href="#MockAsynchronousJob.GetFailure">func (m *MockAsynchronousJob) GetFailure() bool</a></li>
+          <li><a href="#MockAsynchronousJob.GetQueued">func (m *MockAsynchronousJob) GetQueued() bool</a></li>
+          <li><a href="#MockAsynchronousJob.GetStatus">func (m *MockAsynchronousJob) GetStatus() string</a></li>
+          <li><a href="#MockAsynchronousJob.GetSuccess">func (m *MockAsynchronousJob) GetSuccess() bool</a></li>
+          <li><a href="#MockAsynchronousJob.HasArtefacts">func (m *MockAsynchronousJob) HasArtefacts() bool</a></li>
+          <li><a href="#MockAsynchronousJob.HasMessages">func (m *MockAsynchronousJob) HasMessages() bool</a></li>
+          </ul>
+      </li>
+  </ul><h3 id="pkg-types">Types</h3>
+  
+  <h4 id="MockAsynchronousJob">type MockAsynchronousJob</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockAsynchronousJob</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><a href="../../resource"><span class="nx">resource</span></a><span class="p">.</span><a href="../../resource#IResource"><span class="nx">IResource</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="NewMockFailedAsynchronousJob">func NewMockFailedAsynchronousJob</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockFailedAsynchronousJob</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="NewMockQueuedAsynchronousJob">func NewMockQueuedAsynchronousJob</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockQueuedAsynchronousJob</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="NewMockSuccessfulAsynchronousJob">func NewMockSuccessfulAsynchronousJob</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockSuccessfulAsynchronousJob</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="NewMockUndoneAsynchronousJob">func NewMockUndoneAsynchronousJob</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockUndoneAsynchronousJob</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="MockAsynchronousJob.FetchType">func (*MockAsynchronousJob) FetchType</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchType</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <h5 id="MockAsynchronousJob.GetDone">func (*MockAsynchronousJob) GetDone</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetDone</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="MockAsynchronousJob.GetError">func (*MockAsynchronousJob) GetError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetError</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="MockAsynchronousJob.GetFailure">func (*MockAsynchronousJob) GetFailure</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetFailure</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="MockAsynchronousJob.GetQueued">func (*MockAsynchronousJob) GetQueued</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetQueued</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="MockAsynchronousJob.GetStatus">func (*MockAsynchronousJob) GetStatus</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetStatus</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <h5 id="MockAsynchronousJob.GetSuccess">func (*MockAsynchronousJob) GetSuccess</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetSuccess</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="MockAsynchronousJob.HasArtefacts">func (*MockAsynchronousJob) HasArtefacts</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasArtefacts</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="MockAsynchronousJob.HasMessages">func (*MockAsynchronousJob) HasMessages</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockAsynchronousJob"><span class="nx">MockAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasMessages</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  </main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../../_/js/permalink.js"></script></body>
+</html>

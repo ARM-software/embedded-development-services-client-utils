@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../../_/icons/favicon.ico"><title>resourcetests</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../../..">github.com</a>/<a href="../../../..">ARM-software</a>/<a href="../../..">embedded-development-services-client-utils</a>/<a href="../..">utils</a>/<a href="..">resource</a>/resourcetests<span class="navbar-right">
+          <a href="../../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package resourcetests</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/resource/resourcetests&#34;</span></pre>
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li><a href="#NewMockResource">func NewMockResource() (resource.IResource, error)</a></li>
+  <li>
+      <a href="#MockResource">type MockResource</a>
+      <ul>
+          <li><a href="#MockResource.FetchLinks">func (r *MockResource) FetchLinks() (any, error)</a></li>
+          <li><a href="#MockResource.FetchName">func (r *MockResource) FetchName() (string, error)</a></li>
+          <li><a href="#MockResource.FetchTitle">func (r *MockResource) FetchTitle() (string, error)</a></li>
+          <li><a href="#MockResource.FetchType">func (r *MockResource) FetchType() string</a></li>
+          </ul>
+      </li>
+  </ul><h3 id="pkg-functions">Functions</h3>
+  
+  <h4 id="NewMockResource">func NewMockResource</h4>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockResource</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href=".."><span class="nx">resource</span></a><span class="p">.</span><a href="..#IResource"><span class="nx">IResource</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>NewMockResource generates a fake resource for testing purposes.
+<h3 id="pkg-types">Types</h3>
+  
+  <h4 id="MockResource">type MockResource</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockResource</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="MockResource.FetchLinks">func (*MockResource) FetchLinks</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><a href="#MockResource"><span class="nx">MockResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchLinks</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="MockResource.FetchName">func (*MockResource) FetchName</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><a href="#MockResource"><span class="nx">MockResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchName</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="MockResource.FetchTitle">func (*MockResource) FetchTitle</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><a href="#MockResource"><span class="nx">MockResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchTitle</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <h5 id="MockResource.FetchType">func (*MockResource) FetchType</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><a href="#MockResource"><span class="nx">MockResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchType</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  </main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../../_/js/permalink.js"></script></body>
+</html>

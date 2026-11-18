@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../_/icons/favicon.ico"><title>store</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../..">github.com</a>/<a href="../../..">ARM-software</a>/<a href="../..">embedded-development-services-client-utils</a>/<a href="..">utils</a>/store<span class="navbar-right">
+          <a href="../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package store</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/store&#34;</span></pre>
+<p>Package store provides utilities for storing data or state in a persistent fashion.
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li>
+      <a href="#IStore">type IStore</a>
+      <ul>
+          <li><a href="#NewLocalStore">func NewLocalStore(rootPath string) IStore</a></li>
+          <li><a href="#NewLocalTemporaryStore">func NewLocalTemporaryStore() IStore</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#LocalStore">type LocalStore</a>
+      <ul>
+          <li><a href="#LocalStore.Clear">func (s *LocalStore) Clear(ctx context.Context) error</a></li>
+          <li><a href="#LocalStore.Close">func (s *LocalStore) Close() error</a></li>
+          <li><a href="#LocalStore.Create">func (s *LocalStore) Create(context.Context) error</a></li>
+          <li><a href="#LocalStore.Exists">func (s *LocalStore) Exists() bool</a></li>
+          <li><a href="#LocalStore.GetElementPath">func (s *LocalStore) GetElementPath(elementName string) (path string)</a></li>
+          <li><a href="#LocalStore.GetFilesystem">func (s *LocalStore) GetFilesystem() filesystem.FS</a></li>
+          <li><a href="#LocalStore.GetPath">func (s *LocalStore) GetPath() string</a></li>
+          <li><a href="#LocalStore.HasElement">func (s *LocalStore) HasElement(elementName string) bool</a></li>
+          <li><a href="#LocalStore.SetPath">func (s *LocalStore) SetPath(path string) error</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#LocalTemporaryStore">type LocalTemporaryStore</a>
+      <ul>
+          <li><a href="#LocalTemporaryStore.Close">func (s *LocalTemporaryStore) Close() error</a></li>
+          <li><a href="#LocalTemporaryStore.Create">func (s *LocalTemporaryStore) Create(context.Context) error</a></li>
+          <li><a href="#LocalTemporaryStore.SetPath">func (s *LocalTemporaryStore) SetPath(string) error</a></li>
+          </ul>
+      </li>
+  </ul><h3 id="pkg-types">Types</h3>
+  
+  <h4 id="IStore">type IStore</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">IStore</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><a href="https://pkg.go.dev/io"><span class="nx">io</span></a><span class="p">.</span><a href="https://pkg.go.dev/io#Closer"><span class="nx">Closer</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// GetPath returns the store path</span><span class="w">
+</span><span class="w">	</span><span id="IStore.GetPath"><span class="nf">GetPath</span></span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// SetPath sets the store path</span><span class="w">
+</span><span class="w">	</span><span id="IStore.SetPath"><span class="nf">SetPath</span></span><span class="p">(</span><span class="nx">path</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// Create sets up the store</span><span class="w">
+</span><span class="w">	</span><span id="IStore.Create"><span class="nf">Create</span></span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// Exists returns whether the store exists or not</span><span class="w">
+</span><span class="w">	</span><span id="IStore.Exists"><span class="nf">Exists</span></span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// Clear clears the store</span><span class="w">
+</span><span class="w">	</span><span id="IStore.Clear"><span class="nf">Clear</span></span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// GetElementPath determines the path to an element in the store.</span><span class="w">
+</span><span class="w">	</span><span id="IStore.GetElementPath"><span class="nf">GetElementPath</span></span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">path</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w">
+</span><span class="w">	</span><span class="c1">// HasElement States whether elementName is in the store or not.</span><span class="w">
+</span><span class="w">	</span><span id="IStore.HasElement"><span class="nf">HasElement</span></span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// GetFilesystem returns the store&#39;s filesystem</span><span class="w">
+</span><span class="w">	</span><span id="IStore.GetFilesystem"><span class="nf">GetFilesystem</span></span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/filesystem@v1.172.0"><span class="nx">filesystem</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/filesystem@v1.172.0#FS"><span class="nx">FS</span></a><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="NewLocalStore">func NewLocalStore</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewLocalStore</span><span class="p">(</span><span class="nx">rootPath</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="#IStore"><span class="nx">IStore</span></a></pre>
+  <p>NewLocalStore creates a persistent local store in the filesystem.
+<h5 id="NewLocalTemporaryStore">func NewLocalTemporaryStore</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewLocalTemporaryStore</span><span class="p">()</span><span class="w"> </span><a href="#IStore"><span class="nx">IStore</span></a></pre>
+  <p>NewLocalTemporaryStore creates a local store in the temp directory
+<h4 id="LocalStore">type LocalStore</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">LocalStore</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="LocalStore.Clear">func (*LocalStore) Clear</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Clear</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="LocalStore.Close">func (*LocalStore) Close</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="LocalStore.Create">func (*LocalStore) Create</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Create</span><span class="p">(</span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="LocalStore.Exists">func (*LocalStore) Exists</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Exists</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="LocalStore.GetElementPath">func (*LocalStore) GetElementPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetElementPath</span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">path</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span></pre>
+  <h5 id="LocalStore.GetFilesystem">func (*LocalStore) GetFilesystem</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetFilesystem</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/filesystem@v1.172.0"><span class="nx">filesystem</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/filesystem@v1.172.0#FS"><span class="nx">FS</span></a></pre>
+  <h5 id="LocalStore.GetPath">func (*LocalStore) GetPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetPath</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <h5 id="LocalStore.HasElement">func (*LocalStore) HasElement</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasElement</span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <h5 id="LocalStore.SetPath">func (*LocalStore) SetPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetPath</span><span class="p">(</span><span class="nx">path</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h4 id="LocalTemporaryStore">type LocalTemporaryStore</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">LocalTemporaryStore</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><a href="#LocalStore"><span class="nx">LocalStore</span></a><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="LocalTemporaryStore.Close">func (*LocalTemporaryStore) Close</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalTemporaryStore"><span class="nx">LocalTemporaryStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="LocalTemporaryStore.Create">func (*LocalTemporaryStore) Create</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalTemporaryStore"><span class="nx">LocalTemporaryStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Create</span><span class="p">(</span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="LocalTemporaryStore.SetPath">func (*LocalTemporaryStore) SetPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><a href="#LocalTemporaryStore"><span class="nx">LocalTemporaryStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetPath</span><span class="p">(</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  </main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../_/js/permalink.js"></script></body>
+</html>

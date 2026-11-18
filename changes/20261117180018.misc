@@ -1,1 +1,0 @@
-:gear: Update CI workflows to align the assert-news and release flows with golang-utils, add a root Go workspace, reuse shared Go-module actions, and continue when the update-go automation cannot push branch changes.

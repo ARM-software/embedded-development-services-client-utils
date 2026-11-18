@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../_/icons/favicon.ico"><title>mocks</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../..">github.com</a>/<a href="../../..">ARM-software</a>/<a href="../..">embedded-development-services-client-utils</a>/<a href="..">utils</a>/mocks<span class="navbar-right">
+          <a href="../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package mocks</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/mocks&#34;</span></pre>
+<p>Package mocks is a generated GoMock package.
+<p>Package mocks is a generated GoMock package.
+<p>Package mocks is a generated GoMock package.
+<p>Package mocks is a generated GoMock package.
+<p>Package mocks is a generated GoMock package.
+<p>Package mocks is a generated GoMock package.
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li>
+      <a href="#MockIArtefactManager">type MockIArtefactManager</a>
+      <ul>
+          <li><a href="#NewMockIArtefactManager">func NewMockIArtefactManager(ctrl *gomock.Controller) *MockIArtefactManager[M, D]</a></li>
+          <li><a href="#MockIArtefactManager.DownloadAllJobArtefacts">func (m *MockIArtefactManager[M, D]) DownloadAllJobArtefacts(ctx context.Context, jobName, outputDirectory string) error</a></li>
+          <li><a href="#MockIArtefactManager.DownloadAllJobArtefactsWithOptions">func (m *MockIArtefactManager[M, D]) DownloadAllJobArtefactsWithOptions(ctx context.Context, jobName, outputDirectory string, ...) error</a></li>
+          <li><a href="#MockIArtefactManager.DownloadAllJobArtefactsWithTree">func (m *MockIArtefactManager[M, D]) DownloadAllJobArtefactsWithTree(ctx context.Context, jobName string, maintainTreeStructure bool, ...) error</a></li>
+          <li><a href="#MockIArtefactManager.DownloadJobArtefact">func (m *MockIArtefactManager[M, D]) DownloadJobArtefact(ctx context.Context, jobName, outputDirectory string, artefactManager M) error</a></li>
+          <li><a href="#MockIArtefactManager.DownloadJobArtefactFromLink">func (m *MockIArtefactManager[M, D]) DownloadJobArtefactFromLink(ctx context.Context, jobName, outputDirectory string, ...) error</a></li>
+          <li><a href="#MockIArtefactManager.DownloadJobArtefactFromLinkWithTree">func (m *MockIArtefactManager[M, D]) DownloadJobArtefactFromLinkWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, ...) error</a></li>
+          <li><a href="#MockIArtefactManager.DownloadJobArtefactWithTree">func (m *MockIArtefactManager[M, D]) DownloadJobArtefactWithTree(ctx context.Context, jobName string, maintainTreeLocation bool, ...) error</a></li>
+          <li><a href="#MockIArtefactManager.EXPECT">func (m *MockIArtefactManager[M, D]) EXPECT() *MockIArtefactManagerMockRecorder[M, D]</a></li>
+          <li><a href="#MockIArtefactManager.ListJobArtefacts">func (m *MockIArtefactManager[M, D]) ListJobArtefacts(ctx context.Context, jobName string) (pagination.IPaginatorAndPageFetcher, error)</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIArtefactManagerMockRecorder">type MockIArtefactManagerMockRecorder</a>
+      <ul>
+          <li><a href="#MockIArtefactManagerMockRecorder.DownloadAllJobArtefacts">func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefacts(ctx, jobName, outputDirectory any) *gomock.Call</a></li>
+          <li><a href="#MockIArtefactManagerMockRecorder.DownloadAllJobArtefactsWithOptions">func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefactsWithOptions(ctx, jobName, outputDirectory any, opts ...any) *gomock.Call</a></li>
+          <li><a href="#MockIArtefactManagerMockRecorder.DownloadAllJobArtefactsWithTree">func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefactsWithTree(ctx, jobName, maintainTreeStructure, outputDirectory any) *gomock.Call</a></li>
+          <li><a href="#MockIArtefactManagerMockRecorder.DownloadJobArtefact">func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefact(ctx, jobName, outputDirectory, artefactManager any) *gomock.Call</a></li>
+          <li><a href="#MockIArtefactManagerMockRecorder.DownloadJobArtefactFromLink">func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactFromLink(ctx, jobName, outputDirectory, artefactManagerItemLink any) *gomock.Call</a></li>
+          <li><a href="#MockIArtefactManagerMockRecorder.DownloadJobArtefactFromLinkWithTree">func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactFromLinkWithTree(...) *gomock.Call</a></li>
+          <li><a href="#MockIArtefactManagerMockRecorder.DownloadJobArtefactWithTree">func (mr *MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactWithTree(ctx, jobName, maintainTreeLocation, outputDirectory, artefactManager any) *gomock.Call</a></li>
+          <li><a href="#MockIArtefactManagerMockRecorder.ListJobArtefacts">func (mr *MockIArtefactManagerMockRecorder[M, D]) ListJobArtefacts(ctx, jobName any) *gomock.Call</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIAsynchronousJob">type MockIAsynchronousJob</a>
+      <ul>
+          <li><a href="#NewMockIAsynchronousJob">func NewMockIAsynchronousJob(ctrl *gomock.Controller) *MockIAsynchronousJob</a></li>
+          <li><a href="#MockIAsynchronousJob.EXPECT">func (m *MockIAsynchronousJob) EXPECT() *MockIAsynchronousJobMockRecorder</a></li>
+          <li><a href="#MockIAsynchronousJob.FetchLinks">func (m *MockIAsynchronousJob) FetchLinks() (any, error)</a></li>
+          <li><a href="#MockIAsynchronousJob.FetchName">func (m *MockIAsynchronousJob) FetchName() (string, error)</a></li>
+          <li><a href="#MockIAsynchronousJob.FetchTitle">func (m *MockIAsynchronousJob) FetchTitle() (string, error)</a></li>
+          <li><a href="#MockIAsynchronousJob.FetchType">func (m *MockIAsynchronousJob) FetchType() string</a></li>
+          <li><a href="#MockIAsynchronousJob.GetDone">func (m *MockIAsynchronousJob) GetDone() bool</a></li>
+          <li><a href="#MockIAsynchronousJob.GetError">func (m *MockIAsynchronousJob) GetError() bool</a></li>
+          <li><a href="#MockIAsynchronousJob.GetFailure">func (m *MockIAsynchronousJob) GetFailure() bool</a></li>
+          <li><a href="#MockIAsynchronousJob.GetQueued">func (m *MockIAsynchronousJob) GetQueued() bool</a></li>
+          <li><a href="#MockIAsynchronousJob.GetStatus">func (m *MockIAsynchronousJob) GetStatus() string</a></li>
+          <li><a href="#MockIAsynchronousJob.GetSuccess">func (m *MockIAsynchronousJob) GetSuccess() bool</a></li>
+          <li><a href="#MockIAsynchronousJob.HasArtefacts">func (m *MockIAsynchronousJob) HasArtefacts() bool</a></li>
+          <li><a href="#MockIAsynchronousJob.HasMessages">func (m *MockIAsynchronousJob) HasMessages() bool</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIAsynchronousJobMockRecorder">type MockIAsynchronousJobMockRecorder</a>
+      <ul>
+          <li><a href="#MockIAsynchronousJobMockRecorder.FetchLinks">func (mr *MockIAsynchronousJobMockRecorder) FetchLinks() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.FetchName">func (mr *MockIAsynchronousJobMockRecorder) FetchName() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.FetchTitle">func (mr *MockIAsynchronousJobMockRecorder) FetchTitle() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.FetchType">func (mr *MockIAsynchronousJobMockRecorder) FetchType() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.GetDone">func (mr *MockIAsynchronousJobMockRecorder) GetDone() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.GetError">func (mr *MockIAsynchronousJobMockRecorder) GetError() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.GetFailure">func (mr *MockIAsynchronousJobMockRecorder) GetFailure() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.GetQueued">func (mr *MockIAsynchronousJobMockRecorder) GetQueued() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.GetStatus">func (mr *MockIAsynchronousJobMockRecorder) GetStatus() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.GetSuccess">func (mr *MockIAsynchronousJobMockRecorder) GetSuccess() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.HasArtefacts">func (mr *MockIAsynchronousJobMockRecorder) HasArtefacts() *gomock.Call</a></li>
+          <li><a href="#MockIAsynchronousJobMockRecorder.HasMessages">func (mr *MockIAsynchronousJobMockRecorder) HasMessages() *gomock.Call</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIJobManager">type MockIJobManager</a>
+      <ul>
+          <li><a href="#NewMockIJobManager">func NewMockIJobManager(ctrl *gomock.Controller) *MockIJobManager</a></li>
+          <li><a href="#MockIJobManager.EXPECT">func (m *MockIJobManager) EXPECT() *MockIJobManagerMockRecorder</a></li>
+          <li><a href="#MockIJobManager.GetMessagePaginator">func (m *MockIJobManager) GetMessagePaginator(ctx context.Context, logger logs.Loggers, arg2 job.IAsynchronousJob, ...) (pagination.IStreamPaginatorAndPageFetcher, error)</a></li>
+          <li><a href="#MockIJobManager.HasJobCompleted">func (m *MockIJobManager) HasJobCompleted(ctx context.Context, arg1 job.IAsynchronousJob) (bool, error)</a></li>
+          <li><a href="#MockIJobManager.HasJobStarted">func (m *MockIJobManager) HasJobStarted(ctx context.Context, arg1 job.IAsynchronousJob) (bool, error)</a></li>
+          <li><a href="#MockIJobManager.LogJobMessagesUntilNow">func (m *MockIJobManager) LogJobMessagesUntilNow(ctx context.Context, arg1 job.IAsynchronousJob, loggingTimeout time.Duration) error</a></li>
+          <li><a href="#MockIJobManager.WaitForJobCompletion">func (m *MockIJobManager) WaitForJobCompletion(ctx context.Context, arg1 job.IAsynchronousJob) error</a></li>
+          <li><a href="#MockIJobManager.WaitForJobCompletionWithTimeout">func (m *MockIJobManager) WaitForJobCompletionWithTimeout(ctx context.Context, arg1 job.IAsynchronousJob, jobTimeout time.Duration) error</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIJobManagerMockRecorder">type MockIJobManagerMockRecorder</a>
+      <ul>
+          <li><a href="#MockIJobManagerMockRecorder.GetMessagePaginator">func (mr *MockIJobManagerMockRecorder) GetMessagePaginator(ctx, logger, arg2, setupTimeout any) *gomock.Call</a></li>
+          <li><a href="#MockIJobManagerMockRecorder.HasJobCompleted">func (mr *MockIJobManagerMockRecorder) HasJobCompleted(ctx, arg1 any) *gomock.Call</a></li>
+          <li><a href="#MockIJobManagerMockRecorder.HasJobStarted">func (mr *MockIJobManagerMockRecorder) HasJobStarted(ctx, arg1 any) *gomock.Call</a></li>
+          <li><a href="#MockIJobManagerMockRecorder.LogJobMessagesUntilNow">func (mr *MockIJobManagerMockRecorder) LogJobMessagesUntilNow(ctx, arg1, loggingTimeout any) *gomock.Call</a></li>
+          <li><a href="#MockIJobManagerMockRecorder.WaitForJobCompletion">func (mr *MockIJobManagerMockRecorder) WaitForJobCompletion(ctx, arg1 any) *gomock.Call</a></li>
+          <li><a href="#MockIJobManagerMockRecorder.WaitForJobCompletionWithTimeout">func (mr *MockIJobManagerMockRecorder) WaitForJobCompletionWithTimeout(ctx, arg1, jobTimeout any) *gomock.Call</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIMessage">type MockIMessage</a>
+      <ul>
+          <li><a href="#NewMockIMessage">func NewMockIMessage(ctrl *gomock.Controller) *MockIMessage</a></li>
+          <li><a href="#MockIMessage.EXPECT">func (m *MockIMessage) EXPECT() *MockIMessageMockRecorder</a></li>
+          <li><a href="#MockIMessage.GetCtimeOk">func (m *MockIMessage) GetCtimeOk() (*time.Time, bool)</a></li>
+          <li><a href="#MockIMessage.GetMessageOk">func (m *MockIMessage) GetMessageOk() (*string, bool)</a></li>
+          <li><a href="#MockIMessage.GetSeverityOk">func (m *MockIMessage) GetSeverityOk() (*string, bool)</a></li>
+          <li><a href="#MockIMessage.GetSourceOk">func (m *MockIMessage) GetSourceOk() (*string, bool)</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIMessageLogger">type MockIMessageLogger</a>
+      <ul>
+          <li><a href="#NewMockIMessageLogger">func NewMockIMessageLogger(ctrl *gomock.Controller) *MockIMessageLogger</a></li>
+          <li><a href="#MockIMessageLogger.Check">func (m *MockIMessageLogger) Check() error</a></li>
+          <li><a href="#MockIMessageLogger.Close">func (m *MockIMessageLogger) Close() error</a></li>
+          <li><a href="#MockIMessageLogger.EXPECT">func (m *MockIMessageLogger) EXPECT() *MockIMessageLoggerMockRecorder</a></li>
+          <li><a href="#MockIMessageLogger.Log">func (m *MockIMessageLogger) Log(output ...any)</a></li>
+          <li><a href="#MockIMessageLogger.LogEmptyMessageError">func (m *MockIMessageLogger) LogEmptyMessageError()</a></li>
+          <li><a href="#MockIMessageLogger.LogError">func (m *MockIMessageLogger) LogError(err ...any)</a></li>
+          <li><a href="#MockIMessageLogger.LogMarshallingError">func (m *MockIMessageLogger) LogMarshallingError(rawMessage *any)</a></li>
+          <li><a href="#MockIMessageLogger.LogMessage">func (m *MockIMessageLogger) LogMessage(msg messages.IMessage)</a></li>
+          <li><a href="#MockIMessageLogger.LogMessagesCollection">func (m *MockIMessageLogger) LogMessagesCollection(ctx context.Context, messagePaginator pagination.IGenericPaginator) error</a></li>
+          <li><a href="#MockIMessageLogger.SetLogSource">func (m *MockIMessageLogger) SetLogSource(source string) error</a></li>
+          <li><a href="#MockIMessageLogger.SetLoggerSource">func (m *MockIMessageLogger) SetLoggerSource(source string) error</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIMessageLoggerMockRecorder">type MockIMessageLoggerMockRecorder</a>
+      <ul>
+          <li><a href="#MockIMessageLoggerMockRecorder.Check">func (mr *MockIMessageLoggerMockRecorder) Check() *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.Close">func (mr *MockIMessageLoggerMockRecorder) Close() *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.Log">func (mr *MockIMessageLoggerMockRecorder) Log(output ...any) *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.LogEmptyMessageError">func (mr *MockIMessageLoggerMockRecorder) LogEmptyMessageError() *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.LogError">func (mr *MockIMessageLoggerMockRecorder) LogError(err ...any) *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.LogMarshallingError">func (mr *MockIMessageLoggerMockRecorder) LogMarshallingError(rawMessage any) *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.LogMessage">func (mr *MockIMessageLoggerMockRecorder) LogMessage(msg any) *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.LogMessagesCollection">func (mr *MockIMessageLoggerMockRecorder) LogMessagesCollection(ctx, messagePaginator any) *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.SetLogSource">func (mr *MockIMessageLoggerMockRecorder) SetLogSource(source any) *gomock.Call</a></li>
+          <li><a href="#MockIMessageLoggerMockRecorder.SetLoggerSource">func (mr *MockIMessageLoggerMockRecorder) SetLoggerSource(source any) *gomock.Call</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIMessageMockRecorder">type MockIMessageMockRecorder</a>
+      <ul>
+          <li><a href="#MockIMessageMockRecorder.GetCtimeOk">func (mr *MockIMessageMockRecorder) GetCtimeOk() *gomock.Call</a></li>
+          <li><a href="#MockIMessageMockRecorder.GetMessageOk">func (mr *MockIMessageMockRecorder) GetMessageOk() *gomock.Call</a></li>
+          <li><a href="#MockIMessageMockRecorder.GetSeverityOk">func (mr *MockIMessageMockRecorder) GetSeverityOk() *gomock.Call</a></li>
+          <li><a href="#MockIMessageMockRecorder.GetSourceOk">func (mr *MockIMessageMockRecorder) GetSourceOk() *gomock.Call</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIResource">type MockIResource</a>
+      <ul>
+          <li><a href="#NewMockIResource">func NewMockIResource(ctrl *gomock.Controller) *MockIResource</a></li>
+          <li><a href="#MockIResource.EXPECT">func (m *MockIResource) EXPECT() *MockIResourceMockRecorder</a></li>
+          <li><a href="#MockIResource.FetchLinks">func (m *MockIResource) FetchLinks() (any, error)</a></li>
+          <li><a href="#MockIResource.FetchName">func (m *MockIResource) FetchName() (string, error)</a></li>
+          <li><a href="#MockIResource.FetchTitle">func (m *MockIResource) FetchTitle() (string, error)</a></li>
+          <li><a href="#MockIResource.FetchType">func (m *MockIResource) FetchType() string</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIResourceMockRecorder">type MockIResourceMockRecorder</a>
+      <ul>
+          <li><a href="#MockIResourceMockRecorder.FetchLinks">func (mr *MockIResourceMockRecorder) FetchLinks() *gomock.Call</a></li>
+          <li><a href="#MockIResourceMockRecorder.FetchName">func (mr *MockIResourceMockRecorder) FetchName() *gomock.Call</a></li>
+          <li><a href="#MockIResourceMockRecorder.FetchTitle">func (mr *MockIResourceMockRecorder) FetchTitle() *gomock.Call</a></li>
+          <li><a href="#MockIResourceMockRecorder.FetchType">func (mr *MockIResourceMockRecorder) FetchType() *gomock.Call</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIServerCache">type MockIServerCache</a>
+      <ul>
+          <li><a href="#NewMockIServerCache">func NewMockIServerCache(ctrl *gomock.Controller) *MockIServerCache</a></li>
+          <li><a href="#MockIServerCache.EXPECT">func (m *MockIServerCache) EXPECT() *MockIServerCacheMockRecorder</a></li>
+          <li><a href="#MockIServerCache.GetCacheControl">func (m *MockIServerCache) GetCacheControl() cache.Control</a></li>
+          <li><a href="#MockIServerCache.GetKey">func (m *MockIServerCache) GetKey() string</a></li>
+          <li><a href="#MockIServerCache.Invalidate">func (m *MockIServerCache) Invalidate(ctx context.Context) error</a></li>
+          <li><a href="#MockIServerCache.SetCacheControl">func (m *MockIServerCache) SetCacheControl(control cache.Control) error</a></li>
+          <li><a href="#MockIServerCache.SetKey">func (m *MockIServerCache) SetKey(key string) error</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIServerCacheMockRecorder">type MockIServerCacheMockRecorder</a>
+      <ul>
+          <li><a href="#MockIServerCacheMockRecorder.GetCacheControl">func (mr *MockIServerCacheMockRecorder) GetCacheControl() *gomock.Call</a></li>
+          <li><a href="#MockIServerCacheMockRecorder.GetKey">func (mr *MockIServerCacheMockRecorder) GetKey() *gomock.Call</a></li>
+          <li><a href="#MockIServerCacheMockRecorder.Invalidate">func (mr *MockIServerCacheMockRecorder) Invalidate(ctx any) *gomock.Call</a></li>
+          <li><a href="#MockIServerCacheMockRecorder.SetCacheControl">func (mr *MockIServerCacheMockRecorder) SetCacheControl(control any) *gomock.Call</a></li>
+          <li><a href="#MockIServerCacheMockRecorder.SetKey">func (mr *MockIServerCacheMockRecorder) SetKey(key any) *gomock.Call</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIStore">type MockIStore</a>
+      <ul>
+          <li><a href="#NewMockIStore">func NewMockIStore(ctrl *gomock.Controller) *MockIStore</a></li>
+          <li><a href="#MockIStore.Clear">func (m *MockIStore) Clear(ctx context.Context) error</a></li>
+          <li><a href="#MockIStore.Close">func (m *MockIStore) Close() error</a></li>
+          <li><a href="#MockIStore.Create">func (m *MockIStore) Create(ctx context.Context) error</a></li>
+          <li><a href="#MockIStore.EXPECT">func (m *MockIStore) EXPECT() *MockIStoreMockRecorder</a></li>
+          <li><a href="#MockIStore.Exists">func (m *MockIStore) Exists() bool</a></li>
+          <li><a href="#MockIStore.GetElementPath">func (m *MockIStore) GetElementPath(elementName string) string</a></li>
+          <li><a href="#MockIStore.GetFilesystem">func (m *MockIStore) GetFilesystem() filesystem.FS</a></li>
+          <li><a href="#MockIStore.GetPath">func (m *MockIStore) GetPath() string</a></li>
+          <li><a href="#MockIStore.HasElement">func (m *MockIStore) HasElement(elementName string) bool</a></li>
+          <li><a href="#MockIStore.SetPath">func (m *MockIStore) SetPath(path string) error</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#MockIStoreMockRecorder">type MockIStoreMockRecorder</a>
+      <ul>
+          <li><a href="#MockIStoreMockRecorder.Clear">func (mr *MockIStoreMockRecorder) Clear(ctx any) *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.Close">func (mr *MockIStoreMockRecorder) Close() *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.Create">func (mr *MockIStoreMockRecorder) Create(ctx any) *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.Exists">func (mr *MockIStoreMockRecorder) Exists() *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.GetElementPath">func (mr *MockIStoreMockRecorder) GetElementPath(elementName any) *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.GetFilesystem">func (mr *MockIStoreMockRecorder) GetFilesystem() *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.GetPath">func (mr *MockIStoreMockRecorder) GetPath() *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.HasElement">func (mr *MockIStoreMockRecorder) HasElement(elementName any) *gomock.Call</a></li>
+          <li><a href="#MockIStoreMockRecorder.SetPath">func (mr *MockIStoreMockRecorder) SetPath(path any) *gomock.Call</a></li>
+          </ul>
+      </li>
+  </ul><h3 id="pkg-types">Types</h3>
+  
+  <h4 id="MockIArtefactManager">type MockIArtefactManager</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIArtefactManager</span><span class="p">[</span><span class="nx">M</span><span class="w"> </span><a href="../artefacts"><span class="nx">artefacts</span></a><span class="p">.</span><a href="../artefacts#IManager"><span class="nx">IManager</span></a><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="w"> </span><a href="../artefacts"><span class="nx">artefacts</span></a><span class="p">.</span><a href="../artefacts#ILinkData"><span class="nx">ILinkData</span></a><span class="p">]</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIArtefactManager is a mock of IArtefactManager interface.
+<h5 id="NewMockIArtefactManager">func NewMockIArtefactManager</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nx">NewMockIArtefactManager</span><span class="p">[</span><span class="nx">M</span><span class="w"> </span><a href="../artefacts"><span class="nx">artefacts</span></a><span class="p">.</span><a href="../artefacts#IManager"><span class="nx">IManager</span></a><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="w"> </span><a href="../artefacts"><span class="nx">artefacts</span></a><span class="p">.</span><a href="../artefacts#ILinkData"><span class="nx">ILinkData</span></a><span class="p">](</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">]</span></pre>
+  <p>NewMockIArtefactManager creates a new mock instance.
+<h5 id="MockIArtefactManager.DownloadAllJobArtefacts">func (*MockIArtefactManager[M, D]) DownloadAllJobArtefacts</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadAllJobArtefacts</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>DownloadAllJobArtefacts mocks base method.
+<h5 id="MockIArtefactManager.DownloadAllJobArtefactsWithOptions">func (*MockIArtefactManager[M, D]) DownloadAllJobArtefactsWithOptions</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadAllJobArtefactsWithOptions</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">opts</span><span class="w"> </span><span class="o">...</span><a href="../artefacts"><span class="nx">artefacts</span></a><span class="p">.</span><a href="../artefacts#DownloadOption"><span class="nx">DownloadOption</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>DownloadAllJobArtefactsWithOptions mocks base method.
+<h5 id="MockIArtefactManager.DownloadAllJobArtefactsWithTree">func (*MockIArtefactManager[M, D]) DownloadAllJobArtefactsWithTree</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadAllJobArtefactsWithTree</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">maintainTreeStructure</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>DownloadAllJobArtefactsWithTree mocks base method.
+<h5 id="MockIArtefactManager.DownloadJobArtefact">func (*MockIArtefactManager[M, D]) DownloadJobArtefact</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefact</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">artefactManager</span><span class="w"> </span><span class="nx">M</span><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>DownloadJobArtefact mocks base method.
+<h5 id="MockIArtefactManager.DownloadJobArtefactFromLink">func (*MockIArtefactManager[M, D]) DownloadJobArtefactFromLink</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefactFromLink</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">artefactManagerItemLink</span><span class="w"> </span><span class="nx">D</span><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>DownloadJobArtefactFromLink mocks base method.
+<h5 id="MockIArtefactManager.DownloadJobArtefactFromLinkWithTree">func (*MockIArtefactManager[M, D]) DownloadJobArtefactFromLinkWithTree</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefactFromLinkWithTree</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">maintainTreeLocation</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">artefactManagerItemLink</span><span class="w"> </span><span class="nx">D</span><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>DownloadJobArtefactFromLinkWithTree mocks base method.
+<h5 id="MockIArtefactManager.DownloadJobArtefactWithTree">func (*MockIArtefactManager[M, D]) DownloadJobArtefactWithTree</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefactWithTree</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">maintainTreeLocation</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><span class="nx">artefactManager</span><span class="w"> </span><span class="nx">M</span><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>DownloadJobArtefactWithTree mocks base method.
+<h5 id="MockIArtefactManager.EXPECT">func (*MockIArtefactManager[M, D]) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">]</span></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIArtefactManager.ListJobArtefacts">func (*MockIArtefactManager[M, D]) ListJobArtefacts</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManager"><span class="nx">MockIArtefactManager</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">ListJobArtefacts</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IPaginatorAndPageFetcher"><span class="nx">IPaginatorAndPageFetcher</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>ListJobArtefacts mocks base method.
+<h4 id="MockIArtefactManagerMockRecorder">type MockIArtefactManagerMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIArtefactManagerMockRecorder</span><span class="p">[</span><span class="nx">M</span><span class="w"> </span><a href="../artefacts"><span class="nx">artefacts</span></a><span class="p">.</span><a href="../artefacts#IManager"><span class="nx">IManager</span></a><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="w"> </span><a href="../artefacts"><span class="nx">artefacts</span></a><span class="p">.</span><a href="../artefacts#ILinkData"><span class="nx">ILinkData</span></a><span class="p">]</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIArtefactManagerMockRecorder is the mock recorder for MockIArtefactManager.
+<h5 id="MockIArtefactManagerMockRecorder.DownloadAllJobArtefacts">func (*MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefacts</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadAllJobArtefacts</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>DownloadAllJobArtefacts indicates an expected call of DownloadAllJobArtefacts.
+<h5 id="MockIArtefactManagerMockRecorder.DownloadAllJobArtefactsWithOptions">func (*MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefactsWithOptions</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadAllJobArtefactsWithOptions</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">,</span><span class="w"> </span><span class="nx">opts</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>DownloadAllJobArtefactsWithOptions indicates an expected call of DownloadAllJobArtefactsWithOptions.
+<h5 id="MockIArtefactManagerMockRecorder.DownloadAllJobArtefactsWithTree">func (*MockIArtefactManagerMockRecorder[M, D]) DownloadAllJobArtefactsWithTree</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadAllJobArtefactsWithTree</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">maintainTreeStructure</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>DownloadAllJobArtefactsWithTree indicates an expected call of DownloadAllJobArtefactsWithTree.
+<h5 id="MockIArtefactManagerMockRecorder.DownloadJobArtefact">func (*MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefact</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefact</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="p">,</span><span class="w"> </span><span class="nx">artefactManager</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>DownloadJobArtefact indicates an expected call of DownloadJobArtefact.
+<h5 id="MockIArtefactManagerMockRecorder.DownloadJobArtefactFromLink">func (*MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactFromLink</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefactFromLink</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="p">,</span><span class="w"> </span><span class="nx">artefactManagerItemLink</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>DownloadJobArtefactFromLink indicates an expected call of DownloadJobArtefactFromLink.
+<h5 id="MockIArtefactManagerMockRecorder.DownloadJobArtefactFromLinkWithTree">func (*MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactFromLinkWithTree</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefactFromLinkWithTree</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">maintainTreeLocation</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="p">,</span><span class="w"> </span><span class="nx">artefactManagerItemLink</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>DownloadJobArtefactFromLinkWithTree indicates an expected call of DownloadJobArtefactFromLinkWithTree.
+<h5 id="MockIArtefactManagerMockRecorder.DownloadJobArtefactWithTree">func (*MockIArtefactManagerMockRecorder[M, D]) DownloadJobArtefactWithTree</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">DownloadJobArtefactWithTree</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="p">,</span><span class="w"> </span><span class="nx">maintainTreeLocation</span><span class="p">,</span><span class="w"> </span><span class="nx">outputDirectory</span><span class="p">,</span><span class="w"> </span><span class="nx">artefactManager</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>DownloadJobArtefactWithTree indicates an expected call of DownloadJobArtefactWithTree.
+<h5 id="MockIArtefactManagerMockRecorder.ListJobArtefacts">func (*MockIArtefactManagerMockRecorder[M, D]) ListJobArtefacts</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIArtefactManagerMockRecorder"><span class="nx">MockIArtefactManagerMockRecorder</span></a><span class="p">[</span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">D</span><span class="p">])</span><span class="w"> </span><span class="nf">ListJobArtefacts</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">jobName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>ListJobArtefacts indicates an expected call of ListJobArtefacts.
+<h4 id="MockIAsynchronousJob">type MockIAsynchronousJob</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIAsynchronousJob</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIAsynchronousJob is a mock of IAsynchronousJob interface.
+<h5 id="NewMockIAsynchronousJob">func NewMockIAsynchronousJob</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockIAsynchronousJob</span><span class="p">(</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a></pre>
+  <p>NewMockIAsynchronousJob creates a new mock instance.
+<h5 id="MockIAsynchronousJob.EXPECT">func (*MockIAsynchronousJob) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIAsynchronousJob.FetchLinks">func (*MockIAsynchronousJob) FetchLinks</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchLinks</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FetchLinks mocks base method.
+<h5 id="MockIAsynchronousJob.FetchName">func (*MockIAsynchronousJob) FetchName</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchName</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FetchName mocks base method.
+<h5 id="MockIAsynchronousJob.FetchTitle">func (*MockIAsynchronousJob) FetchTitle</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchTitle</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FetchTitle mocks base method.
+<h5 id="MockIAsynchronousJob.FetchType">func (*MockIAsynchronousJob) FetchType</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchType</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <p>FetchType mocks base method.
+<h5 id="MockIAsynchronousJob.GetDone">func (*MockIAsynchronousJob) GetDone</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetDone</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>GetDone mocks base method.
+<h5 id="MockIAsynchronousJob.GetError">func (*MockIAsynchronousJob) GetError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetError</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>GetError mocks base method.
+<h5 id="MockIAsynchronousJob.GetFailure">func (*MockIAsynchronousJob) GetFailure</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetFailure</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>GetFailure mocks base method.
+<h5 id="MockIAsynchronousJob.GetQueued">func (*MockIAsynchronousJob) GetQueued</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetQueued</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>GetQueued mocks base method.
+<h5 id="MockIAsynchronousJob.GetStatus">func (*MockIAsynchronousJob) GetStatus</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetStatus</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <p>GetStatus mocks base method.
+<h5 id="MockIAsynchronousJob.GetSuccess">func (*MockIAsynchronousJob) GetSuccess</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetSuccess</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>GetSuccess mocks base method.
+<h5 id="MockIAsynchronousJob.HasArtefacts">func (*MockIAsynchronousJob) HasArtefacts</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasArtefacts</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>HasArtefacts mocks base method.
+<h5 id="MockIAsynchronousJob.HasMessages">func (*MockIAsynchronousJob) HasMessages</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJob"><span class="nx">MockIAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasMessages</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>HasMessages mocks base method.
+<h4 id="MockIAsynchronousJobMockRecorder">type MockIAsynchronousJobMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIAsynchronousJobMockRecorder</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIAsynchronousJobMockRecorder is the mock recorder for MockIAsynchronousJob.
+<h5 id="MockIAsynchronousJobMockRecorder.FetchLinks">func (*MockIAsynchronousJobMockRecorder) FetchLinks</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchLinks</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchLinks indicates an expected call of FetchLinks.
+<h5 id="MockIAsynchronousJobMockRecorder.FetchName">func (*MockIAsynchronousJobMockRecorder) FetchName</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchName</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchName indicates an expected call of FetchName.
+<h5 id="MockIAsynchronousJobMockRecorder.FetchTitle">func (*MockIAsynchronousJobMockRecorder) FetchTitle</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchTitle</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchTitle indicates an expected call of FetchTitle.
+<h5 id="MockIAsynchronousJobMockRecorder.FetchType">func (*MockIAsynchronousJobMockRecorder) FetchType</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchType</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchType indicates an expected call of FetchType.
+<h5 id="MockIAsynchronousJobMockRecorder.GetDone">func (*MockIAsynchronousJobMockRecorder) GetDone</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetDone</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetDone indicates an expected call of GetDone.
+<h5 id="MockIAsynchronousJobMockRecorder.GetError">func (*MockIAsynchronousJobMockRecorder) GetError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetError</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetError indicates an expected call of GetError.
+<h5 id="MockIAsynchronousJobMockRecorder.GetFailure">func (*MockIAsynchronousJobMockRecorder) GetFailure</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetFailure</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetFailure indicates an expected call of GetFailure.
+<h5 id="MockIAsynchronousJobMockRecorder.GetQueued">func (*MockIAsynchronousJobMockRecorder) GetQueued</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetQueued</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetQueued indicates an expected call of GetQueued.
+<h5 id="MockIAsynchronousJobMockRecorder.GetStatus">func (*MockIAsynchronousJobMockRecorder) GetStatus</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetStatus</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetStatus indicates an expected call of GetStatus.
+<h5 id="MockIAsynchronousJobMockRecorder.GetSuccess">func (*MockIAsynchronousJobMockRecorder) GetSuccess</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetSuccess</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetSuccess indicates an expected call of GetSuccess.
+<h5 id="MockIAsynchronousJobMockRecorder.HasArtefacts">func (*MockIAsynchronousJobMockRecorder) HasArtefacts</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasArtefacts</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>HasArtefacts indicates an expected call of HasArtefacts.
+<h5 id="MockIAsynchronousJobMockRecorder.HasMessages">func (*MockIAsynchronousJobMockRecorder) HasMessages</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIAsynchronousJobMockRecorder"><span class="nx">MockIAsynchronousJobMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasMessages</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>HasMessages indicates an expected call of HasMessages.
+<h4 id="MockIJobManager">type MockIJobManager</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIJobManager</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIJobManager is a mock of IJobManager interface.
+<h5 id="NewMockIJobManager">func NewMockIJobManager</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockIJobManager</span><span class="p">(</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a></pre>
+  <p>NewMockIJobManager creates a new mock instance.
+<h5 id="MockIJobManager.EXPECT">func (*MockIJobManager) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a><span class="p">)</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManagerMockRecorder"><span class="nx">MockIJobManagerMockRecorder</span></a></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIJobManager.GetMessagePaginator">func (*MockIJobManager) GetMessagePaginator</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetMessagePaginator</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">logger</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0"><span class="nx">logs</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/logs@v1.172.0#Loggers"><span class="nx">Loggers</span></a><span class="p">,</span><span class="w"> </span><span class="nx">arg2</span><span class="w"> </span><a href="../job"><span class="nx">job</span></a><span class="p">.</span><a href="../job#IAsynchronousJob"><span class="nx">IAsynchronousJob</span></a><span class="p">,</span><span class="w"> </span><span class="nx">setupTimeout</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IStreamPaginatorAndPageFetcher"><span class="nx">IStreamPaginatorAndPageFetcher</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>GetMessagePaginator mocks base method.
+<h5 id="MockIJobManager.HasJobCompleted">func (*MockIJobManager) HasJobCompleted</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasJobCompleted</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="../job"><span class="nx">job</span></a><span class="p">.</span><a href="../job#IAsynchronousJob"><span class="nx">IAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>HasJobCompleted mocks base method.
+<h5 id="MockIJobManager.HasJobStarted">func (*MockIJobManager) HasJobStarted</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasJobStarted</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="../job"><span class="nx">job</span></a><span class="p">.</span><a href="../job#IAsynchronousJob"><span class="nx">IAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>HasJobStarted mocks base method.
+<h5 id="MockIJobManager.LogJobMessagesUntilNow">func (*MockIJobManager) LogJobMessagesUntilNow</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogJobMessagesUntilNow</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="../job"><span class="nx">job</span></a><span class="p">.</span><a href="../job#IAsynchronousJob"><span class="nx">IAsynchronousJob</span></a><span class="p">,</span><span class="w"> </span><span class="nx">loggingTimeout</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>LogJobMessagesUntilNow mocks base method.
+<h5 id="MockIJobManager.WaitForJobCompletion">func (*MockIJobManager) WaitForJobCompletion</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a><span class="p">)</span><span class="w"> </span><span class="nf">WaitForJobCompletion</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="../job"><span class="nx">job</span></a><span class="p">.</span><a href="../job#IAsynchronousJob"><span class="nx">IAsynchronousJob</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>WaitForJobCompletion mocks base method.
+<h5 id="MockIJobManager.WaitForJobCompletionWithTimeout">func (*MockIJobManager) WaitForJobCompletionWithTimeout</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManager"><span class="nx">MockIJobManager</span></a><span class="p">)</span><span class="w"> </span><span class="nf">WaitForJobCompletionWithTimeout</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="../job"><span class="nx">job</span></a><span class="p">.</span><a href="../job#IAsynchronousJob"><span class="nx">IAsynchronousJob</span></a><span class="p">,</span><span class="w"> </span><span class="nx">jobTimeout</span><span class="w"> </span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Duration"><span class="nx">Duration</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>WaitForJobCompletionWithTimeout mocks base method.
+<h4 id="MockIJobManagerMockRecorder">type MockIJobManagerMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIJobManagerMockRecorder</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIJobManagerMockRecorder is the mock recorder for MockIJobManager.
+<h5 id="MockIJobManagerMockRecorder.GetMessagePaginator">func (*MockIJobManagerMockRecorder) GetMessagePaginator</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManagerMockRecorder"><span class="nx">MockIJobManagerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetMessagePaginator</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">logger</span><span class="p">,</span><span class="w"> </span><span class="nx">arg2</span><span class="p">,</span><span class="w"> </span><span class="nx">setupTimeout</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetMessagePaginator indicates an expected call of GetMessagePaginator.
+<h5 id="MockIJobManagerMockRecorder.HasJobCompleted">func (*MockIJobManagerMockRecorder) HasJobCompleted</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManagerMockRecorder"><span class="nx">MockIJobManagerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasJobCompleted</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>HasJobCompleted indicates an expected call of HasJobCompleted.
+<h5 id="MockIJobManagerMockRecorder.HasJobStarted">func (*MockIJobManagerMockRecorder) HasJobStarted</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManagerMockRecorder"><span class="nx">MockIJobManagerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasJobStarted</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>HasJobStarted indicates an expected call of HasJobStarted.
+<h5 id="MockIJobManagerMockRecorder.LogJobMessagesUntilNow">func (*MockIJobManagerMockRecorder) LogJobMessagesUntilNow</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManagerMockRecorder"><span class="nx">MockIJobManagerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogJobMessagesUntilNow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="p">,</span><span class="w"> </span><span class="nx">loggingTimeout</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>LogJobMessagesUntilNow indicates an expected call of LogJobMessagesUntilNow.
+<h5 id="MockIJobManagerMockRecorder.WaitForJobCompletion">func (*MockIJobManagerMockRecorder) WaitForJobCompletion</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManagerMockRecorder"><span class="nx">MockIJobManagerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">WaitForJobCompletion</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>WaitForJobCompletion indicates an expected call of WaitForJobCompletion.
+<h5 id="MockIJobManagerMockRecorder.WaitForJobCompletionWithTimeout">func (*MockIJobManagerMockRecorder) WaitForJobCompletionWithTimeout</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIJobManagerMockRecorder"><span class="nx">MockIJobManagerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">WaitForJobCompletionWithTimeout</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">arg1</span><span class="p">,</span><span class="w"> </span><span class="nx">jobTimeout</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>WaitForJobCompletionWithTimeout indicates an expected call of WaitForJobCompletionWithTimeout.
+<h4 id="MockIMessage">type MockIMessage</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIMessage</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIMessage is a mock of IMessage interface.
+<h5 id="NewMockIMessage">func NewMockIMessage</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockIMessage</span><span class="p">(</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessage"><span class="nx">MockIMessage</span></a></pre>
+  <p>NewMockIMessage creates a new mock instance.
+<h5 id="MockIMessage.EXPECT">func (*MockIMessage) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessage"><span class="nx">MockIMessage</span></a><span class="p">)</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageMockRecorder"><span class="nx">MockIMessageMockRecorder</span></a></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIMessage.GetCtimeOk">func (*MockIMessage) GetCtimeOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessage"><span class="nx">MockIMessage</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetCtimeOk</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/time"><span class="nx">time</span></a><span class="p">.</span><a href="https://pkg.go.dev/time#Time"><span class="nx">Time</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span></pre>
+  <p>GetCtimeOk mocks base method.
+<h5 id="MockIMessage.GetMessageOk">func (*MockIMessage) GetMessageOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessage"><span class="nx">MockIMessage</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetMessageOk</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span></pre>
+  <p>GetMessageOk mocks base method.
+<h5 id="MockIMessage.GetSeverityOk">func (*MockIMessage) GetSeverityOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessage"><span class="nx">MockIMessage</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetSeverityOk</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span></pre>
+  <p>GetSeverityOk mocks base method.
+<h5 id="MockIMessage.GetSourceOk">func (*MockIMessage) GetSourceOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessage"><span class="nx">MockIMessage</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetSourceOk</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a><span class="p">)</span></pre>
+  <p>GetSourceOk mocks base method.
+<h4 id="MockIMessageLogger">type MockIMessageLogger</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIMessageLogger</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIMessageLogger is a mock of IMessageLogger interface.
+<h5 id="NewMockIMessageLogger">func NewMockIMessageLogger</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockIMessageLogger</span><span class="p">(</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a></pre>
+  <p>NewMockIMessageLogger creates a new mock instance.
+<h5 id="MockIMessageLogger.Check">func (*MockIMessageLogger) Check</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Check</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>Check mocks base method.
+<h5 id="MockIMessageLogger.Close">func (*MockIMessageLogger) Close</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>Close mocks base method.
+<h5 id="MockIMessageLogger.EXPECT">func (*MockIMessageLogger) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIMessageLogger.Log">func (*MockIMessageLogger) Log</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="nx">output</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span></pre>
+  <p>Log mocks base method.
+<h5 id="MockIMessageLogger.LogEmptyMessageError">func (*MockIMessageLogger) LogEmptyMessageError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogEmptyMessageError</span><span class="p">()</span></pre>
+  <p>LogEmptyMessageError mocks base method.
+<h5 id="MockIMessageLogger.LogError">func (*MockIMessageLogger) LogError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogError</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span></pre>
+  <p>LogError mocks base method.
+<h5 id="MockIMessageLogger.LogMarshallingError">func (*MockIMessageLogger) LogMarshallingError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogMarshallingError</span><span class="p">(</span><span class="nx">rawMessage</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span></pre>
+  <p>LogMarshallingError mocks base method.
+<h5 id="MockIMessageLogger.LogMessage">func (*MockIMessageLogger) LogMessage</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogMessage</span><span class="p">(</span><span class="nx">msg</span><span class="w"> </span><a href="../messages"><span class="nx">messages</span></a><span class="p">.</span><a href="../messages#IMessage"><span class="nx">IMessage</span></a><span class="p">)</span></pre>
+  <p>LogMessage mocks base method.
+<h5 id="MockIMessageLogger.LogMessagesCollection">func (*MockIMessageLogger) LogMessagesCollection</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogMessagesCollection</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">,</span><span class="w"> </span><span class="nx">messagePaginator</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination"><span class="nx">pagination</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/collection@v1.172.0/pagination#IGenericPaginator"><span class="nx">IGenericPaginator</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>LogMessagesCollection mocks base method.
+<h5 id="MockIMessageLogger.SetLogSource">func (*MockIMessageLogger) SetLogSource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetLogSource</span><span class="p">(</span><span class="nx">source</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>SetLogSource mocks base method.
+<h5 id="MockIMessageLogger.SetLoggerSource">func (*MockIMessageLogger) SetLoggerSource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLogger"><span class="nx">MockIMessageLogger</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetLoggerSource</span><span class="p">(</span><span class="nx">source</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>SetLoggerSource mocks base method.
+<h4 id="MockIMessageLoggerMockRecorder">type MockIMessageLoggerMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIMessageLoggerMockRecorder</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIMessageLoggerMockRecorder is the mock recorder for MockIMessageLogger.
+<h5 id="MockIMessageLoggerMockRecorder.Check">func (*MockIMessageLoggerMockRecorder) Check</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Check</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Check indicates an expected call of Check.
+<h5 id="MockIMessageLoggerMockRecorder.Close">func (*MockIMessageLoggerMockRecorder) Close</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Close indicates an expected call of Close.
+<h5 id="MockIMessageLoggerMockRecorder.Log">func (*MockIMessageLoggerMockRecorder) Log</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="nx">output</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Log indicates an expected call of Log.
+<h5 id="MockIMessageLoggerMockRecorder.LogEmptyMessageError">func (*MockIMessageLoggerMockRecorder) LogEmptyMessageError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogEmptyMessageError</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>LogEmptyMessageError indicates an expected call of LogEmptyMessageError.
+<h5 id="MockIMessageLoggerMockRecorder.LogError">func (*MockIMessageLoggerMockRecorder) LogError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogError</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="o">...</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>LogError indicates an expected call of LogError.
+<h5 id="MockIMessageLoggerMockRecorder.LogMarshallingError">func (*MockIMessageLoggerMockRecorder) LogMarshallingError</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogMarshallingError</span><span class="p">(</span><span class="nx">rawMessage</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>LogMarshallingError indicates an expected call of LogMarshallingError.
+<h5 id="MockIMessageLoggerMockRecorder.LogMessage">func (*MockIMessageLoggerMockRecorder) LogMessage</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogMessage</span><span class="p">(</span><span class="nx">msg</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>LogMessage indicates an expected call of LogMessage.
+<h5 id="MockIMessageLoggerMockRecorder.LogMessagesCollection">func (*MockIMessageLoggerMockRecorder) LogMessagesCollection</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">LogMessagesCollection</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">messagePaginator</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>LogMessagesCollection indicates an expected call of LogMessagesCollection.
+<h5 id="MockIMessageLoggerMockRecorder.SetLogSource">func (*MockIMessageLoggerMockRecorder) SetLogSource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetLogSource</span><span class="p">(</span><span class="nx">source</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>SetLogSource indicates an expected call of SetLogSource.
+<h5 id="MockIMessageLoggerMockRecorder.SetLoggerSource">func (*MockIMessageLoggerMockRecorder) SetLoggerSource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageLoggerMockRecorder"><span class="nx">MockIMessageLoggerMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetLoggerSource</span><span class="p">(</span><span class="nx">source</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>SetLoggerSource indicates an expected call of SetLoggerSource.
+<h4 id="MockIMessageMockRecorder">type MockIMessageMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIMessageMockRecorder</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIMessageMockRecorder is the mock recorder for MockIMessage.
+<h5 id="MockIMessageMockRecorder.GetCtimeOk">func (*MockIMessageMockRecorder) GetCtimeOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageMockRecorder"><span class="nx">MockIMessageMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetCtimeOk</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetCtimeOk indicates an expected call of GetCtimeOk.
+<h5 id="MockIMessageMockRecorder.GetMessageOk">func (*MockIMessageMockRecorder) GetMessageOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageMockRecorder"><span class="nx">MockIMessageMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetMessageOk</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetMessageOk indicates an expected call of GetMessageOk.
+<h5 id="MockIMessageMockRecorder.GetSeverityOk">func (*MockIMessageMockRecorder) GetSeverityOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageMockRecorder"><span class="nx">MockIMessageMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetSeverityOk</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetSeverityOk indicates an expected call of GetSeverityOk.
+<h5 id="MockIMessageMockRecorder.GetSourceOk">func (*MockIMessageMockRecorder) GetSourceOk</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIMessageMockRecorder"><span class="nx">MockIMessageMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetSourceOk</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetSourceOk indicates an expected call of GetSourceOk.
+<h4 id="MockIResource">type MockIResource</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIResource</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIResource is a mock of IResource interface.
+<h5 id="NewMockIResource">func NewMockIResource</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockIResource</span><span class="p">(</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIResource"><span class="nx">MockIResource</span></a></pre>
+  <p>NewMockIResource creates a new mock instance.
+<h5 id="MockIResource.EXPECT">func (*MockIResource) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIResource"><span class="nx">MockIResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIResourceMockRecorder"><span class="nx">MockIResourceMockRecorder</span></a></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIResource.FetchLinks">func (*MockIResource) FetchLinks</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIResource"><span class="nx">MockIResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchLinks</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FetchLinks mocks base method.
+<h5 id="MockIResource.FetchName">func (*MockIResource) FetchName</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIResource"><span class="nx">MockIResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchName</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FetchName mocks base method.
+<h5 id="MockIResource.FetchTitle">func (*MockIResource) FetchTitle</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIResource"><span class="nx">MockIResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchTitle</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">,</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  <p>FetchTitle mocks base method.
+<h5 id="MockIResource.FetchType">func (*MockIResource) FetchType</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIResource"><span class="nx">MockIResource</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchType</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <p>FetchType mocks base method.
+<h4 id="MockIResourceMockRecorder">type MockIResourceMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIResourceMockRecorder</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIResourceMockRecorder is the mock recorder for MockIResource.
+<h5 id="MockIResourceMockRecorder.FetchLinks">func (*MockIResourceMockRecorder) FetchLinks</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIResourceMockRecorder"><span class="nx">MockIResourceMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchLinks</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchLinks indicates an expected call of FetchLinks.
+<h5 id="MockIResourceMockRecorder.FetchName">func (*MockIResourceMockRecorder) FetchName</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIResourceMockRecorder"><span class="nx">MockIResourceMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchName</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchName indicates an expected call of FetchName.
+<h5 id="MockIResourceMockRecorder.FetchTitle">func (*MockIResourceMockRecorder) FetchTitle</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIResourceMockRecorder"><span class="nx">MockIResourceMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchTitle</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchTitle indicates an expected call of FetchTitle.
+<h5 id="MockIResourceMockRecorder.FetchType">func (*MockIResourceMockRecorder) FetchType</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIResourceMockRecorder"><span class="nx">MockIResourceMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">FetchType</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>FetchType indicates an expected call of FetchType.
+<h4 id="MockIServerCache">type MockIServerCache</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIServerCache</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIServerCache is a mock of IServerCache interface.
+<h5 id="NewMockIServerCache">func NewMockIServerCache</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockIServerCache</span><span class="p">(</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCache"><span class="nx">MockIServerCache</span></a></pre>
+  <p>NewMockIServerCache creates a new mock instance.
+<h5 id="MockIServerCache.EXPECT">func (*MockIServerCache) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCache"><span class="nx">MockIServerCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCacheMockRecorder"><span class="nx">MockIServerCacheMockRecorder</span></a></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIServerCache.GetCacheControl">func (*MockIServerCache) GetCacheControl</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCache"><span class="nx">MockIServerCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetCacheControl</span><span class="p">()</span><span class="w"> </span><a href="../cache"><span class="nx">cache</span></a><span class="p">.</span><a href="../cache#Control"><span class="nx">Control</span></a></pre>
+  <p>GetCacheControl mocks base method.
+<h5 id="MockIServerCache.GetKey">func (*MockIServerCache) GetKey</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCache"><span class="nx">MockIServerCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetKey</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <p>GetKey mocks base method.
+<h5 id="MockIServerCache.Invalidate">func (*MockIServerCache) Invalidate</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCache"><span class="nx">MockIServerCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Invalidate</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>Invalidate mocks base method.
+<h5 id="MockIServerCache.SetCacheControl">func (*MockIServerCache) SetCacheControl</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCache"><span class="nx">MockIServerCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetCacheControl</span><span class="p">(</span><span class="nx">control</span><span class="w"> </span><a href="../cache"><span class="nx">cache</span></a><span class="p">.</span><a href="../cache#Control"><span class="nx">Control</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>SetCacheControl mocks base method.
+<h5 id="MockIServerCache.SetKey">func (*MockIServerCache) SetKey</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCache"><span class="nx">MockIServerCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetKey</span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>SetKey mocks base method.
+<h4 id="MockIServerCacheMockRecorder">type MockIServerCacheMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIServerCacheMockRecorder</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIServerCacheMockRecorder is the mock recorder for MockIServerCache.
+<h5 id="MockIServerCacheMockRecorder.GetCacheControl">func (*MockIServerCacheMockRecorder) GetCacheControl</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCacheMockRecorder"><span class="nx">MockIServerCacheMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetCacheControl</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetCacheControl indicates an expected call of GetCacheControl.
+<h5 id="MockIServerCacheMockRecorder.GetKey">func (*MockIServerCacheMockRecorder) GetKey</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCacheMockRecorder"><span class="nx">MockIServerCacheMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetKey</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetKey indicates an expected call of GetKey.
+<h5 id="MockIServerCacheMockRecorder.Invalidate">func (*MockIServerCacheMockRecorder) Invalidate</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCacheMockRecorder"><span class="nx">MockIServerCacheMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Invalidate</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Invalidate indicates an expected call of Invalidate.
+<h5 id="MockIServerCacheMockRecorder.SetCacheControl">func (*MockIServerCacheMockRecorder) SetCacheControl</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCacheMockRecorder"><span class="nx">MockIServerCacheMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetCacheControl</span><span class="p">(</span><span class="nx">control</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>SetCacheControl indicates an expected call of SetCacheControl.
+<h5 id="MockIServerCacheMockRecorder.SetKey">func (*MockIServerCacheMockRecorder) SetKey</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIServerCacheMockRecorder"><span class="nx">MockIServerCacheMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetKey</span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>SetKey indicates an expected call of SetKey.
+<h4 id="MockIStore">type MockIStore</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIStore</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIStore is a mock of IStore interface.
+<h5 id="NewMockIStore">func NewMockIStore</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewMockIStore</span><span class="p">(</span><span class="nx">ctrl</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Controller"><span class="nx">Controller</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a></pre>
+  <p>NewMockIStore creates a new mock instance.
+<h5 id="MockIStore.Clear">func (*MockIStore) Clear</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Clear</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>Clear mocks base method.
+<h5 id="MockIStore.Close">func (*MockIStore) Close</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>Close mocks base method.
+<h5 id="MockIStore.Create">func (*MockIStore) Create</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>Create mocks base method.
+<h5 id="MockIStore.EXPECT">func (*MockIStore) EXPECT</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">EXPECT</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a></pre>
+  <p>EXPECT returns an object that allows the caller to indicate expected use.
+<h5 id="MockIStore.Exists">func (*MockIStore) Exists</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Exists</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>Exists mocks base method.
+<h5 id="MockIStore.GetElementPath">func (*MockIStore) GetElementPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetElementPath</span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <p>GetElementPath mocks base method.
+<h5 id="MockIStore.GetFilesystem">func (*MockIStore) GetFilesystem</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetFilesystem</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/filesystem@v1.172.0"><span class="nx">filesystem</span></a><span class="p">.</span><a href="https://pkg.go.dev/github.com/ARM-software/golang-utils/utils/filesystem@v1.172.0#FS"><span class="nx">FS</span></a></pre>
+  <p>GetFilesystem mocks base method.
+<h5 id="MockIStore.GetPath">func (*MockIStore) GetPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetPath</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <p>GetPath mocks base method.
+<h5 id="MockIStore.HasElement">func (*MockIStore) HasElement</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasElement</span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#bool"><span class="kt">bool</span></a></pre>
+  <p>HasElement mocks base method.
+<h5 id="MockIStore.SetPath">func (*MockIStore) SetPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><a href="#MockIStore"><span class="nx">MockIStore</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetPath</span><span class="p">(</span><span class="nx">path</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <p>SetPath mocks base method.
+<h4 id="MockIStoreMockRecorder">type MockIStoreMockRecorder</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">MockIStoreMockRecorder</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <p>MockIStoreMockRecorder is the mock recorder for MockIStore.
+<h5 id="MockIStoreMockRecorder.Clear">func (*MockIStoreMockRecorder) Clear</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Clear</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Clear indicates an expected call of Clear.
+<h5 id="MockIStoreMockRecorder.Close">func (*MockIStoreMockRecorder) Close</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Close indicates an expected call of Close.
+<h5 id="MockIStoreMockRecorder.Create">func (*MockIStoreMockRecorder) Create</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Create indicates an expected call of Create.
+<h5 id="MockIStoreMockRecorder.Exists">func (*MockIStoreMockRecorder) Exists</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Exists</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>Exists indicates an expected call of Exists.
+<h5 id="MockIStoreMockRecorder.GetElementPath">func (*MockIStoreMockRecorder) GetElementPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetElementPath</span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetElementPath indicates an expected call of GetElementPath.
+<h5 id="MockIStoreMockRecorder.GetFilesystem">func (*MockIStoreMockRecorder) GetFilesystem</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetFilesystem</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetFilesystem indicates an expected call of GetFilesystem.
+<h5 id="MockIStoreMockRecorder.GetPath">func (*MockIStoreMockRecorder) GetPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetPath</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>GetPath indicates an expected call of GetPath.
+<h5 id="MockIStoreMockRecorder.HasElement">func (*MockIStoreMockRecorder) HasElement</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">HasElement</span><span class="p">(</span><span class="nx">elementName</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>HasElement indicates an expected call of HasElement.
+<h5 id="MockIStoreMockRecorder.SetPath">func (*MockIStoreMockRecorder) SetPath</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">mr</span><span class="w"> </span><span class="o">*</span><a href="#MockIStoreMockRecorder"><span class="nx">MockIStoreMockRecorder</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetPath</span><span class="p">(</span><span class="nx">path</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#any"><span class="kt">any</span></a><span class="p">)</span><span class="w"> </span><span class="o">*</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock"><span class="nx">gomock</span></a><span class="p">.</span><a href="https://pkg.go.dev/go.uber.org/mock@v0.6.0/gomock#Call"><span class="nx">Call</span></a></pre>
+  <p>SetPath indicates an expected call of SetPath.
+</main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../_/js/permalink.js"></script></body>
+</html>

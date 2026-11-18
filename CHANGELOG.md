@@ -2,6 +2,40 @@
 Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+# 1.20.2 (2026-11-18)
+
+## Bugfixes
+
+- Dependency upgrade: fetch-metadata-2.5.0 (#20260105184020)
+- Dependency upgrade: codeql-action-4.31.10 (#20260112224228)
+- Dependency upgrade: checkout-6.0.2 (#20260122183357)
+- :camel: Upgrade `github.com/ARM-software/embedded-development-services-client/client` from 1.104.2 to 1.108.0 and pick up the compatible `golang-utils` 1.146.0 transitively. (#20261117180001)
+- :camel: Upgrade `github.com/go-logr/logr` from 1.4.3 to 1.4.4. (#20261117180002)
+- :camel: Upgrade `github.com/stretchr/testify` from 1.11.1 to 1.12.1. (#20261117180003)
+- :camel: Upgrade `actions/setup-python` from 6 to 7 in GitHub workflows. (#20261117180004)
+- :camel: Upgrade `actions/cache` from 5 to 6 in GitHub workflows. (#20261117180005)
+- :camel: Upgrade `actions/setup-go` from 6 to 7 in GitHub workflows. (#20261117180006)
+- :camel: Upgrade `actions/checkout` from 6.0.2 to 7.0.1 in GitHub workflows. (#20261117180007)
+- :camel: Upgrade `dependabot/fetch-metadata` from 2.5.0 to 3.1.0. (#20261117180008)
+- :camel: Upgrade `github.com/go-faker/faker/v4` from 4.7.0 to 4.12.0. (#20261117180009)
+- :camel: Upgrade `golang` in `Dockerfile.utils` and workflow tooling from 1.25.5 to 1.27.3. (#20261117180010)
+- :camel: Upgrade `ossf/scorecard-action` from 2.4.3 to 2.5.0. (#20261117180011)
+- :camel: Upgrade `github/codeql-action` from 4.31.10 to 4.39.3. (#20261117180012)
+- :camel: Upgrade `github/codeql-action/upload-sarif` to commit `3ea37a44b6e4e6847c46edae209410d258d548d1`. (#20261117180013)
+- :camel: Upgrade `actions/upload-artifact` from 6.0.0 to 7.0.2. (#20261117180014)
+- :camel: Upgrade `golang.org/x/sync` from 0.19.0 to 0.25.0. (#20261117180015)
+- :camel: Upgrade `go.uber.org/atomic` from 1.11.0 to 1.12.0. (#20261117180016)
+- :camel: Upgrade the client utils repo to the compatible split `golang-utils` v1.172.0 modules, refresh licence compliance automation, and align Dependabot and release token handling. (#20261118123000)
+
+## Misc
+
+- #20261117180018
+
+
+<!--
+Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 "" "1.20.1" (2025-12-31)
 ========================
 

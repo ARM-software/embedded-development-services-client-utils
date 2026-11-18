@@ -1,1 +1,0 @@
-:camel: Upgrade the client utils repo to the compatible split `golang-utils` v1.172.0 modules, refresh licence compliance automation, and align Dependabot and release token handling.

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="doc2go">
+    <link href="../../../../../_/css/main.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../../_/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../../_/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../../_/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="../../../../../_/icons/favicon.ico"><title>cache</title>
+</head>
+  <body>
+    <nav>
+        <a href="../../../..">github.com</a>/<a href="../../..">ARM-software</a>/<a href="../..">embedded-development-services-client-utils</a>/<a href="..">utils</a>/cache<span class="navbar-right">
+          <a href="../../../../..">Root</a> | <a href="#pkg-index">Index</a></span>
+      </nav>
+    <main>
+<h2 id="pkg-overview">package cache</h2>
+
+<pre class="chroma"><span class="kn">import</span><span class="w"> </span><span class="s">&#34;github.com/ARM-software/embedded-development-services-client-utils/utils/cache&#34;</span></pre>
+<p>Package cache defines utilities for caching data or state.
+<h3 id="pkg-index">Index</h3>
+<ul>
+  <li><a href="#pkg-constants">Constants</a></li><li>
+      <a href="#Control">type Control</a>
+      </li>
+  <li>
+      <a href="#IServerCache">type IServerCache</a>
+      <ul>
+          <li><a href="#NewServiceCache">func NewServiceCache() IServerCache</a></li>
+          </ul>
+      </li>
+  <li>
+      <a href="#ServiceCache">type ServiceCache</a>
+      <ul>
+          <li><a href="#ServiceCache.GetCacheControl">func (c *ServiceCache) GetCacheControl() Control</a></li>
+          <li><a href="#ServiceCache.GetKey">func (c *ServiceCache) GetKey() string</a></li>
+          <li><a href="#ServiceCache.Invalidate">func (c *ServiceCache) Invalidate(context.Context) error</a></li>
+          <li><a href="#ServiceCache.SetCacheControl">func (c *ServiceCache) SetCacheControl(control Control) error</a></li>
+          <li><a href="#ServiceCache.SetKey">func (c *ServiceCache) SetKey(key string) (err error)</a></li>
+          </ul>
+      </li>
+  </ul><h3 id="pkg-constants">Constants</h3>
+  
+  
+  
+  <pre class="chroma"><span class="kd">const</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span><span class="w">	</span><span class="c1">// Apply caching wherever possible</span><span class="w">
+</span><span class="w">	</span><span id="Apply"><span class="nx">Apply</span></span><span class="w"> </span><span class="p">=</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#iota"><span class="kc">iota</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// NoCache directive does not prevent the storing of data but instead prevents the reuse of data without revalidation</span><span class="w">
+</span><span class="w">	</span><span id="NoCache"><span class="nx">NoCache</span></span><span class="w">
+</span><span class="w">	</span><span class="c1">// NoStore directive ensures there is no caching performed at all</span><span class="w">
+</span><span class="w">	</span><span id="NoStore"><span class="nx">NoStore</span></span><span class="w">
+</span><span class="p">)</span></pre>
+  <h3 id="pkg-types">Types</h3>
+  
+  <h4 id="Control">type Control</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">Control</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#int"><span class="kt">int</span></a></pre>
+    <h4 id="IServerCache">type IServerCache</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">IServerCache</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// SetCacheControl specifies the caching behaviour.</span><span class="w">
+</span><span class="w">	</span><span id="IServerCache.SetCacheControl"><span class="nf">SetCacheControl</span></span><span class="p">(</span><span class="nx">control</span><span class="w"> </span><a href="#Control"><span class="nx">Control</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// GetCacheControl returns the caching behaviour followed.</span><span class="w">
+</span><span class="w">	</span><span id="IServerCache.GetCacheControl"><span class="nf">GetCacheControl</span></span><span class="p">()</span><span class="w"> </span><a href="#Control"><span class="nx">Control</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// SetKey sets  an explicit key for restoring and saving the cache</span><span class="w">
+</span><span class="w">	</span><span id="IServerCache.SetKey"><span class="nf">SetKey</span></span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// GetKey returns  an explicit key for restoring a cache</span><span class="w">
+</span><span class="w">	</span><span id="IServerCache.GetKey"><span class="nf">GetKey</span></span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="w">
+</span><span class="w">	</span><span class="c1">// Invalidate invalidates all cache entries.</span><span class="w">
+</span><span class="w">	</span><span id="IServerCache.Invalidate"><span class="nf">Invalidate</span></span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="w">
+</span><span class="p">}</span></pre>
+    <p>IServerCache defines a caching mechanism server-side.
+<h5 id="NewServiceCache">func NewServiceCache</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="nf">NewServiceCache</span><span class="p">()</span><span class="w"> </span><a href="#IServerCache"><span class="nx">IServerCache</span></a></pre>
+  <p>NewServiceCache creates a service cache.
+<h4 id="ServiceCache">type ServiceCache</h4>
+    
+    <pre class="chroma"><span class="kd">type</span><span class="w"> </span><span class="nx">ServiceCache</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">	</span><span class="c1">// contains filtered or unexported fields</span><span class="w">
+</span><span class="p">}</span></pre>
+    <h5 id="ServiceCache.GetCacheControl">func (*ServiceCache) GetCacheControl</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ServiceCache"><span class="nx">ServiceCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetCacheControl</span><span class="p">()</span><span class="w"> </span><a href="#Control"><span class="nx">Control</span></a></pre>
+  <h5 id="ServiceCache.GetKey">func (*ServiceCache) GetKey</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ServiceCache"><span class="nx">ServiceCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">GetKey</span><span class="p">()</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a></pre>
+  <h5 id="ServiceCache.Invalidate">func (*ServiceCache) Invalidate</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ServiceCache"><span class="nx">ServiceCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">Invalidate</span><span class="p">(</span><a href="https://pkg.go.dev/context"><span class="nx">context</span></a><span class="p">.</span><a href="https://pkg.go.dev/context#Context"><span class="nx">Context</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="ServiceCache.SetCacheControl">func (*ServiceCache) SetCacheControl</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ServiceCache"><span class="nx">ServiceCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetCacheControl</span><span class="p">(</span><span class="nx">control</span><span class="w"> </span><a href="#Control"><span class="nx">Control</span></a><span class="p">)</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a></pre>
+  <h5 id="ServiceCache.SetKey">func (*ServiceCache) SetKey</h5>
+  
+  <pre class="chroma"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><a href="#ServiceCache"><span class="nx">ServiceCache</span></a><span class="p">)</span><span class="w"> </span><span class="nf">SetKey</span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#string"><span class="kt">string</span></a><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><a href="https://pkg.go.dev/builtin#error"><span class="kt">error</span></a><span class="p">)</span></pre>
+  </main>
+    <hr>
+    <footer>
+      <small id="generated-by-footer">
+        Generated with <a href="https://abhinav.github.io/doc2go/">doc2go</a>
+      </small>
+    </footer>
+    <script src="../../../../../_/js/permalink.js"></script></body>
+</html>
