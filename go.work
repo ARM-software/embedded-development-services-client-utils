@@ -1,3 +1,21 @@
-go 1.27
+go 1.27.1
 
-use ./utils
+use (
+	./utils
+	./utils/api
+	./utils/artefacts
+	./utils/cache
+	./utils/client
+	./utils/errors
+	./utils/job
+	./utils/job/jobtest
+	./utils/links
+	./utils/links/linkstest
+	./utils/logging
+	./utils/messages
+	./utils/mocks
+	./utils/pagination
+	./utils/resource
+	./utils/resource/resourcetests
+	./utils/store
+)

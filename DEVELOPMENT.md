@@ -9,9 +9,17 @@ Since this is a Go library, there is no application to run.
  
 ### Running tests
 
-To run all tests:
+To run all tests, execute `go test ./...` from each module directory.
+
+To discover the workspace modules from the repository root:
 ```bash
-go test ./...
+go list -m -json
+```
+
+To refresh workspace and module discovery metadata after layout changes:
+```bash
+go list -m -json
+go work sync
 ```
 
 ### Mocks
@@ -35,8 +43,7 @@ It is up to the individual developer to ensure their change complies with this.
 Static analysis tools and linters are run as part of CI.
 They come from [golangci-lint](https://golangci-lint.run/). To run this locally:
 ```bash
-# Must be in a directory with a go.mod file
-cd <directory_with_go_module>
+# Run golangci-lint from each Go module directory.
 golangci-lint run ./...
 ``` 
 

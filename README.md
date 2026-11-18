@@ -22,13 +22,12 @@ Few helpers may be themselves leveraging 3rd party libraries.
  
 ## Using this library
 
-To use this library, add the following line to your `go.mod`:
+Each importable package under `utils` is now its own Go module. Add the module that matches the package you import, for example:
 ```
-require (
-    github.com/ARM-software/embedded-development-services-client-utils/utils latest
-    ...
-)
+go get github.com/ARM-software/embedded-development-services-client-utils/utils/messages@latest
 ```
+
+The top-level `github.com/ARM-software/embedded-development-services-client-utils/utils` module remains as a compatibility umbrella for workspace and tooling use.
 
 
 ## Releases
