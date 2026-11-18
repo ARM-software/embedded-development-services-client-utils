@@ -37,7 +37,7 @@ jobs:
       - name: Assert news
         run: cd-assert-news -b "${CI_ACTION_REF_NAME}"
         env:
-          GIT_TOKEN: ${{ secrets.GIT_SECRET }}
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Report failure if needed
         if: ${{ failure() }}
         run: |
@@ -47,20 +47,16 @@ jobs:
     name: Check for secrets
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v7
-    - name: Install tools
-      run: pip install detect-secrets==1.0.3 && pip list
-    - uses: actions/checkout@v7.0.1
-      with:
-        fetch-depth: 0
-    # FIXME: GitLeaks requires a licence now
-    #- name: Check for secrets using gitleaks
-    #  uses: gitleaks/gitleaks-action@v2
-    #  with:
-    #    config-path: .gitleaks.toml
-    - name: Check for secrets using detect-secrets
-      run: git ls-files -z | xargs -0 detect-secrets-hook --baseline .secrets.baseline --exclude-files '.*go\.sum$' --exclude-files '.*\.html$' --exclude-files '.*\.properties$' --exclude-files 'ci.yml'
-      working-directory: .
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.python_version }}
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Install CI/CD tools
+        run: python -m pip install --upgrade 'continuous-delivery-scripts>=4.8.0' && pip list
+      - name: Check for secrets with CDS
+        run: cd-detect-secrets
 
   build-and-test:
     uses: ./.github/workflows/update-utils.yml

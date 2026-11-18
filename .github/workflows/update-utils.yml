@@ -12,17 +12,19 @@ on:
         description:
           "Branch to commit updated utils changes to:"
         type: string
-        required: true
+        required: false
 
 jobs:
   update-go:
     name: Update Go
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v7.0.1
       with:
         # So that we have correct GIT_TOKEN to push back to branch as we need workflow permissions
-        token: ${{ secrets.GIT_SECRET }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         ref: ${{ inputs.branch || github.head_ref || github.ref }}
     - name: Setup python
       uses: actions/setup-python@v7
@@ -30,7 +32,8 @@ jobs:
         python-version: ${{ env.python_version }}
     - name: Install continuous-delivery-scripts
       run: |
-        pip install continuous-delivery-scripts
+        python -m pip install --upgrade 'continuous-delivery-scripts>=4.8.0'
+        pip list
     - name: License files
       run: |
         cd-license-files
@@ -39,7 +42,7 @@ jobs:
       with:
         repository: Arm-Debug/update-go-action
         ref: refs/tags/latest
-        token: ${{ secrets.GIT_SECRET }}
+        token: ${{ secrets.ARM_SOFTWARE_TOKEN || github.token }}
         persist-credentials: false
         path: ./.github/workflows/update-go-action
     - name: Update Go

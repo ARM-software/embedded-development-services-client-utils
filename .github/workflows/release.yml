@@ -34,6 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ check-for-changes ]
     if: needs.check-for-changes.outputs.changes
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -67,5 +69,4 @@ jobs:
       - name: Tag and release
         run: cd-tag-and-release -b "${CI_ACTION_REF_NAME}" -t ${{ github.event.inputs.release_type }} -vv
         env:
-          # Using a specific token because GITHUB_TOKEN is not available https://github.com/marketplace/actions/workflow-dispatch#token
-          GIT_TOKEN: ${{ secrets.GIT_SECRET }}
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}

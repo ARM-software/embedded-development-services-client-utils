@@ -1,0 +1,46 @@
+name: Licensing
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  go_version: "1.27.3"
+  python_version: "3.11"
+
+jobs:
+  licensing:
+    name: Check licence compliance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: ${{ env.go_version }}
+          cache: true
+          cache-dependency-path: '**/go.sum'
+      - name: Sync workspace
+        uses: ARM-software/golang-utils/actions/sync-go-workspace@v1.172.0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.python_version }}
+      - name: Set access to private repositories
+        run: bash ./scripts/setup_github.sh
+        env:
+          GIT_TOKEN: ${{ secrets.ARM_SOFTWARE_TOKEN || github.token }}
+      - name: Download Go dependencies for every module
+        uses: ARM-software/golang-utils/actions/go-multimodules@v1.172.0
+        with:
+          task: download
+      - name: Install CI/CD tools
+        run: python -m pip install --upgrade 'continuous-delivery-scripts>=4.8.0' && pip list
+      - name: Check licence compliance
+        run: cd-check-licence-compliance
