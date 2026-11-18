@@ -22,13 +22,12 @@ Few helpers may be themselves leveraging 3rd party libraries.
  
 ## Using this library
 
-To use this library, add the following line to your `go.mod`:
+Each importable package under `utils` is now its own Go module. Add the module that matches the package you import, for example:
 ```
-require (
-    github.com/ARM-software/embedded-development-services-client-utils/utils latest
-    ...
-)
+go get github.com/ARM-software/embedded-development-services-client-utils/utils/messages@latest
 ```
+
+The top-level `github.com/ARM-software/embedded-development-services-client-utils/utils` module remains as a compatibility umbrella for workspace and tooling use.
 
 
 ## Releases
@@ -51,6 +50,14 @@ The follow described the major aspects of the project structure:
 - For interface definition and usage documentation, please see [Reference Pages](https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client-utils/utils).
 - For a list of known issues and possible workarounds, please see [Known Issues](KNOWN_ISSUES.md).
 - To raise a defect or enhancement please use [GitHub Issues](https://github.com/ARM-software/embedded-development-services-client-utils/issues) or [GitHub discussions](https://github.com/ARM-software/embedded-development-services-client-utils/discussions).
+
+## Secrets Checks
+
+Use [continuous-delivery-scripts](https://github.com/ARMmbed/continuous-delivery-scripts) to run the repository secret checks locally:
+```bash
+python -m pip install --upgrade continuous-delivery-scripts
+cd-detect-secrets
+```
 
 ## Contributing
 

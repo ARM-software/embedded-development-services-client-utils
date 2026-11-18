@@ -3,7 +3,7 @@ name: Update Library
 # Set environment variables available in all jobs and steps
 env:
   python_version: "3.11"
-  go_module: "utils"
+  go_version: "1.27.3"
 
 on:
   workflow_call:
@@ -52,11 +52,32 @@ jobs:
         dockerfile: Dockerfile.utils
         branch: ${{ inputs.branch || github.head_ref || github.ref }}
 
+  discover-go-modules:
+    name: Discover Go modules
+    needs:
+      - update-go
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.detect.outputs.modules-json }}
+    steps:
+    - uses: actions/checkout@v7.0.1
+      with:
+        ref: ${{ inputs.branch || github.head_ref || github.ref }}
+    - name: Set up Go
+      uses: actions/setup-go@v7
+      with:
+        go-version: ${{ env.go_version }}
+    - name: Detect Go modules
+      id: detect
+      uses: ARM-software/golang-utils/actions/detect-go-modules@v1.172.0
+
   build-and-test:
     name: Build and Test
     needs:
       - update-go
+      - discover-go-modules
     uses: ./.github/workflows/build-and-test.yml
     secrets: inherit
     with:
       branch: ${{ inputs.branch || github.head_ref || github.ref }}
+      go-modules: ${{ needs.discover-go-modules.outputs.modules }}

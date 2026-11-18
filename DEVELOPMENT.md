@@ -9,9 +9,17 @@ Since this is a Go library, there is no application to run.
  
 ### Running tests
 
-To run all tests:
+To run all tests, execute `go test ./...` from each module directory.
+
+To discover the workspace modules from the repository root:
 ```bash
-go test ./...
+go list -m -json
+```
+
+To refresh workspace and module discovery metadata after layout changes:
+```bash
+go list -m -json
+go work sync
 ```
 
 ### Mocks
@@ -35,8 +43,7 @@ It is up to the individual developer to ensure their change complies with this.
 Static analysis tools and linters are run as part of CI.
 They come from [golangci-lint](https://golangci-lint.run/). To run this locally:
 ```bash
-# Must be in a directory with a go.mod file
-cd <directory_with_go_module>
+# Run golangci-lint from each Go module directory.
 golangci-lint run ./...
 ``` 
 
@@ -84,16 +91,25 @@ The version number will be automatically calculated, based on the news files.
 
 # Detecting secrets
 
-So that no secrets are committed back to the repository, a combination of two tools are run in CI:
-- [GitLeaks]() : Scans the git history for usual secrets (e.g. AWS keys, etc.)
-- [detect-secrets](https://github.com/Yelp/detect-secrets): Scans only the current state of the repository for anything which can look like secrets (strings with high entropy)
+So that no secrets are committed back to the repository, CI runs a combination of two tools:
+- `cd-detect-secrets` from [continuous-delivery-scripts](https://github.com/ARMmbed/continuous-delivery-scripts): checks the current repository content for new secret findings against the accepted registry
+- [GitLeaks](): scans the git history for usual secrets (for example AWS keys)
 
-For the latter, False positive keys are stored in the [baseline](./.secrets.baseline) which `detect-secrets` checks against when it runs
+To run the repository secret check locally:
+```bash
+python -m pip install --upgrade continuous-delivery-scripts
+cd-detect-secrets
+```
+
+Accepted findings are stored in the [baseline](./.secrets.baseline), which `cd-detect-secrets` uses when it runs.
 
 ## Baseline & False positives
 
-To flag individual false positives add comment `# pragma: allowlist secret` to line with secret
+To flag individual false positives add comment `# pragma: allowlist secret` to the line with the finding.
 
-To add all suspected secrets in the repository (excluding ones with an allow secret comment), run `detect-secrets scan --all-files --exclude-files '.*go\.sum$' --exclude-files '.*\.html$' --exclude-files '.*\.properties$' --exclude-files 'ci.yml' --exclude-files '\.git' > .secrets.baseline`
+To update the accepted registry after review, use:
+```bash
+cd-record-secrets --registry-file .secrets.baseline
+```
 
-If on Windows: then change the encoding of the .secrets.baseline file to UTF-8 then convert all `\` to `/` in the .secrets.baseline file
+If you edit `.secrets.baseline` manually on Windows, keep it UTF-8 encoded and convert `\` path separators to `/`.

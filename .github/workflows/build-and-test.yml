@@ -11,6 +11,9 @@ on:
       branch:
         type: string
         required: false
+      go-modules:
+        type: string
+        required: true
 
 jobs:
   build-and-test:
@@ -22,7 +25,7 @@ jobs:
       matrix:
 #FIXME        os: [ubuntu-latest, macOS-latest, windows-latest]
         os: [ubuntu-latest]
-        go-module: [utils]
+        go-module: ${{ fromJson(inputs.go-modules) }}
         multi-platform:
           - ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch' }}
         exclude:
@@ -83,6 +86,9 @@ jobs:
           version: latest
           working-directory: ${{ matrix.go-module }}
           args: "--verbose --output.text.print-issued-lines --output.text.print-linter-name --output.tab.colors --max-issues-per-linter 0 --max-same-issues 0"
+      - name: Derive artifact-safe module label
+        shell: bash
+        run: echo "MODULE_ARTIFACT_LABEL=${{ matrix.go-module }}" | tr '/' '-' >> "$GITHUB_ENV"
       - name: Set up gotestsum
         uses: ARM-software/golang-utils/actions/setup-gotestsum@v1.172.0
       - name: Test ${{ matrix.go-module }} on ${{ matrix.os }}
@@ -90,5 +96,5 @@ jobs:
         with:
           modules: ./${{ matrix.go-module }}
           build-tags: ""
-          artifact-prefix: "${{ matrix.go-module }}-${{ matrix.os }}-"
+          artifact-prefix: "${{ env.MODULE_ARTIFACT_LABEL }}-${{ matrix.os }}-"
           report-name: "${{ matrix.go-module }} tests on ${{ matrix.os }}"
