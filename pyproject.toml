@@ -20,6 +20,12 @@ CHANGELOG_FILE_PATH = "CHANGELOG.md"
 AWS_BUCKET=""
 PROGRAMMING_LANGUAGE = "Golang"
 MASTER_BRANCH = "main"
+FAIL_ON_INCOMPLETE_LICENCE_AUDIT = true
+GENERATE_LICENSING_SUMMARY_ON_RELEASE = true
+
+[ProjectConfig.PACKAGES_WITH_CHECKED_LICENCE]
+"github.com/klauspost/compress" = { licence = "BSD-3-Clause AND Apache-2.0", reason = "Upstream LICENSE is mixed: the module is BSD-3-Clause overall and gzhttp/* is Apache-2.0." }
+"github.com/stretchr/testify/internal/spew" = { licence = "ISC", reason = "testify/internal/spew ships its own ISC-licensed code under internal/spew/LICENSE." }
 
 [AutoVersionConfig]
 CONFIG_NAME = "JAVA"

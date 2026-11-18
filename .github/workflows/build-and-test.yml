@@ -68,7 +68,7 @@ jobs:
       - name: Set access to private repositories
         run: bash ./scripts/setup_github.sh
         env:
-          GIT_TOKEN: ${{ secrets.GIT_SECRET }}
+          GIT_TOKEN: ${{ secrets.ARM_SOFTWARE_TOKEN || github.token }}
       - name: Build ${{ matrix.go-module }} on ${{ matrix.os }}
         uses: ARM-software/golang-utils/actions/run-go-modules@v1.172.0
         with:
