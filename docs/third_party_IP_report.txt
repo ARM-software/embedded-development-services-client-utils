@@ -1,6 +1,6 @@
                                 3rd party IP report for Arm embedded development services HTTP client utilities
 
-                                         2026-11-18 13:51:51.187543
+                                         2026-11-18 18:04:34.261581
 
 # Summary:
     Licence compliance: Compliant
@@ -8,7 +8,7 @@
     Missing dependencies: None
     Unknown licences: github.com/klauspost/compress
     Undocumented exemptions: None
-    Dependency licence assessment: ALLOW: 100; REVIEW: 4; MANUALLY_REVIEWED: 0; DENY: 0; UNKNOWN: 0
+    Dependency licence assessment: ALLOW: 102; REVIEW: 4; MANUALLY_REVIEWED: 0; DENY: 0; UNKNOWN: 0
     Licence assessment is advisory; allowlist compliance is evaluated separately.
 
 # More details:
@@ -206,6 +206,24 @@
 
 
 - github.com/ARM-software/golang-utils/utils/http:
+    [X] Compliant?
+    [X] Dependency?
+    URL: https://github.com/ARM-software/golang-utils/blob/utils/http/v1.172.0/utils/http/LICENSE
+    Licence: Apache-2.0
+    Licence source: tool
+    Declared licence: Apache-2.0
+    Licence classifiers: None
+    Evidence: licence: https://github.com/ARM-software/golang-utils/blob/utils/http/v1.172.0/utils/http/LICENSE
+    Licence compliance: Automatic licence assessment meets the configured policy.
+    Licence assessment: ALLOW (automatic: ALLOW) — A permissive dependency generally permits redistribution; retain its notices and conditions.
+
+
+    Project licence compared: Apache-2.0
+    Assessment rule: permissive-dependency (built-in)
+
+
+
+- github.com/ARM-software/golang-utils/utils/http/errors:
     [X] Compliant?
     [X] Dependency?
     URL: https://github.com/ARM-software/golang-utils/blob/utils/http/v1.172.0/utils/http/LICENSE
@@ -1131,7 +1149,7 @@
     Licence source: unknown
     Declared licence: unknown
     Licence classifiers: None
-    Evidence: licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE
+    Evidence: licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE; licence: https://github.com/klauspost/compress/blob/v1.18.7/LICENSE
     Licence compliance: Automatic licence assessment does not meet the configured policy; accepted after manual review: Upstream LICENSE is mixed: the module is BSD-3-Clause overall and gzhttp/* is Apache-2.0..
     Licence assessment: ALLOW (automatic: ALLOW) — Assessed using manually verified Apache-2.0 AND BSD-3-Clause because the discovered licence was unknown. All AND obligations apply: Apache-2.0: A permissive dependency generally permits redistribution; retain its notices and conditions.; BSD-3-Clause: A permissive dependency generally permits redistribution; retain its notices and conditions.
     Manually verified assessment licence: Apache-2.0 AND BSD-3-Clause (discovered: Unknown)
@@ -1847,12 +1865,12 @@
 - golang.org/x/sync/errgroup:
     [X] Compliant?
     [X] Dependency?
-    URL: https://cs.opensource.google/go/x/sync/+/v0.25.0:LICENSE
+    URL: https://cs.opensource.google/go/x/sync/+/v0.24.0:LICENSE
     Licence: BSD-3-Clause
     Licence source: tool
     Declared licence: BSD-3-Clause
     Licence classifiers: None
-    Evidence: licence: https://cs.opensource.google/go/x/sync/+/v0.25.0:LICENSE
+    Evidence: licence: https://cs.opensource.google/go/x/sync/+/v0.24.0:LICENSE
     Licence compliance: Automatic licence assessment meets the configured policy.
     Licence assessment: ALLOW (automatic: ALLOW) — A permissive dependency generally permits redistribution; retain its notices and conditions.
 
@@ -1863,6 +1881,24 @@
 
 
 - golang.org/x/sys:
+    [X] Compliant?
+    [X] Dependency?
+    URL: https://cs.opensource.google/go/x/sys/+/v0.49.0:LICENSE
+    Licence: BSD-3-Clause
+    Licence source: tool
+    Declared licence: BSD-3-Clause
+    Licence classifiers: None
+    Evidence: licence: https://cs.opensource.google/go/x/sys/+/v0.49.0:LICENSE
+    Licence compliance: Automatic licence assessment meets the configured policy.
+    Licence assessment: ALLOW (automatic: ALLOW) — A permissive dependency generally permits redistribution; retain its notices and conditions.
+
+
+    Project licence compared: Apache-2.0
+    Assessment rule: permissive-dependency (built-in)
+
+
+
+- golang.org/x/sys/unix:
     [X] Compliant?
     [X] Dependency?
     URL: https://cs.opensource.google/go/x/sys/+/v0.49.0:LICENSE

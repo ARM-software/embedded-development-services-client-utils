@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+-- Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+  -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ARM-software.github.io/embedded-development-services-client-utils/github.com/ARM-software/embedded-development-services-client-utils/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ARM-software.github.io/embedded-development-services-client-utils/github.com/ARM-software/embedded-development-services-client-utils/utils/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ARM-software.github.io/embedded-development-services-client-utils/github.com/ARM-software/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ARM-software.github.io/embedded-development-services-client-utils/github.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ARM-software.github.io/embedded-development-services-client-utils/</loc>
+  </url>
+</urlset>

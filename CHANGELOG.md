@@ -2,6 +2,21 @@
 Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
 SPDX-License-Identifier: Apache-2.0
 -->
+# 1.21.0 (2026-11-18)
+
+## Features
+
+- Added workspace-aware multi-module support so each importable package under `utils` can be consumed and tested as its own Go module. (#202611181600)
+
+## Misc
+
+- #202611181601
+
+
+<!--
+Copyright (C) 2020-2026 Arm Limited or its affiliates and Contributors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
+-->
 # 1.20.2 (2026-11-18)
 
 ## Bugfixes

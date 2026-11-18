@@ -33,7 +33,7 @@ replace github.com/ARM-software/embedded-development-services-client-utils/utils
 replace github.com/ARM-software/embedded-development-services-client-utils/utils/store => ../store
 
 require (
-	github.com/ARM-software/embedded-development-services-client-utils/utils/errors v0.0.0-00010101000000-000000000000
+	github.com/ARM-software/embedded-development-services-client-utils/utils/errors v1.21.0
 	github.com/ARM-software/embedded-development-services-client/client v1.109.1
 	github.com/ARM-software/golang-utils/utils/commonerrors v1.172.0
 	github.com/ARM-software/golang-utils/utils/commonerrors/errortest v1.172.0

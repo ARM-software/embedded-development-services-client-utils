@@ -1,1 +1,0 @@
-Refactored CI module discovery to detect workspace modules once and pass that shared list through the reusable build-and-test workflow.

@@ -35,12 +35,12 @@ replace github.com/ARM-software/embedded-development-services-client-utils/utils
 replace github.com/ARM-software/embedded-development-services-client-utils/utils/job/jobtest => ./jobtest
 
 require (
-	github.com/ARM-software/embedded-development-services-client-utils/utils/api v0.0.0-00010101000000-000000000000
-	github.com/ARM-software/embedded-development-services-client-utils/utils/job/jobtest v0.0.0-00010101000000-000000000000
-	github.com/ARM-software/embedded-development-services-client-utils/utils/logging v0.0.0-00010101000000-000000000000
-	github.com/ARM-software/embedded-development-services-client-utils/utils/messages v0.0.0-00010101000000-000000000000
-	github.com/ARM-software/embedded-development-services-client-utils/utils/pagination v0.0.0-00010101000000-000000000000
-	github.com/ARM-software/embedded-development-services-client-utils/utils/resource v0.0.0-00010101000000-000000000000
+	github.com/ARM-software/embedded-development-services-client-utils/utils/api v1.21.0
+	github.com/ARM-software/embedded-development-services-client-utils/utils/job/jobtest v1.21.0
+	github.com/ARM-software/embedded-development-services-client-utils/utils/logging v1.21.0
+	github.com/ARM-software/embedded-development-services-client-utils/utils/messages v1.21.0
+	github.com/ARM-software/embedded-development-services-client-utils/utils/pagination v1.21.0
+	github.com/ARM-software/embedded-development-services-client-utils/utils/resource v1.21.0
 	github.com/ARM-software/embedded-development-services-client/client v1.109.1
 	github.com/ARM-software/golang-utils/utils/collection v1.172.0
 	github.com/ARM-software/golang-utils/utils/commonerrors v1.172.0
@@ -57,9 +57,9 @@ require (
 )
 
 require (
-	github.com/ARM-software/embedded-development-services-client-utils/utils/errors v0.0.0-00010101000000-000000000000 // indirect
-	github.com/ARM-software/embedded-development-services-client-utils/utils/links/linkstest v0.0.0-00010101000000-000000000000 // indirect
-	github.com/ARM-software/embedded-development-services-client-utils/utils/resource/resourcetests v0.0.0-00010101000000-000000000000 // indirect
+	github.com/ARM-software/embedded-development-services-client-utils/utils/errors v1.21.0 // indirect
+	github.com/ARM-software/embedded-development-services-client-utils/utils/links/linkstest v1.21.0 // indirect
+	github.com/ARM-software/embedded-development-services-client-utils/utils/resource/resourcetests v1.21.0 // indirect
 	github.com/ARM-software/golang-utils/utils/config v1.172.0 // indirect
 	github.com/ARM-software/golang-utils/utils/diodes v1.172.0 // indirect
 	github.com/ARM-software/golang-utils/utils/encoding v1.172.0 // indirect

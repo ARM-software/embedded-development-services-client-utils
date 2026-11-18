@@ -1,6 +1,6 @@
 {
   "licence_assessment_counts": {
-    "ALLOW": 100,
+    "ALLOW": 102,
     "DENY": 0,
     "MANUALLY_REVIEWED": 0,
     "REVIEW": 4,
@@ -498,6 +498,49 @@
       },
       "mark_as_problematic": false,
       "name": "github.com/ARM-software/golang-utils/utils/http",
+      "url": "https://github.com/ARM-software/golang-utils/blob/utils/http/v1.172.0/utils/http/LICENSE",
+      "version": "v1.172.0"
+    },
+    "github.com/ARM-software/golang-utils/utils/http/errors": {
+      "anchor": "package-256a5369-4a16-e9e4-7a8e-75635df1c02b",
+      "declared_licence": "Apache-2.0",
+      "is_compliant": true,
+      "is_dependency": true,
+      "licence": "Apache-2.0",
+      "licence_assessment": {
+        "assessed_licence_source": "discovered metadata",
+        "automatic_status": "ALLOW",
+        "dependency_licence": "Apache-2.0",
+        "discovered_licence": "Apache-2.0",
+        "manual_review": {
+          "reason": "",
+          "reviewed": false
+        },
+        "project_licence": "Apache-2.0",
+        "reason": "A permissive dependency generally permits redistribution; retain its notices and conditions.",
+        "rule": "permissive-dependency",
+        "scancode_licences": [],
+        "selected_licence": "Apache-2.0",
+        "source": "built-in",
+        "status": "ALLOW"
+      },
+      "licence_candidates": [],
+      "licence_classifiers": [],
+      "licence_compliance_details": "Automatic licence assessment meets the configured policy.",
+      "licence_evidence": [
+        {
+          "kind": "licence",
+          "path": "https://github.com/ARM-software/golang-utils/blob/utils/http/v1.172.0/utils/http/LICENSE",
+          "text": ""
+        }
+      ],
+      "licence_source": "tool",
+      "manual_check": {
+        "checked": false,
+        "reason": ""
+      },
+      "mark_as_problematic": false,
+      "name": "github.com/ARM-software/golang-utils/utils/http/errors",
       "url": "https://github.com/ARM-software/golang-utils/blob/utils/http/v1.172.0/utils/http/LICENSE",
       "version": "v1.172.0"
     },
@@ -2739,6 +2782,66 @@
           "kind": "licence",
           "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
           "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
+        },
+        {
+          "kind": "licence",
+          "path": "https://github.com/klauspost/compress/blob/v1.18.7/LICENSE",
+          "text": ""
         }
       ],
       "licence_source": "unknown",
@@ -4414,7 +4517,7 @@
       "licence_evidence": [
         {
           "kind": "licence",
-          "path": "https://cs.opensource.google/go/x/sync/+/v0.25.0:LICENSE",
+          "path": "https://cs.opensource.google/go/x/sync/+/v0.24.0:LICENSE",
           "text": ""
         }
       ],
@@ -4425,8 +4528,8 @@
       },
       "mark_as_problematic": false,
       "name": "golang.org/x/sync/errgroup",
-      "url": "https://cs.opensource.google/go/x/sync/+/v0.25.0:LICENSE",
-      "version": "v0.25.0"
+      "url": "https://cs.opensource.google/go/x/sync/+/v0.24.0:LICENSE",
+      "version": "v0.24.0"
     },
     "golang.org/x/sys": {
       "anchor": "package-af39534f-be6f-71bf-ee2f-937b8c05225b",
@@ -4468,6 +4571,49 @@
       },
       "mark_as_problematic": false,
       "name": "golang.org/x/sys",
+      "url": "https://cs.opensource.google/go/x/sys/+/v0.49.0:LICENSE",
+      "version": "v0.49.0"
+    },
+    "golang.org/x/sys/unix": {
+      "anchor": "package-7f2a3e31-9675-b265-f245-7a9d6f5dd759",
+      "declared_licence": "BSD-3-Clause",
+      "is_compliant": true,
+      "is_dependency": true,
+      "licence": "BSD-3-Clause",
+      "licence_assessment": {
+        "assessed_licence_source": "discovered metadata",
+        "automatic_status": "ALLOW",
+        "dependency_licence": "BSD-3-Clause",
+        "discovered_licence": "BSD-3-Clause",
+        "manual_review": {
+          "reason": "",
+          "reviewed": false
+        },
+        "project_licence": "Apache-2.0",
+        "reason": "A permissive dependency generally permits redistribution; retain its notices and conditions.",
+        "rule": "permissive-dependency",
+        "scancode_licences": [],
+        "selected_licence": "BSD-3-Clause",
+        "source": "built-in",
+        "status": "ALLOW"
+      },
+      "licence_candidates": [],
+      "licence_classifiers": [],
+      "licence_compliance_details": "Automatic licence assessment meets the configured policy.",
+      "licence_evidence": [
+        {
+          "kind": "licence",
+          "path": "https://cs.opensource.google/go/x/sys/+/v0.49.0:LICENSE",
+          "text": ""
+        }
+      ],
+      "licence_source": "tool",
+      "manual_check": {
+        "checked": false,
+        "reason": ""
+      },
+      "mark_as_problematic": false,
+      "name": "golang.org/x/sys/unix",
       "url": "https://cs.opensource.google/go/x/sys/+/v0.49.0:LICENSE",
       "version": "v0.49.0"
     },
@@ -4536,7 +4682,7 @@
     "licence_href": "https://github.com/ARM-software/embedded-development-services-client-utils/blob/main/LICENSE",
     "name": "Arm embedded development services HTTP client utilities"
   },
-  "render_time": "2026-11-18T13:51:51.187543",
+  "render_time": "2026-11-18T18:04:34.261581",
   "undocumented_exemptions": [],
   "unknown_licences": [
     "github.com/klauspost/compress"
