@@ -7,3 +7,6 @@
 **/go.sum
 **/go.work
 /changes/ 
+docs/
+module.properties
+CHANGELOG.md 
