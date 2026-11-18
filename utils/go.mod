@@ -1,25 +1,6 @@
 module github.com/ARM-software/embedded-development-services-client-utils/utils
 
-go 1.27.1
-
-require (
-	github.com/ARM-software/embedded-development-services-client-utils/utils/api v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/artefacts v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/cache v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/client v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/errors v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/job v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/job/jobtest v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/links v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/links/linkstest v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/logging v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/messages v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/mocks v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/pagination v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/resource v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/resource/resourcetests v0.0.0
-	github.com/ARM-software/embedded-development-services-client-utils/utils/store v0.0.0
-)
+go 1.27
 
 replace (
 	github.com/ARM-software/embedded-development-services-client-utils/utils/api => ./api

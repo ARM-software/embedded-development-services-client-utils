@@ -1,6 +1,6 @@
 module github.com/ARM-software/embedded-development-services-client-utils/utils/links/linkstest
 
-go 1.27.1
+go 1.27
 
 replace github.com/ARM-software/embedded-development-services-client-utils/utils/api => ../../api
 

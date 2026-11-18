@@ -1,6 +1,6 @@
 module github.com/ARM-software/embedded-development-services-client-utils/utils/resource
 
-go 1.27.1
+go 1.27
 
 tool go.uber.org/mock/mockgen
 
