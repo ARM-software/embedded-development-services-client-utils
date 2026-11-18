@@ -1,2 +1,9 @@
 # Default owners for everything in the repo.
 *    @ARM-software/golang-utils-admin
+# @ARM-software/golang-utils-admin owns every file in this repo except  `go.mod`, `go.sum` and news files as their owners are left empty.
+# Changes to these files can be made with the approval of any user who has write access to the repository.
+# This is done so that we can automate `dependabot` PR merging without requiring an approval from @ARM-software/golang-utils-admin 
+**/go.mod
+**/go.sum
+**/go.work
+/changes/ 
