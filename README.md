@@ -7,7 +7,8 @@ SPDX-License-Identifier: Apache-2.0
 [![Go Badge](https://img.shields.io/badge/go-v1.27.3-blue)](https://golang.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Go Reference](https://pkg.go.dev/badge/github.com/ARM-software/embedded-development-services-client-utils/utils.svg)](https://pkg.go.dev/github.com/ARM-software/embedded-development-services-client-utils/utils)
-[![Go Report Card](https://goreportcard.com/badge/github.com/ARM-software/embedded-development-services-client-utils/utils)](https://goreportcard.com/report/github.com/ARM-software/embedded-development-services-client-utils/utils)
+[![Documentation](https://badgen.net/badge/Documentation/GitHub%20Pages/blue?icon=github)](https://arm-software.github.io/embedded-development-services-client-utils/)
+[![Compliance](https://badgen.net/badge/License%20Report/compliant/green?icon=libraries)](https://arm-software.github.io/embedded-development-services-client-utils/third_party_IP_report.html)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/9086/badge)](https://bestpractices.coreinfrastructure.org/projects/9086)
 [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/ARM-software/embedded-development-services-client-utils?label=openssf%20scorecard&style=flat)](https://scorecard.dev/viewer/?uri=github.com/ARM-software/embedded-development-services-client-utils)
 
