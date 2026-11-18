@@ -58,7 +58,7 @@ jobs:
       - update-go
     runs-on: ubuntu-latest
     outputs:
-      modules: ${{ steps.discover.outputs.modules }}
+      modules: ${{ steps.detect.outputs.modules-json }}
     steps:
     - uses: actions/checkout@v7.0.1
       with:
@@ -67,35 +67,9 @@ jobs:
       uses: actions/setup-go@v7
       with:
         go-version: ${{ env.go_version }}
-    - name: Sync workspace
-      uses: ARM-software/golang-utils/actions/sync-go-workspace@v1.172.0
-    - name: Discover modules from workspace
-      id: discover
-      shell: python
-      run: |
-        import json
-        import os
-        import pathlib
-        import subprocess
-
-        workspace = pathlib.Path(os.environ["GITHUB_WORKSPACE"]).resolve()
-        output = subprocess.check_output(["go", "list", "-m", "-json"], cwd=workspace, text=True)
-
-        decoder = json.JSONDecoder()
-        index = 0
-        modules = []
-        while index < len(output):
-          while index < len(output) and output[index].isspace():
-            index += 1
-          if index >= len(output):
-            break
-          module, index = decoder.raw_decode(output, index)
-          module_dir = pathlib.Path(module["Dir"]).resolve()
-          modules.append(module_dir.relative_to(workspace).as_posix())
-
-        modules = sorted(modules)
-        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
-          handle.write(f"modules={json.dumps(modules)}\n")
+    - name: Detect Go modules
+      id: detect
+      uses: ARM-software/golang-utils/actions/detect-go-modules@v1.172.0
 
   build-and-test:
     name: Build and Test

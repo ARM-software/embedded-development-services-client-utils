@@ -51,6 +51,14 @@ The follow described the major aspects of the project structure:
 - For a list of known issues and possible workarounds, please see [Known Issues](KNOWN_ISSUES.md).
 - To raise a defect or enhancement please use [GitHub Issues](https://github.com/ARM-software/embedded-development-services-client-utils/issues) or [GitHub discussions](https://github.com/ARM-software/embedded-development-services-client-utils/discussions).
 
+## Secrets Checks
+
+Use [continuous-delivery-scripts](https://github.com/ARMmbed/continuous-delivery-scripts) to run the repository secret checks locally:
+```bash
+python -m pip install --upgrade continuous-delivery-scripts
+cd-detect-secrets
+```
+
 ## Contributing
 
 - We are committed to fostering a welcoming community, please see our
